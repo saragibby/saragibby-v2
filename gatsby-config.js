@@ -1,11 +1,11 @@
 module.exports = {
   siteMetadata: {
-    title: `Gatsby Starter Blog`,
-    author: `Kyle Mathews`,
-    description: `A starter blog demonstrating what Gatsby can do.`,
-    siteUrl: `https://gatsby-starter-blog-demo.netlify.com/`,
+    title: `Sara Gibbons`,
+    author: `Sara Gibbons`,
+    description: `Software Engineer, Leader, Mentor, Advocate`,
+    siteUrl: `http://saragibby.com`,
     social: {
-      twitter: `kylemathews`,
+      twitter: `saragibby`,
     },
   },
   plugins: [
@@ -47,6 +47,7 @@ module.exports = {
     },
     `gatsby-transformer-sharp`,
     `gatsby-plugin-sharp`,
+    `gatsby-plugin-styled-components`,
     {
       resolve: `gatsby-plugin-google-analytics`,
       options: {
