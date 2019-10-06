@@ -2,29 +2,44 @@ import React from "react"
 import { Link } from "gatsby"
 import styled from "styled-components"
 import { rhythm, scale } from "../utils/typography"
+import GlobalStyle from "../styles/globalStyle"
+import colors from '../utils/colors.js';
 import svgs from '../utils/svgs.js';
-
-const colors = {
-  coral: "#F4484B",
-  pink: "#EDA8A8",
-  purple: "#5C415D",
-  teal: "#00BFB2",
-  white: "#FFFFFF",
-}
+import { above, below } from "../utils/breakpoint.js"
+import Background from './background'
 
 const TopLines = styled.div`
   width: 30rem;
   position: absolute;
   top: 0.5rem;
-  left: 0.5rem;  
+  left: 0.5rem;
+
+  ${below.med`
+    display: flex;
+    flex-direction: row;  
+    width: 10rem;
+    height: 40vh;
+    position: fixed;
+    left: -8rem;
+  `};
 `;
 
 const DottedLine = styled.hr`
   border: 4px dotted ${colors.pink};
-  border-style: none none dotted; 
-  color: transparent; 
+  border-style: none none dotted;
+  color: transparent;
   background-color: transparent;
   margin-bottom: 0.7rem;
+
+  ${below.med`
+    border:         none;
+    border-left:    1px solid hsla(200, 10%, 50%,100);
+    height:         40vh;
+    width:          1px; 
+    border: 4px dotted ${colors.pink};
+    padding-right: 0.5rem;
+    margin-right: 0.5rem;
+  `};
 `;
 
 const NavList = styled.div`
@@ -49,7 +64,14 @@ const NavList = styled.div`
       color: ${colors.teal};
     }
   }
-`;
+
+  ${below.med`
+    position: fixed;
+    left: 1.4rem;
+    bottom: 4rem;
+    top: auto;
+  `};
+`
 
 const Subheader = styled.h2`
   text-transform: uppercase;
@@ -58,10 +80,15 @@ const Subheader = styled.h2`
 
 const Footer = styled.footer`
   background-color: ${colors.purple};
-  position: absolute;
-  bottom: 0;
-  left: 0;
   width: 7rem;
+
+  ${below.med`
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    width: calc(100vw - 6rem);
+    height: 6rem;
+  `};
 `
 
 const Socials = styled.div`
@@ -69,16 +96,13 @@ const Socials = styled.div`
   flex-direction: column;
   margin-bottom: 2.2rem;
 
-  &::before {
-    content: '';
-    width: 0;
-    height: 0;
-    border-top: 100px solid ${colors.white};
-    border-left: 100px solid transparent;
-    position: relative;
-    left: -3rem;
-  }
-`;
+  ${below.med`
+    flex-direction: row;
+    bottom: 0;
+    left: 0;
+    justify-content: space-evenly;
+  `};
+`
 
 const Svg = styled.svg`
   width: 2.6rem;
@@ -89,13 +113,56 @@ const Svg = styled.svg`
   &:hover {
     fill: ${colors.teal};
   }
+
+  ${below.med`
+    margin: 1.5rem 0;
+    height: auto;
+  `};
 `;
+
+const FooterLine = styled.div`
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+
+  ${above.med`
+    left: 0;
+  bottom: 0;
+  `};
+
+  ${below.med`
+    flex-direction: row;
+    bottom: 0;
+  `};
+`
+
+const FooterTriangle = styled.div`
+  width: 0;
+  height: 0;
+  border-style: solid;
+
+  ${above.med`
+    border-width: 7rem 0 0 7rem;
+    border-color: transparent transparent transparent ${colors.purple};
+  `};
+
+  ${below.med`
+    border-width: 0 0 6rem 6rem;
+    border-color: transparent transparent ${colors.purple} transparent;
+  `};
+`
 
 const Main = styled.main`
   height: 100vh;
   width: 100vw;
   overflow: hidden;
-`;
+
+  ${below.med`
+    height: auto;
+    width: 100%;
+    overflow: auto;
+  `};
+`
 
 const Section = styled.div`
   display: flex;
@@ -103,92 +170,28 @@ const Section = styled.div`
   justify-content: center;
   height: 100vh;
   width: 100vw;
-`;
+
+  ${below.med`
+    flex-direction: column;
+    margin: auto
+    width: 75vw;
+    height: auto;
+    margin-left: 6rem;
+    margin-top: 15vh;
+    text-align: center;
+    margin-right: 2rem;
+  `};
+`
 
 const Text = styled.div`
-  width: 40rem;
+  max-width: 48rem;
   margin-right: calc(1vw * 9);
-`
 
-const TopLeftBox = styled.div`
-  position: absolute;
-  top: -7rem;
-  left: 45vw;
-  width: 11rem;
-  height: 15rem;
-  background-color: ${colors.teal};
-  z-index: -15;
-  transform: rotate(-45deg);
+  ${below.med`
+    text-align: justify;
+    margin-right: 0;
+  `};
 `;
-
-const TopBox = styled.div`
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 0;
-  height: 0;
-  border-style: solid;
-  border-width: 0 50vw 50vw 0;
-  border-color: transparent ${colors.coral} transparent transparent;
-  z-index: -10;
-`;
-
-const MiddleBox = styled.div`
-  position: absolute;
-  top: 40vh;
-  right: 5vw;
-  width: 35vh;
-  height: 35vh;
-  background-color: ${colors.pink};
-  z-index: -10;
-  transform: rotate(45deg);
-`;
-
-const BottomBox = styled.div`
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  width: 0;
-  height: 0;
-  border-style: solid;
-  border-width: 0 0 70vw 70vw;
-  border-color: transparent transparent ${colors.teal} transparent;
-  z-index: -20;
-`;
-
-const SmallBottomBox = styled.div`
-  position: absolute;
-  bottom: 0;
-  right: 15vw;
-  width: 0;
-  height: 0;
-  border-style: solid;
-  border-width: 0 15vw 15vw 15vw;
-  border-color: transparent transparent ${colors.purple} transparent;
-  z-index: -15;
-`;
-
-const BottomLeftBox = styled.div`
-  position: absolute;
-  bottom: -7rem;
-  left: 27vw;
-  width: 9rem;
-  height: 20rem;
-  background-color: #f4484b;
-  z-index: -25;
-  transform: rotate(45deg);
-`;
-
-const Line = styled.hr`
-  position: absolute;
-  top: ${props => props.top || ''};
-  bottom: ${props => props.bottom || ''};
-  right: ${props => props.right || ''};
-  width: ${props => props.width};
-  border: 3px solid ${props => props.color};
-  background-color: ${props => props.color};
-  transform: rotate(${props => props.rotate});
-`
 
 class Layout extends React.Component {
   render() {
@@ -240,7 +243,9 @@ class Layout extends React.Component {
     }
     return (
       <div>
-        <header></header>
+        <header>
+          <GlobalStyle />
+        </header>
         <Main>
           <TopLines>
             {Array.from({ length: 7 }, () => {
@@ -267,120 +272,77 @@ class Layout extends React.Component {
             </Text>
             <div>{children}</div>
           </Section>
-          <TopLeftBox />
-          <TopBox />
-          <MiddleBox />
-          <BottomBox />
-          <SmallBottomBox />
-          <BottomLeftBox />
-
-          <Line
-            top="7rem"
-            right="50vw"
-            color={colors.purple}
-            rotate="-45deg"
-            width="8rem"
-          />
-          <Line
-            top="4rem"
-            right="15rem"
-            color={colors.purple}
-            rotate="-45deg"
-            width="13rem"
-          />
-          <Line
-            top="30vh"
-            right="-3rem"
-            color={colors.teal}
-            rotate="45deg"
-            width="17rem"
-          />
-          <Line
-            top="55vh"
-            right="2rem"
-            color={colors.purple}
-            rotate="-45deg"
-            width="15rem"
-          />
-          <Line
-            bottom="10rem"
-            right="32vw"
-            color={colors.coral}
-            rotate="45deg"
-            width="28rem"
-          />
-          <Line
-            bottom="2rem"
-            right="59vw"
-            color={colors.pink}
-            rotate="45deg"
-            width="10vw"
-          />
         </Main>
-        <Footer>
-          <Socials>
-            <a href="https://www.linkedin.com/in/saragibby/" target="_blank">
-              <Svg
-                role="img"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox={`0 0 24 24`}
-              >
-                <title>Linked In</title>
-                {svgs["linkedIn"].path.map(item => {
-                  return <path d={item} />
-                })}
-              </Svg>
-            </a>
-            <a href="https://github.com/saragibby" target="_blank">
-              <Svg
-                role="img"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox={`0 0 24 24`}
-              >
-                <title>Github</title>
-                {svgs["github"].path.map(item => {
-                  return <path d={item} />
-                })}
-              </Svg>
-            </a>
-            <a href="https://www.instagram.com/gibbette03" target="_blank">
-              <Svg
-                role="img"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox={`0 0 24 24`}
-              >
-                <title>Instagram</title>
-                {svgs["instagram"].path.map(item => {
-                  return <path d={item} />
-                })}
-              </Svg>
-            </a>
-            <a href="https://www.facebook.com/saragibby" target="_blank">
-              <Svg
-                role="img"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox={`0 0 24 24`}
-              >
-                <title>Facebook</title>
-                {svgs["facebook"].path.map(item => {
-                  return <path d={item} />
-                })}
-              </Svg>
-            </a>
-            <a href="https://twitter.com/saragibby" target="_blank">
-              <Svg
-                role="img"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox={`0 0 24 24`}
-              >
-                <title>Twitter</title>
-                {svgs["twitter"].path.map(item => {
-                  return <path d={item} />
-                })}
-              </Svg>
-            </a>
-          </Socials>
-        </Footer>
+
+        <Background />
+
+        <FooterLine>
+          <FooterTriangle />
+          <Footer>
+            <Socials>
+              <a href="https://www.linkedin.com/in/saragibby/" target="_blank">
+                <Svg
+                  role="img"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox={`0 0 24 24`}
+                >
+                  <title>Linked In</title>
+                  {svgs["linkedIn"].path.map(item => {
+                    return <path d={item} />
+                  })}
+                </Svg>
+              </a>
+              <a href="https://github.com/saragibby" target="_blank">
+                <Svg
+                  role="img"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox={`0 0 24 24`}
+                >
+                  <title>Github</title>
+                  {svgs["github"].path.map(item => {
+                    return <path d={item} />
+                  })}
+                </Svg>
+              </a>
+              <a href="https://www.instagram.com/gibbette03" target="_blank">
+                <Svg
+                  role="img"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox={`0 0 24 24`}
+                >
+                  <title>Instagram</title>
+                  {svgs["instagram"].path.map(item => {
+                    return <path d={item} />
+                  })}
+                </Svg>
+              </a>
+              <a href="https://www.facebook.com/saragibby" target="_blank">
+                <Svg
+                  role="img"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox={`0 0 24 24`}
+                >
+                  <title>Facebook</title>
+                  {svgs["facebook"].path.map(item => {
+                    return <path d={item} />
+                  })}
+                </Svg>
+              </a>
+              <a href="https://twitter.com/saragibby" target="_blank">
+                <Svg
+                  role="img"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox={`0 0 24 24`}
+                >
+                  <title>Twitter</title>
+                  {svgs["twitter"].path.map(item => {
+                    return <path d={item} />
+                  })}
+                </Svg>
+              </a>
+            </Socials>
+          </Footer>
+        </FooterLine>
       </div>
     )
   }

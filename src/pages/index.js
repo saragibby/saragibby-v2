@@ -4,6 +4,7 @@ import styled from "styled-components"
 import Layout from "../components/layout"
 import SEO from "../components/seo"
 import { rhythm } from "../utils/typography"
+import { above, below } from "../utils/breakpoint.js"
 
 const Signature = styled.img`
   position: absolute;
@@ -12,7 +13,21 @@ const Signature = styled.img`
   z-index: 10;
   transform: rotate(4deg);
   width: 30rem;
-`;
+
+  ${below.med`
+    position: initial;
+    width: 20rem;
+  `};
+`
+
+const MainImage = styled.img`
+  height: 60vh;
+
+  ${below.med`
+    height: auto;
+    width: 50vw;
+  `};
+`
 
 class Index extends React.Component {
   render() {
@@ -21,11 +36,16 @@ class Index extends React.Component {
 
     return (
       <>
-        <Layout location={this.props.location} title={siteTitle} subheader="Engineer / Leader / Advocate" text="With over 20 years of development experience, I have deep knowledge of all phases of the software development lifecycle. Accomplished in process optimization, tools and services to save time and money, as well as the simultaneous management of projects and teams. Spending the later phase of my career in the startup and consulting worlds  I know what it takes to cost-effectively get product to market while architecting solutions that keep the product prepared as the business needs evolve">
+        <Layout
+          location={this.props.location}
+          title={siteTitle}
+          subheader="Engineer / Leader / Advocate"
+          text="With over 20 years of development experience, I have deep knowledge of all phases of the software development lifecycle. Accomplished in process optimization, tools and services to save time and money, as well as the simultaneous management of projects and teams. Spending the later phase of my career in the startup and consulting worlds  I know what it takes to cost-effectively get product to market while architecting solutions that keep the product prepared as the business needs evolve"
+        >
           <SEO title="Sara Gibbons" />
-          <img src={'/sara-lg.png'} style={{height: "60vh"}}/>
+          <MainImage src={"/sara-lg.png"} />
+          <Signature src={"/sara-sig.png"} />
         </Layout>
-        <Signature src={'/sara-sig.png'} />
       </>
     )
   }
