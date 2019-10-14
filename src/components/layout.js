@@ -226,6 +226,7 @@ class Layout extends React.Component {
           style={{
             fontFamily: `Montserrat, sans-serif`,
             marginTop: 0,
+            fontSize: '3rem',
           }}
         >
           <Link
