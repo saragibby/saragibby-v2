@@ -58,7 +58,7 @@ module.exports = {
         background_color: `#ffffff`,
         theme_color: `#663399`,
         display: `minimal-ui`,
-        icon: `src/static/sara-sig.png`,
+        icon: `static/sara-sig.png`,
       },
     },
     `gatsby-plugin-offline`,
