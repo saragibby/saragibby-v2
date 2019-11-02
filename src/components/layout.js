@@ -171,15 +171,17 @@ const Section = styled.div`
   height: 100vh;
   width: 100vw;
 
-  ${below.med`
+  ${below.large`
     flex-direction: column;
     margin: auto
-    width: 75vw;
+    max-width: 90vw;
+    width: auto;
     height: auto;
-    margin-left: 6rem;
+    margin-left: 6.3rem;
     margin-top: 15vh;
     text-align: center;
-    margin-right: 2rem;
+    margin-right: 2.5rem;
+    margin-bottom: 10rem;
   `};
 `
 
@@ -187,166 +189,170 @@ const Text = styled.div`
   max-width: 48rem;
   margin-right: calc(1vw * 9);
 
-  ${below.med`
+  ${below.large`
     text-align: justify;
     margin-right: 0;
   `};
 `;
 
-class Layout extends React.Component {
-  render() {
-    const { location, title, children } = this.props
-    const rootPath = `${__PATH_PREFIX__}/`
-    let header
+const Layout = props => {
+  const { location, title, children } = props;
+  const rootPath = `${__PATH_PREFIX__}/`;
+  let header;
 
-    if (location.pathname === rootPath) {
-      header = (
-        <h1
+  if (location.pathname === rootPath) {
+    header = (
+      <h1
+        style={{
+          ...scale(2),
+          marginBottom: rhythm(1),
+          marginTop: 0,
+        }}
+      >
+        <Link
           style={{
-            ...scale(2),
-            marginBottom: rhythm(1),
-            marginTop: 0,
+            boxShadow: `none`,
+            textDecoration: `none`,
+            color: `inherit`,
           }}
+          to={`/`}
         >
-          <Link
-            style={{
-              boxShadow: `none`,
-              textDecoration: `none`,
-              color: `inherit`,
-            }}
-            to={`/`}
-          >
-            {title}
-          </Link>
-        </h1>
-      )
-    } else {
-      header = (
-        <h3
+          {title}
+        </Link>
+      </h1>
+    )
+  } else {
+    header = (
+      <h3
+        style={{
+          fontFamily: `Montserrat, sans-serif`,
+          marginTop: 0,
+          fontSize: '3rem',
+        }}
+      >
+        <Link
           style={{
-            fontFamily: `Montserrat, sans-serif`,
-            marginTop: 0,
-            fontSize: '3rem',
+            boxShadow: `none`,
+            textDecoration: `none`,
+            color: `inherit`,
           }}
+          to={`/`}
         >
-          <Link
-            style={{
-              boxShadow: `none`,
-              textDecoration: `none`,
-              color: `inherit`,
-            }}
-            to={`/`}
-          >
-            {title}
-          </Link>
-        </h3>
-      )
-    }
-    return (
-      <div>
-        <header>
-          <GlobalStyle />
-        </header>
-        <Main>
-          <TopLines>
-            {Array.from({ length: 7 }, () => {
-              return <DottedLine />
-            })}
-          </TopLines>
-          <NavList>
-            <a href="./" style={{ height: "7rem" }}>
-              About
-            </a>
-            <a href="./" style={{ height: "8rem" }}>
-              Blog
-            </a>
-            <a href="./" style={{ height: "10rem" }}>
-              Bookshelf
-            </a>
-            <a href="./">Tutorials</a>
-          </NavList>
-          <Section>
-            <Text>
-              {header}
-              <Subheader>{this.props.subheader}</Subheader>
-              <p style={{ ...scale(0.6) }}>{this.props.text}</p>
-            </Text>
-            <div>{children}</div>
-          </Section>
-        </Main>
-
-        <Background />
-
-        <FooterLine>
-          <FooterTriangle />
-          <Footer>
-            <Socials>
-              <a href="https://www.linkedin.com/in/saragibby/" target="_blank">
-                <Svg
-                  role="img"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox={`0 0 24 24`}
-                >
-                  <title>Linked In</title>
-                  {svgs["linkedIn"].path.map(item => {
-                    return <path d={item} />
-                  })}
-                </Svg>
-              </a>
-              <a href="https://github.com/saragibby" target="_blank">
-                <Svg
-                  role="img"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox={`0 0 24 24`}
-                >
-                  <title>Github</title>
-                  {svgs["github"].path.map(item => {
-                    return <path d={item} />
-                  })}
-                </Svg>
-              </a>
-              <a href="https://www.instagram.com/gibbette03" target="_blank">
-                <Svg
-                  role="img"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox={`0 0 24 24`}
-                >
-                  <title>Instagram</title>
-                  {svgs["instagram"].path.map(item => {
-                    return <path d={item} />
-                  })}
-                </Svg>
-              </a>
-              <a href="https://www.facebook.com/saragibby" target="_blank">
-                <Svg
-                  role="img"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox={`0 0 24 24`}
-                >
-                  <title>Facebook</title>
-                  {svgs["facebook"].path.map(item => {
-                    return <path d={item} />
-                  })}
-                </Svg>
-              </a>
-              <a href="https://twitter.com/saragibby" target="_blank">
-                <Svg
-                  role="img"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox={`0 0 24 24`}
-                >
-                  <title>Twitter</title>
-                  {svgs["twitter"].path.map(item => {
-                    return <path d={item} />
-                  })}
-                </Svg>
-              </a>
-            </Socials>
-          </Footer>
-        </FooterLine>
-      </div>
+          {title}
+        </Link>
+      </h3>
     )
   }
+
+  return (
+    <div>
+      <header>
+        <GlobalStyle />
+      </header>
+      <Main>
+        <TopLines>
+          {Array.from({ length: 7 }, () => {
+            return <DottedLine />
+          })}
+        </TopLines>
+        <NavList>
+          <a href="./" style={{ height: "7rem" }}>
+            About
+            </a>
+          <a href="./" style={{ height: "8rem" }}>
+            Blog
+            </a>
+          <a href="./" style={{ height: "10rem" }}>
+            Bookshelf
+            </a>
+          <a href="./">Tutorials</a>
+        </NavList>
+        <Section>
+          <Text>
+            {header}
+            <Subheader>{props.subheader}</Subheader>
+            <p style={{ ...scale(0.6) }}>{props.text}</p>
+          </Text>
+          <div>{children}</div>
+        </Section>
+      </Main>
+      <Background />
+      <FooterLine>
+        <FooterTriangle />
+        <Footer>
+          <Socials>
+            <a href="https://www.linkedin.com/in/saragibby/" target="_blank">
+              <Svg
+                role="img"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox={`0 0 24 24`}
+              >
+                <title>Linked In</title>
+                {svgs["linkedIn"].path.map(item => {
+                  return <path d={item} />
+                })}
+              </Svg>
+            </a>
+            <a href="https://github.com/saragibby" target="_blank">
+              <Svg
+                role="img"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox={`0 0 24 24`}
+              >
+                <title>Github</title>
+                {svgs["github"].path.map(item => {
+                  return <path d={item} />
+                })}
+              </Svg>
+            </a>
+            <a href="https://www.instagram.com/gibbette03" target="_blank">
+              <Svg
+                role="img"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox={`0 0 24 24`}
+              >
+                <title>Instagram</title>
+                {svgs["instagram"].path.map(item => {
+                  return <path d={item} />
+                })}
+              </Svg>
+            </a>
+            <a href="https://www.facebook.com/saragibby" target="_blank">
+              <Svg
+                role="img"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox={`0 0 24 24`}
+              >
+                <title>Facebook</title>
+                {svgs["facebook"].path.map(item => {
+                  return <path d={item} />
+                })}
+              </Svg>
+            </a>
+            <a href="https://twitter.com/saragibby" target="_blank">
+              <Svg
+                role="img"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox={`0 0 24 24`}
+              >
+                <title>Twitter</title>
+                {svgs["twitter"].path.map(item => {
+                  return <path d={item} />
+                })}
+              </Svg>
+            </a>
+          </Socials>
+        </Footer>
+      </FooterLine>
+    </div>
+  )
 }
+
+// class Layout extends React.Component {
+  
+//   render() {
+    
+//   }
+// }
 
 export default Layout

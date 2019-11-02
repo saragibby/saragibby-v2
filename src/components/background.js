@@ -4,7 +4,7 @@ import { above, below } from "../utils/breakpoint.js"
 import colors from "../utils/colors.js"
 
 const TopLeftBox = styled.div`
-  position: absolute;
+  position: fixed;
   top: -7rem;
   left: 45vw;
   width: 11rem;
@@ -19,7 +19,7 @@ const TopLeftBox = styled.div`
 `
 
 const TopBox = styled.div`
-  position: absolute;
+  position: fixed;
   top: 0;
   right: 0;
   width: 0;
@@ -42,7 +42,7 @@ const MiddleBox = styled.div`
 `
 
 const BottomBox = styled.div`
-  position: absolute;
+  position: fixed;
   bottom: 0;
   right: 0;
   width: 0;
@@ -58,7 +58,7 @@ const BottomBox = styled.div`
     border-style: solid;
     border-width: 40rem 40rem 40rem 0;
     border-color: transparent ${colors.teal} transparent transparent;
-    bottom: -42rem;
+    top: 47vh;
     overflow: hidden;
   `};
 `
@@ -100,7 +100,7 @@ const Line = styled.hr`
 
 const Background = props => {
   return (
-    <>
+    <div>
       <TopLeftBox />
       <TopBox />
       {/* <MiddleBox /> */}
@@ -149,7 +149,7 @@ const Background = props => {
 //           rotate="45deg"
 //           width="10vw"
 //         /> */}
-    </>
+    </div>
   )
   };
 
