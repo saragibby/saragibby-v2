@@ -5,6 +5,14 @@ import Bio from "../components/bio"
 import Layout from "../components/layout"
 import SEO from "../components/seo"
 import { rhythm } from "../utils/typography"
+import styled from "styled-components"
+
+const StyledArticle = styled.article`
+  max-width: 80rem;
+  background-color: white;
+  border: 1px solid #CCCCCC;
+  padding: 2rem 4rem;
+`;
 
 class BlogIndex extends React.Component {
   render() {
@@ -13,13 +21,13 @@ class BlogIndex extends React.Component {
     const posts = data.allMarkdownRemark.edges
 
     return (
-      <Layout location={this.props.location} title={siteTitle}>
+      <Layout location={this.props.location} title="Life Lived Sara Style" flexDirection="column">
         <SEO title="All posts" />
         <Bio />
         {posts.map(({ node }) => {
           const title = node.frontmatter.title || node.fields.slug
           return (
-            <article key={node.fields.slug}>
+            <StyledArticle key={node.fields.slug}>
               <header>
                 <h3
                   style={{
@@ -39,7 +47,7 @@ class BlogIndex extends React.Component {
                   }}
                 />
               </section>
-            </article>
+            </StyledArticle>
           )
         })}
       </Layout>

@@ -13,6 +13,15 @@ const GlobalStyle = createGlobalStyle`
       max-width: 100vw;
     `};
   }
+
+  p {
+    font-size: 1.4rem;
+    margin-bottom: 0;
+  }
+
+  h3 {
+    font-size: 2rem;
+  }
 `
 
 export default GlobalStyle

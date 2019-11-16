@@ -10,7 +10,7 @@ import Background from './background'
 
 const TopLines = styled.div`
   width: 30rem;
-  position: absolute;
+  position: fixed;
   top: 0.5rem;
   left: 0.5rem;
 
@@ -45,7 +45,7 @@ const DottedLine = styled.hr`
 const NavList = styled.div`
   display: flex;
   flex-direction: column;
-  position: absolute;
+  position: fixed;
   left: 2.3rem;
   top: 17rem;
   z-index: 1;
@@ -155,7 +155,7 @@ const FooterTriangle = styled.div`
 const Main = styled.main`
   height: 100vh;
   width: 100vw;
-  overflow: hidden;
+  overflow: scroll;
 
   ${below.med`
     height: auto;
@@ -168,8 +168,11 @@ const Section = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 100vh;
+  height: ${({ fixedHeight }) => fixedHeight ? '100vh' : '' };
   width: 100vw;
+  flex-direction: ${({ flexDirection }) => flexDirection || 'row' };
+  position: ${({ fixedHeight }) => fixedHeight ? 'initial' : 'relative' };
+  top: ${({ fixedHeight }) => fixedHeight ? '' : '10rem' };
 
   ${below.large`
     flex-direction: column;
@@ -178,7 +181,7 @@ const Section = styled.div`
     width: auto;
     height: auto;
     margin-left: 6.3rem;
-    margin-top: 15vh;
+    margin-top: ${({ fixedHeight }) => fixedHeight ? '15vh' : '0' };
     text-align: center;
     margin-right: 2.5rem;
     margin-bottom: 10rem;
@@ -260,7 +263,7 @@ const Layout = props => {
       </h3>
     )
   }
-
+  console.log("props", props)
   return (
     <div>
       <header>
@@ -268,23 +271,23 @@ const Layout = props => {
       </header>
       <Main>
         <TopLines>
-          {Array.from({ length: 7 }, () => {
-            return <DottedLine />
+          {Array.from({ length: 7 }, (index) => {
+            return <DottedLine key={index} />
           })}
         </TopLines>
         <NavList>
-          <a href="./" style={{ height: "7rem" }}>
+          <a href="/" style={{ height: "7rem" }}>
             About
             </a>
-          <a href="./" style={{ height: "8rem" }}>
+          <a href="/blog" style={{ height: "8rem" }}>
             Blog
             </a>
           <a href="./" style={{ height: "10rem" }}>
             Bookshelf
             </a>
-          <a href="./">Tutorials</a>
+          <a href="/heyClark">Hey Clark</a>
         </NavList>
-        <Section>
+        <Section flexDirection={props.flexDirection} fixedHeight={location.pathname === rootPath}>
           <Text>
             {header}
             <Subheader>{props.subheader}</Subheader>
@@ -296,9 +299,9 @@ const Layout = props => {
       <Logos>
         <a href="http://thatconference.com" target="_blank">
           <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 115 50" style={{ fill: 'white '}}>
-            <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+            <g id="Page-1" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
               <g id="THAT-Conference---Logo---Trees" fill="white">
-                <path d="M86.5399543,28.9863014 L77.7089041,14.9166667 L80.9703196,14.9166667 L71.609589,0.0639269406 L62.2488584,14.9166667 L65.5091324,14.9166667 L57.0776256,28.3641553 L48.6369863,14.9166667 L51.8972603,14.9166667 L42.5365297,0.0639269406 L33.1757991,14.9166667 L36.4372146,14.9166667 L27.6152968,28.9863014 L30.8710046,28.9863014 L21.6769406,43.7123288 L38.7488584,43.7123288 L38.7488584,49.9417808 L46.3333333,49.9417808 L46.3333333,43.706621 L67.8219178,43.706621 L67.8219178,49.9360731 L75.4063927,49.9360731 L75.4063927,43.706621 L92.4783105,43.706621 L83.2842466,28.9805936 L86.5399543,28.9863014 Z M54.2111872,28.9863014 L59.9440639,28.9863014 L57.0776256,33.5753425 L54.2111872,28.9863014 Z" id="Shape" fill-rule="nonzero"></path>
+                <path d="M86.5399543,28.9863014 L77.7089041,14.9166667 L80.9703196,14.9166667 L71.609589,0.0639269406 L62.2488584,14.9166667 L65.5091324,14.9166667 L57.0776256,28.3641553 L48.6369863,14.9166667 L51.8972603,14.9166667 L42.5365297,0.0639269406 L33.1757991,14.9166667 L36.4372146,14.9166667 L27.6152968,28.9863014 L30.8710046,28.9863014 L21.6769406,43.7123288 L38.7488584,43.7123288 L38.7488584,49.9417808 L46.3333333,49.9417808 L46.3333333,43.706621 L67.8219178,43.706621 L67.8219178,49.9360731 L75.4063927,49.9360731 L75.4063927,43.706621 L92.4783105,43.706621 L83.2842466,28.9805936 L86.5399543,28.9863014 Z M54.2111872,28.9863014 L59.9440639,28.9863014 L57.0776256,33.5753425 L54.2111872,28.9863014 Z" id="Shape" fillRule="nonzero"></path>
                 <polygon id="Path" points="14.6940639 5.33789954 4.08105023 15.9497717 0 20.0319635 4.08219178 24.1130137 14.6940639 34.7260274 18.7751142 30.6438356 8.16324201 20.0319635 18.7751142 9.41894977"></polygon>
                 <polygon id="Path" points="110.073059 15.9497717 99.4611872 5.33789954 95.380137 9.41894977 105.992009 20.0319635 95.380137 30.6438356 99.4611872 34.7260274 110.073059 24.1130137 114.155251 20.0319635"></polygon>
               </g>
@@ -306,7 +309,7 @@ const Layout = props => {
           </svg>
         </a>
         <a href="http://comprend.us" target="_blank">
-          <img src="comprend-us-logo-white.png" />
+          <img src="/comprend-us-logo-white.png" />
         </a>
       </Logos>
       <Background />

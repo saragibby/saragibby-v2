@@ -5,6 +5,26 @@ import Bio from "../components/bio"
 import Layout from "../components/layout"
 import SEO from "../components/seo"
 import { rhythm, scale } from "../utils/typography"
+import styled from "styled-components"
+
+const StyledArticle = styled.article`
+  max-width: 80rem;
+  background-color: white;
+  border: 1px solid #CCCCCC;
+  padding: 2rem 4rem;
+
+  #photos {
+    display: flex;
+
+    .gatsby-resp-image-wrapper {
+      width: 25rem;
+      padding-right: 1rem;
+      display: inline-block;
+      object-fit: contain;
+      height: auto;
+    }
+  }
+`;
 
 class BlogPostTemplate extends React.Component {
   render() {
@@ -13,12 +33,12 @@ class BlogPostTemplate extends React.Component {
     const { previous, next } = this.props.pageContext
 
     return (
-      <Layout location={this.props.location} title={siteTitle}>
+      <Layout location={this.props.location} title="Blogging All The Things" flexDirection="column">
         <SEO
           title={post.frontmatter.title}
           description={post.frontmatter.description || post.excerpt}
         />
-        <article>
+        <StyledArticle>
           <header>
             <h1
               style={{
@@ -38,7 +58,8 @@ class BlogPostTemplate extends React.Component {
               {post.frontmatter.date}
             </p>
           </header>
-          <section dangerouslySetInnerHTML={{ __html: post.html }} />
+          <section dangerouslySetInnerHTML={{ __html: post.html }} style={{
+            textAlign: 'left'}} />
           <hr
             style={{
               marginBottom: rhythm(1),
@@ -47,7 +68,7 @@ class BlogPostTemplate extends React.Component {
           <footer>
             <Bio />
           </footer>
-        </article>
+        </StyledArticle>
 
         <nav>
           <ul
