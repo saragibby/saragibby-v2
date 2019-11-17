@@ -21,7 +21,7 @@ class BlogIndex extends React.Component {
     const posts = data.allMarkdownRemark.edges
 
     return (
-      <Layout location={this.props.location} title="Life Lived Sara Style" flexDirection="column">
+      <Layout location={this.props.location} title="Blogging All The Things" flexDirection="column">
         <SEO title="All posts" />
         <Bio />
         {posts.map(({ node }) => {

@@ -6,6 +6,7 @@ import Layout from "../components/layout"
 import SEO from "../components/seo"
 import { rhythm, scale } from "../utils/typography"
 import styled from "styled-components"
+import { above, below } from "../utils/breakpoint.js"
 
 const StyledArticle = styled.article`
   max-width: 80rem;
@@ -15,6 +16,11 @@ const StyledArticle = styled.article`
 
   #photos {
     display: flex;
+
+    ${below.med`
+      flex-direction: column;  
+      align-items: center;
+    `};
 
     .gatsby-resp-image-wrapper {
       width: 25rem;
