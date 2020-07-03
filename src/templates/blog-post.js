@@ -13,6 +13,9 @@ const StyledArticle = styled.article`
   background-color: white;
   border: 1px solid #CCCCCC;
   padding: 2rem 4rem;
+  min-width: 80%;
+  font-size: 1.4rem;
+  font-family: Roboto;
 
   #photos {
     display: flex;
@@ -39,7 +42,7 @@ class BlogPostTemplate extends React.Component {
     const { previous, next } = this.props.pageContext
 
     return (
-      <Layout location={this.props.location} title="Blogging All The Things" flexDirection="column">
+      <Layout location={this.props.location} title="" flexDirection="column">
         <SEO
           title={post.frontmatter.title}
           description={post.frontmatter.description || post.excerpt}
@@ -84,9 +87,10 @@ class BlogPostTemplate extends React.Component {
               justifyContent: `space-between`,
               listStyle: `none`,
               padding: 0,
+              marginTop: '3rem',
             }}
           >
-            <li>
+            {/* <li>
               {previous && (
                 <Link to={previous.fields.slug} rel="prev">
                   ← {previous.frontmatter.title}
@@ -99,7 +103,7 @@ class BlogPostTemplate extends React.Component {
                   {next.frontmatter.title} →
                 </Link>
               )}
-            </li>
+            </li> */}
           </ul>
         </nav>
       </Layout>
