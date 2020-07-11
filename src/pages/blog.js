@@ -12,6 +12,7 @@ const StyledArticle = styled.article`
   background-color: white;
   border: 1px solid #CCCCCC;
   padding: 2rem 4rem;
+  margin-bottom: 2rem;
 `;
 
 class BlogIndex extends React.Component {

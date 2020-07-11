@@ -11,11 +11,15 @@ import { above, below } from "../utils/breakpoint.js"
 const StyledArticle = styled.article`
   max-width: 80rem;
   background-color: white;
-  border: 1px solid #CCCCCC;
+  border: 1px solid #cccccc;
   padding: 2rem 4rem;
   min-width: 80%;
   font-size: 1.4rem;
   font-family: Roboto;
+
+  ${below.small`
+    padding: 2rem;
+  `};
 
   #photos {
     display: flex;
@@ -33,7 +37,7 @@ const StyledArticle = styled.article`
       height: auto;
     }
   }
-`;
+`
 
 class BlogPostTemplate extends React.Component {
   render() {
