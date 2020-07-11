@@ -1,5 +1,5 @@
 ---
-title: Weekly Recap 7/20/20
+title: Weekly Recap 7/10/20
 date: "2020-07-11T09:00:37+00:00"
 description: "Weekly Recap 7/10/20: Documenting all the life things"
 ---
@@ -14,11 +14,11 @@ I see some of the same people each morning out walking or running. I always wave
 
 ### Reading
 #### Finished 
-**["Present Over Perfect" by Shauna Niequist](https://www.shaunaniequist.com/books)**<br />This book hit me. She talked about how we are each already worthy for who we are, who we are meant to be. We don't have to hustle and do each day to prove or ear our worthiness. She talked about listening to your inner desires of who you want to be. How you want to spend your time. It's not about the stuff, or how much we accomplish, it's about being present, happy, enjoying life. Was a perfect read for me this week as we marked 2 years without my mom. 
+<a href="https://www.shaunaniequist.com/books" target="_blank">**"Present Over Perfect"**</a><br />This book hit me. She talked about how we are each already worthy for who we are, who we are meant to be. We don't have to hustle and do each day to prove or ear our worthiness. She talked about listening to your inner desires of who you want to be. How you want to spend your time. It's not about the stuff, or how much we accomplish, it's about being present, happy, enjoying life. Was a perfect read for me this week as we marked 2 years without my mom. 
 <br /><br />
 
 #### Currently Reading
-**["Radical Candor" by Kim Scott](https://www.radicalcandor.com/)**<br/>You know me and my summer walks with a book so Kim and I are hanging out on Audible each morning. Out of my Audible stack + wish list I picked this one cause it has come up a few times as a recommendation from a friend, and me thinking more about professional goals I want to accomplish, felt like a good time to dive in. 
+<a href="https://www.radicalcandor.com/" target="_blank">**"Radical Candor" by Kim Scott**</a><br/>You know me and my summer walks with a book so Kim and I are hanging out on Audible each morning. Out of my Audible stack + wish list I picked this one cause it has come up a few times as a recommendation from a friend, and me thinking more about professional goals I want to accomplish, felt like a good time to dive in. 
 <br /><br /><br />
 
 ### Mom
@@ -28,7 +28,7 @@ I had a dream a few weeks back. I woke up and as it was all still crystal clear 
 <br /><br />
 I woke up tears rolling down my face. My pillow was wet from tears as if I had not just started crying. She wasn't sad, she was happy. She was telling me she is with me and around me always. 
 <br /><br />
-As Monday started, I walked finished "Present Over Prefect" (fitting for the day it was), and got ready for the day inspired by Mom. Did my hair how she always liked it, put on blush like she always reminded me to and finished the look off with lipstick, like she always loved when I wore. Then we danced and sang [all of her favorite songs](https://open.spotify.com/playlist/3EcuVEsEeuEpINfVx8o6un?si=adAS5BKXTdib1MLePR1KJw). It was a beautiful day. 
+As Monday started, I walked finished "Present Over Prefect" (fitting for the day it was), and got ready for the day inspired by Mom. Did my hair how she always liked it, put on blush like she always reminded me to and finished the look off with lipstick, like she always loved when I wore. Then we danced and sang <a href="https://open.spotify.com/playlist/3EcuVEsEeuEpINfVx8o6un?si=adAS5BKXTdib1MLePR1KJw" target="_blank">all of her favorite songs</a>. It was a beautiful day. 
 <br /><br />
 I've survived my hardest days. I'm made it through something that was unimaginably devastating for me to think about. I look around me now and I picture that same white/bluish glow. My Mom is with me always. Knowing that gives space for more happiness when thinking about her. More singing. More dancing. More laughing. More blush and lipstick. That she would love.
 <br />
