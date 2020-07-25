@@ -75,6 +75,11 @@ class BlogPostTemplate extends React.Component {
             >
               {post.frontmatter.title}
             </h1>
+            {featuredImagePath &&
+              <a href={featuredImagePath} target="_blank" rel="noopener">
+                <img src={featuredImagePath} style={{ width: '100%', height: '300px', margin: 'auto', objectFit: 'cover'}}/>
+              </a>
+            }
             <p
               style={{
                 ...scale(2 / 5),
@@ -153,7 +158,7 @@ export const pageQuery = graphql`
         description
         featuredImage {
           childImageSharp {
-            fluid(maxHeight: 400) {
+            fluid(maxHeight: 800) {
               ...GatsbyImageSharpFluid
             }
           }

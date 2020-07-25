@@ -1,7 +1,7 @@
 ---
 title: Weekly Recap 7/17/20
 date: "2020-07-18T09:00:37+00:00"
-description: "Weekly Recap 7/10/20: Documenting all the life things"
+description: "Weekly Recap 7/17/20: Documenting all the life things"
 featuredImage: sweatin-it-out.jpg
 ---
 
