@@ -11,7 +11,7 @@ featuredImage: kids-faces.jpg
 I did it! I finished my last workout of the <a href="https://www.chloeting.com/program/2020/summer-shred-challenge.html" target="_blank" rel="noopener">Chloe Ting Summer 2020 Shred Challenge</a>! 🤸‍♀️ Adding in the warm up and the <a href="https://www.youtube.com/watch?v=5qCjyzbKmAE&feature=youtu.be" target="_blank" rel="noopener">Lean Arms Workout Challenge</a> I said "oh hell no!" to the week before it was 1.25 hours of moving, sweating and pushing myself keep going.
 <br />
 <br />
-I realize now if I have to figure out how to workout, no way. Too overwhelming. I can walk or need someone to spoon feed me what to do. It's clear Instagram and Google have known this about me and have been serving me ads for weeks. Fine, I hear you... I will try one of the things, but it's a hard pass on clicking on the ad thank you. Not failing into that trip.  Here is what I tried this week:
+I realize now if I have to figure out how to workout, no way. Too overwhelming. I can walk or need someone to spoon feed me what to do. It's clear Instagram and Google have known this about me and have been serving me ads for weeks. Fine, I hear you... I will try one of the things, but it's a hard pass on clicking on the ad thank you. Not failing into that trap.  Here is what I tried this week:
 <br />
 <br />
 </div>
@@ -22,7 +22,7 @@ I realize now if I have to figure out how to workout, no way. Too overwhelming. 
 <br />
 <br />
 <a href="https://www.youtube.com/watch?v=azF7RsPXB2k" target="_blank" rel="noopener">**Heater Robertson: Week 1 Day 1 // Full Body Workout - No Equipment**</a><br/>I liked this routine a lot. Each exercise was 30 seconds, so totally my speed. Less jumping, win. Got sweaty and a good workout in. Not gonna lie, 12 weeks is an intimidating commitment on this one... I mean I'm a person who doesn't even have dinner planned for tonight. 12 weeks, phew, maybe.
-<br/>
+<br/><br/>
 Overall liked Heather's workouts. I only wish I knew how far along I was in the set and workout overall. She also doesn't talk, you only hear a bell ring. My girl Chloe is a talker, kinda like that. 
 <br/>
 <br/>
