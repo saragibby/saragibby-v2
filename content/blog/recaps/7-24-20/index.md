@@ -57,7 +57,7 @@ Overall liked Heather's workouts. I only wish I knew how far along I was in the 
 
 <div class="split">
 <div>Carrot cake (minus all signs of raisins) is one of my faves! I found this vegan recipe years ago and it is still top of my list. I always make it as cupcakes, and actually now that I think about it, I only made the frosting in the recipe once. I opt for buttercream frosting using soy-free Earth Balance butter. Here is the link to the original recipe: <a href="https://www.loveandlemons.com/vegan-carrot-cake/" target="_blank" rel="noopener">Love & Lemons: Vegan Carrot Cake</a></div>
-<div style="min-width: 150px; margin-left: 40px"><img src='./vegan-carrot-cake.jpg' alt='Vegan carrot cake'/></div>
+<div class="photo"><img src='./vegan-carrot-cake.jpg' alt='Vegan carrot cake'/></div>
 </div>
 <br />
 <br />

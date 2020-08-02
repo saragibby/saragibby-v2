@@ -1,13 +1,12 @@
 import React from "react"
-import { Link, graphql } from "gatsby"
+import { graphql } from "gatsby"
 
 import Bio from "../components/bio"
-import Img from "gatsby-image"
 import Layout from "../components/layout"
 import SEO from "../components/seo"
 import { rhythm, scale } from "../utils/typography"
 import styled from "styled-components"
-import { above, below } from "../utils/breakpoint.js"
+import { below } from "../utils/breakpoint.js"
 
 const StyledArticle = styled.article`
   max-width: 80rem;
@@ -45,6 +44,16 @@ const StyledArticle = styled.article`
     ${below.med`
       flex-direction: column;  
       align-items: center;
+    `};
+  }
+
+  .photo {
+    width: 40rem;
+    margin: auto;
+
+    ${below.small`
+      width: auto;
+      max-width: 85%;
     `};
   }
 `

@@ -60,7 +60,8 @@ This week I got hit with an unexpected opportunity. One I never would have put o
 2. Having the opportunity to write college recommendation letters for my Girls Who Code. Great kids with greatness a head of them. I'm grateful to have the chance to shine light of some of the greatness they don't see they have.
 
 3. Confession: While the boys still let me, I dress them samesies whenever I can. I mean first of all they are so damn cute. Best buds that do near everything together. Grateful for those smiles, the excitement they get when they see their matching outfits. 🥰
-   <div style="width: 40rem; margin: auto"><img src='./boys-twinning.jpg' alt='Samesies'/></div>
-   <br />
-   <br />
-   <br />
+
+<div class="photo"><img src='./boys-twinning.jpg' alt='Samesies'/></div>
+<br />
+<br />
+<br />
