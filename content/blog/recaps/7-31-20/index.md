@@ -1,7 +1,7 @@
 ---
 title: Weekly Recap 7/31/20
-date: "2020-07-25T09:00:37+00:00"
-description: "Weekly Recap 7/24/20: Documenting all the life things"
+date: "2020-08-02T09:00:37+00:00"
+description: "Weekly Recap 7/31/20: Documenting all the life things"
 featuredImage: sara-july-challenge.jpg
 featuredImageDisplay: false
 ---
