@@ -55,8 +55,9 @@ class BlogPostTemplate extends React.Component {
     const siteTitle = this.props.data.site.siteMetadata.title
     // const { previous, next } = this.props.pageContext
 
-    const { featuredImage } = post.frontmatter
-    const featuredImagePath = featuredImage && featuredImage.childImageSharp.fluid.src
+    const { featuredImage, featuredImageDisplay } = post.frontmatter
+    const featuredImagePath =
+      featuredImage && featuredImage.childImageSharp.fluid.src
 
     return (
       <Layout location={this.props.location} title="" flexDirection="column">
@@ -75,11 +76,19 @@ class BlogPostTemplate extends React.Component {
             >
               {post.frontmatter.title}
             </h1>
-            {featuredImagePath &&
+            {featuredImagePath && featuredImageDisplay && (
               <a href={featuredImagePath} target="_blank" rel="noopener">
-                <img src={featuredImagePath} style={{ width: '100%', height: '300px', margin: 'auto', objectFit: 'cover'}}/>
+                <img
+                  src={featuredImagePath}
+                  style={{
+                    width: "100%",
+                    height: "300px",
+                    margin: "auto",
+                    objectFit: "cover",
+                  }}
+                />
               </a>
-            }
+            )}
             <p
               style={{
                 ...scale(2 / 5),
@@ -156,6 +165,7 @@ export const pageQuery = graphql`
         title
         date(formatString: "MMMM DD, YYYY")
         description
+        featuredImageDisplay
         featuredImage {
           childImageSharp {
             fluid(maxHeight: 800) {
