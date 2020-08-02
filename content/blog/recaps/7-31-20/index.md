@@ -47,6 +47,7 @@ I don't have a 10 year plan. I don't have a 5 year plan. Early in my career I th
 <br />
 So I embraced the unknown. Follow my curiosities. Announce I don't have a "x year plan" because if I did it would have kept me from all the awesome I am now doing and have been a part of. The 5 year plan I would have created for myself 5 years ago would have never matched the amazing point I am at today.
 <br />
+<br />
 This week I got hit with an unexpected opportunity. One I never would have put on any plan. I'm feeling extremely blessed. For where I am, where I have been and new opportunities. Looking back at my career makes me thankfully I never built any plans.
 <br />
 <br />
