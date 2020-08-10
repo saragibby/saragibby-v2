@@ -61,7 +61,7 @@ I mean I guess we are making good use of the time. Scott already had this and ne
 
 3. My coated gardening gloves. Please see above... you see all those bricks. Life. Saver.
 
-4. THAT Conference Community. This would have been our 6th year with that incredible group os people in Wisconsin Dells. The entire family is missing the trip badly. My good friend Clark Sell did an incredible job expressing how all of us were feeling... grief, hope, sadness, happiness... tears and all. I am grateful there was a virtual event on Monday to bring us together.
+4. THAT Conference Community. This would have been our 6th year with that incredible group of people in Wisconsin Dells. The entire family is missing the trip badly. My good friend Clark Sell did an incredible job expressing how all of us were feeling... grief, hope, sadness, happiness... tears and all. I am grateful there was a virtual event on Monday to bring us together.
 
 <div class="photo"><img src='./that-2020-keynote.jpg' alt='Clark Sell - THAT 2020 Keynote'/></div>
 <br />
