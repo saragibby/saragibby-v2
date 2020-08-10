@@ -42,7 +42,7 @@ Y'all, I made it happen... I hit my Apple Activity goal of 2,020 minutes of exer
 
 ### Unexpected Life
 
-I don't have a 10 year plan. I don't have a 5 year plan. Early in my career I thought that was what I needed to do. I would go on a job interview and get asked what mine was, others I knew had these plans, I had no idea. But since I felt I had to at least have an answer I put some thought to it. It never felt right... I mean I work in technology, something new is coming out every day. How can I know what the tech landscape will look like in 5 years, 1 year... 6 months? How will I know what new opportunities will be open with theose new technologies?
+I don't have a 10 year plan. I don't have a 5 year plan. Early in my career I thought that was what I needed to do. I would go on a job interview and get asked what mine was, others I knew had these plans, I had no idea. But since I felt I had to at least have an answer I put some thought to it. It never felt right... I mean I work in technology, something new is coming out every day. How can I know what the tech landscape will look like in 5 years, 1 year... 6 months? How will I know what new opportunities will be open with those new technologies?
 <br />
 <br />
 So I embraced the unknown. Follow my curiosities. Announce I don't have a "x year plan" because if I did it would have kept me from all the awesome I am now doing and have been a part of. The 5 year plan I would have created for myself 5 years ago would have never matched the amazing point I am at today.
