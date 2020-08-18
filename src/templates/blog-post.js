@@ -56,6 +56,10 @@ const StyledArticle = styled.article`
       max-width: 85%;
     `};
   }
+
+  .strike {
+    text-decoration: line-through;
+  }
 `
 
 class BlogPostTemplate extends React.Component {
