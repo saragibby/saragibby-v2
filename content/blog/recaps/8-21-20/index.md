@@ -38,7 +38,7 @@ Along with the calorie burn you all know I've been in full on "I gotta get me Mi
 Now, most of the time the neighbors stopped or drove by I've been the one most visible as I was pushing bricks around, leveling, digging, all kinds of fun sweat into your sunglasses stuff. To the point that one night while walking a group of neighbors stopped me, "Sara, girrrl you are a bad ass! Some of those bricks have to weigh 50lbs, and you are throwing them all around. I want those arms! You gotta show off those muscles!"
 <br/>
 <br/>
-Me! My muscles! I somehow turned into the strong woman in the neighborhood and they wanted to checkout my arms. Next thing I know there I was, flexing like a total bad ass in the middle of the street. I feel like I'm fully living the cauliflower meme of, "Girl is cauliflower can become pizza you can do anything." If I can turn into the bad ass lady flexing in the middle of the neighborhood you may friend can do absolutely anything!
+Me! My muscles! I somehow turned into the strong woman in the neighborhood and they wanted to checkout my arms. Next thing I know there I was, flexing like a total bad ass in the middle of the street. I feel like I'm fully living the cauliflower meme of "Girl if cauliflower can become pizza you can do anything." If I can turn into the bad ass lady flexing in the middle of the neighborhood you may friend can do absolutely anything!
 <br/>
 <br/>
 <br/>
