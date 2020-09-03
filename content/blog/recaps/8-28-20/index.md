@@ -1,7 +1,7 @@
 ---
 title: Weekly Recap 8/28/20
 date: "2020-09-01T09:00:37+00:00"
-description: "Weekly Recap 8/28/20: Sword sheaths, polar bear surgeries and senior pics"
+description: "Weekly Recap 8/28/20: Sword sheaths, polar bear surgeries, ridiculous amounts of corn and senior pics"
 featuredImage: "b sunflowers - purple.jpeg"
 featuredImageDisplay: true
 ---
