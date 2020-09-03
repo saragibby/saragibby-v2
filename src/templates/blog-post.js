@@ -33,8 +33,11 @@ const StyledArticle = styled.article`
       width: 25rem;
       padding-right: 1rem;
       display: inline-block;
-      object-fit: contain;
       height: auto;
+
+      img {
+        object-fit: cover;
+      }
     }
   }
 
