@@ -1,7 +1,7 @@
 ---
 title: Weekly Recap 9/4/20
 date: "2020-09-08T09:00:37+00:00"
-description: "Weekly Recap 8/21/20: Always evolving"
+description: "Weekly Recap 9/4/20: Always evolving"
 featuredImage: "smushed faces.jpeg"
 featuredImageDisplay: true
 ---
