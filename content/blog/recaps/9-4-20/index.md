@@ -25,7 +25,7 @@ So this month, no big goals. Fill the rings, mourn the end of summer and early m
 I love my general doctor! Each time I see her I want to say, "So when are we meeting for coffee? walking together? starting a book club? whateves future friend, you pick." She is just good good people. 
 <br/>
 <br/>
-I've been seeing her for years. She has seen me at my unhealthiest and now my healthiest. I try to stay on my well visit schedule, cause no way I'm giving the kids any ammo to not go to theirs. I make the appts for all of us, and we all go. No matter what. Nice try there wee ones, panademic be damned, I'm a mom who made dentist appointments 6 months ago, saddle up, we out. 
+I've been seeing her for years. She has seen me at my unhealthiest and now my healthiest. I try to stay on my well visit schedule, cause no way I'm giving the kids any ammo to not go to theirs. I make the appts for all of us, and we all go. No matter what. Nice try there wee ones, pandemic be damned, I'm a mom who made dentist appointments 6 months ago, saddle up, we out. 
 <br/>
 <br/>
 My yearly checkup appointment I made back in early March. Was the earliest appt (crazy!). She walked in the room, said hi and interrupted me to look at her computer again, "I'm sorry, I had to double check the your name again. You look SO incredible! Tell me everything!" We spent a majority time of talking, sharing books and podcasts. She told me to own my journey. Get loud about it. How she wishes I could talk to so many of her patients, then told me to go get on some podcasts to be interviewed. Me! Interviewed!
