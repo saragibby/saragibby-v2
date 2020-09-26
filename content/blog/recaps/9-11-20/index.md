@@ -2,8 +2,8 @@
 title: Weekly Recap 9/11/20
 date: "2020-09-17T09:00:37+00:00"
 description: "Weekly Recap 9/11/20: Last bit of summer"
-featuredImage: ""
-featuredImageDisplay: false
+featuredImage: "wedding-cheers.jpeg"
+featuredImageDisplay: true
 ---
 
 ### Celebration
