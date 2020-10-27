@@ -4,6 +4,7 @@ date: "2020-08-17T09:00:37+00:00"
 description: "Weekly Recap 8/14/20: Brick. More Bricks. And More Bricks."
 featuredImage: "laser lights.jpg"
 featuredImageDisplay: false
+published: true
 ---
 
 ### <span class="strike">Fitness</span> Burn Calories Week

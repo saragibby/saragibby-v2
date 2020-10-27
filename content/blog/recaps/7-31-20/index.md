@@ -4,6 +4,7 @@ date: "2020-08-02T09:00:37+00:00"
 description: "Weekly Recap 7/31/20: Documenting all the life things"
 featuredImage: sara-july-challenge.jpg
 featuredImageDisplay: false
+published: true
 ---
 
 ### Fitness Week

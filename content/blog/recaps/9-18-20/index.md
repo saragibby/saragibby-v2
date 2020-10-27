@@ -4,6 +4,7 @@ date: "2020-09-20T09:00:37+00:00"
 description: "Weekly Recap 9/18/20: School Started!! 🏫 🚌 🎊"
 featuredImage: "patio-movie.jpg"
 featuredImageDisplay: true
+published: true
 ---
 
 ### School! School is happening!!

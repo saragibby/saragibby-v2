@@ -4,6 +4,7 @@ date: "2020-08-24T09:00:37+00:00"
 description: "Weekly Recap 8/21/20: We built a brick patio y'all!!"
 featuredImage: "barn.jpeg"
 featuredImageDisplay: true
+published: true
 ---
 
 ### OMG OMG We Built A Patio!

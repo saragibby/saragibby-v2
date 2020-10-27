@@ -4,6 +4,7 @@ date: "2020-08-09T09:00:37+00:00"
 description: "Weekly Recap 8/7/20: House projects, on house projects on house projects"
 featuredImage: flowers.jpg
 featuredImageDisplay: false
+published: true
 ---
 
 ### Fitness Week

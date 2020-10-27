@@ -4,6 +4,7 @@ date: "2020-09-27T09:00:37+00:00"
 description: "Weekly Recap 9/25/20: New school routine"
 featuredImage: "blakes-eats-rotated.jpg"
 featuredImageDisplay: true
+published: true
 ---
 
 ### Fitness Journey - The Forgotten Muscles

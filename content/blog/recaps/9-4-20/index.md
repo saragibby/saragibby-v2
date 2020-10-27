@@ -4,6 +4,7 @@ date: "2020-09-08T09:00:37+00:00"
 description: "Weekly Recap 9/4/20: Always evolving"
 featuredImage: "smushed faces.jpeg"
 featuredImageDisplay: true
+published: true
 ---
 
 ### Breaking Up With Apple Activity Goals
