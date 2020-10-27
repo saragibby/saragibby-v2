@@ -14,7 +14,7 @@ Side note, turns out toilet paper and paper towels are back in full swing. I now
 <br/><br/><br/>
 
 ### Fitness
-Yup. That is still happening. Can't tell you exactly what, when or how. But, the exercise ring gets filled each... might be a 10pm walk on treadmill, mid-day dance party... and okay, I'll admit one day I dried my hair and got 4 mins of exercise. Oh, I counted it.
+Yup. That is still happening. Can't tell you exactly what, when or how. But, the exercise ring gets filled each day... might be a 10pm walk on treadmill, mid-day dance party... and okay, I'll admit one day I dried my hair and got 4 mins of exercise. Oh, I counted it.
 <br/><br/><br/>
 
 ### Message response time

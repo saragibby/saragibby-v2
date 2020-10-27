@@ -189,7 +189,7 @@ const Section = styled.div`
 `
 
 const Text = styled.div`
-  max-width: 48rem;
+  max-width: 40rem;
   margin-right: calc(1vw * 9);
 
   ${below.large`
@@ -285,7 +285,7 @@ const Layout = props => {
           <a href="./" style={{ height: "10rem" }}>
             Bookshelf
           </a>
-          <a href="/heyClark">Hey Clark</a>
+          {/* <a href="/heyClark">Hey Clark</a> */}
         </NavList>
         <Section
           flexDirection={props.flexDirection}
@@ -294,7 +294,12 @@ const Layout = props => {
           <Text>
             {header}
             <Subheader>{props.subheader}</Subheader>
-            <p style={{ ...scale(0.6) }}>{props.text}</p>
+            <p
+              style={{ ...scale(0.9), fontWeight: 300 }}
+              dangerouslySetInnerHTML={{
+                __html: props.text,
+              }}
+            />
           </Text>
           <div>{children}</div>
         </Section>

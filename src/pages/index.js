@@ -49,7 +49,8 @@ class Index extends React.Component {
           location={this.props.location}
           title={siteTitle}
           subheader="Engineer / Leader / Advocate"
-          text="With over 20 years of development experience, I have deep knowledge of all phases of the software development lifecycle. Accomplished in process optimization, tools and services to save time and money, as well as the simultaneous management of projects and teams. Spending the later phase of my career in the startup and consulting worlds  I know what it takes to cost-effectively get product to market while architecting solutions that keep the product prepared as the business needs evolve"
+          text="Live boldly. Laugh loudly. Dare greatly.<br/>Be original. Kindness always."
+          // text="With over 20 years of development experience, I have deep knowledge of all phases of the software development lifecycle. Accomplished in process optimization, tools and services to save time and money, as well as the simultaneous management of projects and teams. Spending the later phase of my career in the startup and consulting worlds  I know what it takes to cost-effectively get product to market while architecting solutions that keep the product prepared as the business needs evolve"
         >
           <SEO title="Sara Gibbons" />
           <Images>
