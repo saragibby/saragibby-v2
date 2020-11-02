@@ -1,10 +1,8 @@
 import React from "react"
-import { Link } from "gatsby"
 import styled from "styled-components"
 import Layout from "../components/layout"
 import SEO from "../components/seo"
-import { rhythm } from "../utils/typography"
-import { above, below } from "../utils/breakpoint.js"
+import { below } from "../utils/breakpoint.js"
 
 const Signature = styled.img`
   position: absolute;
@@ -32,16 +30,17 @@ const MainImage = styled.img`
 `
 
 const Images = styled.div`
-  
-   ${below.med`
+  ${below.med`
     position: relative;
   `};
-`;
+`
 
 class Index extends React.Component {
   render() {
     const { data } = this.props
     const siteTitle = data.site.siteMetadata.title
+
+    console.log("data", data)
 
     return (
       <>
@@ -67,6 +66,13 @@ export default Index
 
 export const pageQuery = graphql`
   query {
+    sanityRecipe {
+      title
+      ingredients {
+        name
+        measurement
+      }
+    }
     site {
       siteMetadata {
         title
