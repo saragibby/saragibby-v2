@@ -9,6 +9,11 @@ export default {
       type: "string",
     },
     {
+      name: "slug",
+      title: "Slug",
+      type: "string",
+    },
+    {
       name: "description",
       title: "Description",
       type: "markdown",
@@ -20,6 +25,11 @@ export default {
       name: "servings",
       title: "Servings",
       type: "string",
+    },
+    {
+      name: "vegan",
+      title: "Vegan",
+      type: "boolean",
     },
     {
       name: "totalTime",
@@ -62,6 +72,14 @@ export default {
           },
         },
       ],
+    },
+    {
+      name: "notes",
+      title: "Notes",
+      type: "markdown",
+      options: {
+        minRows: 4,
+      },
     },
   ],
 }
