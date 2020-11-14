@@ -4,6 +4,7 @@ export const colors = {
   purple: "#5C415D",
   teal: "#00BFB2",
   white: "#FFFFFF",
-};
+  lightGray: "#E2E2E2",
+}
 
-export default colors;
+export default colors

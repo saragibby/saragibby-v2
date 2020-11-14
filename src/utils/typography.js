@@ -4,13 +4,13 @@ const typography = new Typography({
   baseFontSize: "10px",
   baseLineHeight: 1.666,
   headerFontFamily: [
-    "Roboto Condensed",
+    "Noto Sans",
     "Helvetica",
     "Arial",
     "sans-serif",
   ],
   bodyFontFamily: [
-    "Roboto Condensed",
+    "Noto Sans",
     "Helvetica",
     "Arial",
     "sans-serif",

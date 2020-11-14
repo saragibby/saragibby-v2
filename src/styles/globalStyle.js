@@ -5,13 +5,13 @@ const GlobalStyle = createGlobalStyle`
   body {
     padding: 0;
     margin: 0;
-    ${above.med`
-      position: fixed;
-    `};
+    // ${above.med`
+    //   position: fixed;
+    // `};
     
-    ${below.med`
-      max-width: 100vw;
-    `};
+    // ${below.med`
+    //   max-width: 100vw;
+    // `};
   }
 
   p {

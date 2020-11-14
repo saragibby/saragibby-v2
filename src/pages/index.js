@@ -40,8 +40,6 @@ class Index extends React.Component {
     const { data } = this.props
     const siteTitle = data.site.siteMetadata.title
 
-    console.log("data", data)
-
     return (
       <>
         <Layout
@@ -66,13 +64,6 @@ export default Index
 
 export const pageQuery = graphql`
   query {
-    sanityRecipe {
-      title
-      ingredients {
-        name
-        measurement
-      }
-    }
     site {
       siteMetadata {
         title

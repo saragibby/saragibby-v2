@@ -4,7 +4,7 @@ import { above, below } from "../utils/breakpoint.js"
 import colors from "../utils/colors.js"
 
 const TopLeftBox = styled.div`
-  position: fixed;
+  position: absolute;
   top: -7rem;
   left: 45vw;
   width: 11rem;
@@ -19,7 +19,7 @@ const TopLeftBox = styled.div`
 `
 
 const TopBox = styled.div`
-  position: fixed;
+  position: absolute;
   top: 0;
   right: 0;
   width: 0;
@@ -32,8 +32,8 @@ const TopBox = styled.div`
 
 const MiddleBox = styled.div`
   position: absolute;
-  top: 40vh;
-  right: 5vw;
+  bottom: 15vh;
+  right: 24vw;
   width: 35vh;
   height: 35vh;
   background-color: ${colors.pink};
@@ -42,7 +42,7 @@ const MiddleBox = styled.div`
 `
 
 const BottomBox = styled.div`
-  position: fixed;
+  position: absolute;
   bottom: 0;
   right: 0;
   width: 0;
@@ -100,11 +100,12 @@ const Line = styled.hr`
 
 const Background = props => {
   return (
-    <div>
+    <>
       <TopLeftBox />
       <TopBox />
-      {/* <MiddleBox /> */}
+      <MiddleBox />
       <BottomBox />
+    <div style={{ height: '100%', position: "relative" }}>
       {/* <SmallBottomBox />
 //         <BottomLeftBox />
 //         <Line
@@ -150,6 +151,7 @@ const Background = props => {
 //           width="10vw"
 //         /> */}
     </div>
+    </>
   )
   };
 
