@@ -68,7 +68,7 @@ const StyledArticle = styled.article`
 class BlogPostTemplate extends React.Component {
   render() {
     const post = this.props.data.markdownRemark
-    const siteTitle = this.props.data.site.siteMetadata.title
+    // const siteTitle = this.props.data.site.siteMetadata.title
     // const { previous, next } = this.props.pageContext
 
     const { featuredImage, featuredImageDisplay } = post.frontmatter
@@ -93,7 +93,7 @@ class BlogPostTemplate extends React.Component {
               {post.frontmatter.title}
             </h1>
             {featuredImagePath && featuredImageDisplay && (
-              <a href={featuredImagePath} target="_blank" rel="noopener">
+              <a href={featuredImagePath} target="_blank" rel="noreferrer">
                 <img
                   src={featuredImagePath}
                   style={{
@@ -102,6 +102,7 @@ class BlogPostTemplate extends React.Component {
                     margin: "auto",
                     objectFit: "cover",
                   }}
+                  alt={post.frontmatter.title}
                 />
               </a>
             )}

@@ -6,7 +6,6 @@ import GlobalStyle from "../styles/globalStyle"
 import colors from "../utils/colors.js"
 import svgs from "../utils/svgs.js"
 import { above, below } from "../utils/breakpoint.js"
-import Background from "./background"
 import Navbar from "./navbar"
 
 const TopLines = styled.div`
@@ -41,11 +40,6 @@ const DottedLine = styled.hr`
     padding-right: 0.5rem;
     margin-right: 0.5rem;
   `};
-`
-
-const Subheader = styled.h2`
-  text-transform: uppercase;
-  font-size: 1.7rem;
 `
 
 const Footer = styled.footer`
@@ -123,49 +117,10 @@ const FooterTriangle = styled.div`
 `
 
 const Main = styled.main`
-  height: 100vh;
-  width: 100vw;
-  overflow: scroll;
-
   ${below.med`
     height: auto;
     width: 100%;
     overflow: auto;
-  `};
-`
-
-const Section = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: ${({ fixedHeight }) => (fixedHeight ? "100vh" : "")};
-  width: 100vw;
-  flex-direction: ${({ flexDirection }) => flexDirection || "row"};
-  position: ${({ fixedHeight }) => (fixedHeight ? "initial" : "relative")};
-  top: ${({ fixedHeight }) => (fixedHeight ? "" : "10rem")};
-  padding: 0 9rem;
-
-  ${below.large`
-    flex-direction: column;
-    margin: auto
-    max-width: 90vw;
-    width: auto;
-    height: auto;
-    margin-left: 6.3rem;
-    margin-top: ${({ fixedHeight }) => (fixedHeight ? "15vh" : "0")};
-    text-align: center;
-    margin-right: 2.5rem;
-    margin-bottom: 10rem;
-  `};
-`
-
-const Text = styled.div`
-  max-width: 40rem;
-  margin-right: calc(1vw * 9);
-
-  ${below.large`
-    text-align: justify;
-    margin-right: 0;
   `};
 `
 
@@ -230,29 +185,14 @@ const Layout = props => {
           })}
         </TopLines>
         <Navbar />
-        <Section
-          flexDirection={props.flexDirection}
-          fixedHeight={location.pathname === rootPath}
-        >
-          <Text>
-            {header}
-            <Subheader>{props.subheader}</Subheader>
-            <p
-              style={{ ...scale(0.9), fontWeight: 300 }}
-              dangerouslySetInnerHTML={{
-                __html: props.text,
-              }}
-            />
-          </Text>
           <div>{children}</div>
-        </Section>
       </Main>
-      <Background />
+      
       <FooterLine>
         <FooterTriangle />
         <Footer>
           <Socials>
-            <a href="https://www.linkedin.com/in/saragibby/" target="_blank">
+            <a href="https://www.linkedin.com/in/saragibby/" target="_blank" rel="noreferrer">
               <Svg
                 role="img"
                 xmlns="http://www.w3.org/2000/svg"
@@ -264,7 +204,7 @@ const Layout = props => {
                 })}
               </Svg>
             </a>
-            <a href="https://github.com/saragibby" target="_blank">
+            <a href="https://github.com/saragibby" target="_blank" rel="noreferrer">
               <Svg
                 role="img"
                 xmlns="http://www.w3.org/2000/svg"
@@ -276,7 +216,7 @@ const Layout = props => {
                 })}
               </Svg>
             </a>
-            <a href="https://www.instagram.com/gibbette03" target="_blank">
+            <a href="https://www.instagram.com/gibbette03" target="_blank" rel="noreferrer">
               <Svg
                 role="img"
                 xmlns="http://www.w3.org/2000/svg"
@@ -288,7 +228,7 @@ const Layout = props => {
                 })}
               </Svg>
             </a>
-            <a href="https://www.facebook.com/saragibby" target="_blank">
+            <a href="https://www.facebook.com/saragibby" target="_blank" rel="noreferrer">
               <Svg
                 role="img"
                 xmlns="http://www.w3.org/2000/svg"
@@ -300,7 +240,7 @@ const Layout = props => {
                 })}
               </Svg>
             </a>
-            <a href="https://twitter.com/saragibby" target="_blank">
+            <a href="https://twitter.com/saragibby" target="_blank" rel="noreferrer">
               <Svg
                 role="img"
                 xmlns="http://www.w3.org/2000/svg"
@@ -318,12 +258,5 @@ const Layout = props => {
     </div>
   )
 }
-
-// class Layout extends React.Component {
-
-//   render() {
-
-//   }
-// }
 
 export default Layout

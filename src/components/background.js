@@ -1,6 +1,6 @@
 import React from "react"
 import styled from "styled-components"
-import { above, below } from "../utils/breakpoint.js"
+import { below } from "../utils/breakpoint.js"
 import colors from "../utils/colors.js"
 
 const TopLeftBox = styled.div`
@@ -63,40 +63,40 @@ const BottomBox = styled.div`
   `};
 `
 
-const SmallBottomBox = styled.div`
-  position: absolute;
-  bottom: 0;
-  right: 15vw;
-  width: 0;
-  height: 0;
-  border-style: solid;
-  border-width: 0 15vw 15vw 15vw;
-  border-color: transparent transparent ${colors.purple} transparent;
-  z-index: -15;
-`
+// const SmallBottomBox = styled.div`
+//   position: absolute;
+//   bottom: 0;
+//   right: 15vw;
+//   width: 0;
+//   height: 0;
+//   border-style: solid;
+//   border-width: 0 15vw 15vw 15vw;
+//   border-color: transparent transparent ${colors.purple} transparent;
+//   z-index: -15;
+// `
 
-const BottomLeftBox = styled.div`
-  position: absolute;
-  bottom: -7rem;
-  left: 27vw;
-  width: 9rem;
-  height: 20rem;
-  background-color: #f4484b;
-  z-index: -25;
-  transform: rotate(45deg);
-`
+// const BottomLeftBox = styled.div`
+//   position: absolute;
+//   bottom: -7rem;
+//   left: 27vw;
+//   width: 9rem;
+//   height: 20rem;
+//   background-color: #f4484b;
+//   z-index: -25;
+//   transform: rotate(45deg);
+// `
 
-const Line = styled.hr`
-  position: absolute;
-  top: ${props => props.top || ""};
-  bottom: ${props => props.bottom || ""};
-  right: ${props => props.right || ""};
-  width: ${props => props.width};
-  border: 3px solid ${props => props.color};
-  background-color: ${props => props.color};
-  transform: rotate(${props => props.rotate});
-  z-index: -5;
-`
+// const Line = styled.hr`
+//   position: absolute;
+//   top: ${props => props.top || ""};
+//   bottom: ${props => props.bottom || ""};
+//   right: ${props => props.right || ""};
+//   width: ${props => props.width};
+//   border: 3px solid ${props => props.color};
+//   background-color: ${props => props.color};
+//   transform: rotate(${props => props.rotate});
+//   z-index: -5;
+// `
 
 const Background = props => {
   return (
@@ -105,7 +105,6 @@ const Background = props => {
       <TopBox />
       <MiddleBox />
       <BottomBox />
-    <div style={{ height: '100%', position: "relative" }}>
       {/* <SmallBottomBox />
 //         <BottomLeftBox />
 //         <Line
@@ -150,7 +149,6 @@ const Background = props => {
 //           rotate="45deg"
 //           width="10vw"
 //         /> */}
-    </div>
     </>
   )
   };

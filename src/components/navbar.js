@@ -1,14 +1,14 @@
 import React, { useState } from "react"
 import styled from "styled-components"
 import colors from "../utils/colors.js"
-import { above, below } from "../utils/breakpoint.js"
+import { below } from "../utils/breakpoint.js"
 import { Link } from "gatsby"
 
 const Navigation = styled.nav`
   position: fixed;
   right: 0;
   text-align: right;
-
+  z-index: 100;
   height: 5rem;
   display: flex;
 `
@@ -44,7 +44,7 @@ const Navbox = styled.div`
 
     &:hover {
       color: ${colors.teal};
-      font-weight: 800;
+      font-weight: 700;
     }
 
     ${below.small`

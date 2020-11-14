@@ -1,7 +1,10 @@
 import React from "react"
 import styled from "styled-components"
 import Layout from "../components/layout"
+import PictureLine from "../components/pictureLine"
 import SEO from "../components/seo"
+import Section from "../components/section"
+import colors from "../utils/colors.js"
 import { below } from "../utils/breakpoint.js"
 
 const Signature = styled.img`
@@ -13,10 +16,13 @@ const Signature = styled.img`
 
   ${below.med`
     width: 20rem;
-    right: -10rem;
+    right: -3rem;
     transform: rotate(-90deg);
-    bottom: 5rem;
+    bottom: 10rem;
   `};
+`
+const ImageContainer = styled.div`
+  flex-grow: 2;
 `
 
 const MainImage = styled.img`
@@ -24,15 +30,102 @@ const MainImage = styled.img`
 
   ${below.med`
     height: auto;
-    width: 60vw;
+    width: 40vw;
+    max-height: 70vh;
     align-self: center;
+    object-fit: cover;
+  `};
+
+  ${below.small`
+    width: 52vw;
+    margin-top: -2rem;
   `};
 `
 
-const Images = styled.div`
-  ${below.med`
-    position: relative;
+const SectionContent = styled.div`
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+  width: 80%;
+  margin: auto;
+  justify-content: center;
+  align-items: center;
+
+  ${below.small`
+    flex-direction: column;
   `};
+`
+
+const Motto = styled.p`
+  font-size: 4rem;
+  text-align: left;
+  flex-grow: 2;
+  color: ${colors.purple};
+  font-weight: 400;
+  line-height: 1.4;
+  border-bottom: 4px dotted ${colors.coral};
+  
+  ${below.med`
+    font-size: 3.5rem;
+  `} ${below.small`
+    font-size: 2.5rem;
+    margin-top: 10rem;
+  `};
+
+  .highlight {
+    font-family: "Playfair Display", serif;
+    font-size: 5rem;
+
+    ${below.med`
+      font-size: 4.5rem;
+    `}
+
+    ${below.small`
+      font-size: 3.5rem;
+      line-height: 1;
+    `};
+
+    &.upper {
+      text-transform: uppercase;
+    }
+    &.coral {
+      color: ${colors.coral};
+    }
+    &.teal {
+      color: ${colors.teal};
+    }
+    &.pink {
+      color: ${colors.pink};
+    }
+    &.bold {
+      font-weight: 700;
+    }
+    &.fancy {
+      font-family: "Rouge Script", cursive;
+      font-size: 6rem;
+      line-height: 1;
+      ${below.small`
+        font-size: 4.55rem;
+      `};
+    }
+  }
+`
+const AboutDetail = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-items: center;
+  align-items: center;
+  margin: 6rem;
+
+  h1,
+  h2 {
+    color: ${colors.white};
+    font-family: "Raleway", sans-serif
+  }
+
+  h1 {
+    font-size: 7rem;
+  }
 `
 
 class Index extends React.Component {
@@ -42,18 +135,34 @@ class Index extends React.Component {
 
     return (
       <>
-        <Layout
-          location={this.props.location}
-          title={siteTitle}
-          subheader="Engineer / Leader / Advocate"
-          text="Live boldly. Laugh loudly. Dare greatly.<br/>Be original. Kindness always."
-          // text="With over 20 years of development experience, I have deep knowledge of all phases of the software development lifecycle. Accomplished in process optimization, tools and services to save time and money, as well as the simultaneous management of projects and teams. Spending the later phase of my career in the startup and consulting worlds  I know what it takes to cost-effectively get product to market while architecting solutions that keep the product prepared as the business needs evolve"
-        >
+        <Layout location={this.props.location} title={siteTitle}>
           <SEO title="Sara Gibbons" />
-          <Images>
-            <MainImage src={"/sara-lg.png"} />
-            <Signature src={"/sara-sig.png"} />
-          </Images>
+          <Section fullSize backgroundShapes key="motto">
+            <SectionContent>
+              <Motto>
+                Live <span className="highlight teal bold">boldly</span>.
+                <br />
+                Laugh <span className="highlight upper coral">loudly</span>.
+                <br />
+                <span className="highlight upper pink">Dare</span> greatly.
+                <br />
+                Be <span className="highlight fancy teal">original</span>.
+                <br />
+                Kindness always.
+              </Motto>
+              <ImageContainer>
+                <MainImage src={"/sara-lg.png"} />
+              </ImageContainer>
+              <Signature src={"/sara-sig.png"} />
+            </SectionContent>
+          </Section>
+          <Section key="about" backgroundColor={colors.coral}>
+            <AboutDetail>
+              <h1>Sara Gibbons</h1>
+              <h2>Engineer / Leader / Advocate</h2>
+            </AboutDetail>
+          </Section>
+          <PictureLine />
         </Layout>
       </>
     )

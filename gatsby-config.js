@@ -77,7 +77,7 @@ module.exports = {
       resolve: "gatsby-plugin-web-font-loader",
       options: {
         google: {
-          families: ["Noto Sans"],
+          families: ["Raleway", "Playfair Display", "Rouge Script"],
         },
       },
     },
