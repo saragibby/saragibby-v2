@@ -173,7 +173,7 @@ const MicrosoftProjectList = styled.ul`
 
     p {
       margin-left: 1rem;
-      margin-bottom: 0;
+      margin-top: 0;
     }
   }
 `
