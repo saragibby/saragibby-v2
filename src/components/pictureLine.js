@@ -1,29 +1,54 @@
 import React from "react"
 import styled from "styled-components"
+import { below } from "../utils/breakpoint.js"
 
-const PictureLine = () => {
-  return(
-    <p>pictures</p>
+const Pictures = styled.div`
+  display: flex;
+  width: 100%;
+  height: 18rem;
+
+  ${below.small`
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+  `};
+
+  img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    margin-bottom: 0;
+
+    ${below.small`
+      // max-height: 12rem;
+      // max-width: 30%;
+    `};
+  }
+`
+
+const PictureLine = ({ pictures }) => {
+  console.log("pictures", pictures)
+  return (
+    <Pictures>
+      {pictures.map(picture => (
+        <div>
+          <picture>
+            <source
+              srcset={picture.node.image.asset.fixed.srcWebp}
+              type="image/webp"
+            />
+            <source
+              srcset={picture.node.image.asset.fixed.src}
+              type="image/jpeg"
+            />
+            <img
+              src={picture.node.image.asset.fixed.src}
+              alt={picture.node.altText}
+            />
+          </picture>
+        </div>
+      ))}
+    </Pictures>
   )
 }
 
-export default PictureLine;
-
-// export const pageQuery = graphql`
-//   query {
-//     allSanityHighlightPic {
-//       edges {
-//         node {
-//           altText
-//           mainImage {
-//             asset {
-//               fluid(maxHeight: 200) {
-//                 src
-//               }
-//             }
-//           }
-//         }
-//       }
-//     }
-//   }
-// `
+export default PictureLine

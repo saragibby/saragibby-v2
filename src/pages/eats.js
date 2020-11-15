@@ -18,7 +18,6 @@ const RecipeItem = styled.li`
 `
 
 const eats = ({ data, location }) => {
-  console.log("data", data)
   return (
     <Layout location={location} title="Eats" flexDirection="column">
       <SEO title="All posts" />

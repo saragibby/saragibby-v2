@@ -1,6 +1,6 @@
 export default {
-  name: "highlightPic",
-  title: "Highlight Picture",
+  name: "picture",
+  title: "Picture",
   type: "document",
   fields: [
     {

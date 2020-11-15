@@ -64,7 +64,7 @@ const Motto = styled.p`
   font-weight: 400;
   line-height: 1.4;
   border-bottom: 4px dotted ${colors.coral};
-  
+
   ${below.med`
     font-size: 3.5rem;
   `} ${below.small`
@@ -120,12 +120,68 @@ const AboutDetail = styled.div`
   h1,
   h2 {
     color: ${colors.white};
-    font-family: "Raleway", sans-serif
+    font-family: "Raleway", sans-serif;
   }
 
   h1 {
     font-size: 7rem;
   }
+`
+
+const WorkDetail = styled.div`
+  display: flex;
+  margin: 6rem;
+  justify-items: center;
+  align-items: center;
+  width: 100%;
+  overflow: hidden;
+
+  div {
+    flex-grow: 2;
+  }
+
+  ${below.small`
+    flex-direction: column;
+    padding-top: 15rem;
+    width: 80%;
+  `}
+`
+
+const MicrosoftLogo = styled.img`
+  width: 16rem;
+`
+
+const MicrosoftProjectList = styled.ul`
+  list-style: none;
+  background-color: rgb(255,255,255,0.5);
+
+  li {
+    a {
+      text-decoration: none;
+      color: ${colors.purple};
+      font-size: 2rem;
+      text-align: center;
+      font-weight: 600;
+      margin: 1rem;
+
+      &:hover {
+        color: ${colors.teal};
+        font-weight: 700;
+      }
+    }
+
+    p {
+      margin-left: 1rem;
+      margin-top: -0.75rem;
+    }
+  }
+`
+
+const DevRelMascot = styled.img`
+  position: absolute;
+  right: 2rem;
+  bottom: 0;
+  height: 10rem;
 `
 
 class Index extends React.Component {
@@ -162,7 +218,59 @@ class Index extends React.Component {
               <h2>Engineer / Leader / Advocate</h2>
             </AboutDetail>
           </Section>
-          <PictureLine />
+          <PictureLine pictures={data.allSanityPicture.edges} />
+          <Section backgroundAlt>
+            <WorkDetail>
+              <div style={{ textAlign: "right" }}>
+                <MicrosoftLogo src="/microsoft.png" />
+              </div>
+              <div>
+                <MicrosoftProjectList>
+                  <li>
+                    <a
+                      href="https://rd.microsoft.com/en-us/"
+                      target="_blank"
+                      rel="noreffer"
+                    >
+                      Regional Directors
+                    </a>
+                    <p>
+                      Trusted advisors to the developer and IT professional
+                      audiences and Microsoft.
+                    </p>
+                  </li>
+                  <li>
+                    <a
+                      href="https://mvp.microsoft.com/"
+                      target="_blank"
+                      rel="noreffer"
+                    >
+                      Most Valuable Professional
+                    </a>
+                    <p>
+                      Technology experts who passionately share their knowledge
+                      with the community.
+                    </p>
+                  </li>
+                  <li>
+                    <a
+                      href="https://studentambassadors.microsoft.com/"
+                      target="_blank"
+                      rel="noreffer"
+                    >
+                      Student Partners
+                    </a>
+                    <p>
+                      Student leaders with a passion for making a difference,
+                      building vibrant communities, and sharing the latest tech
+                      with their peers.
+                    </p>
+                  </li>
+                </MicrosoftProjectList>
+                <DevRelMascot src="/microsoft-developer-advocate.png" />
+              </div>
+            </WorkDetail>
+          </Section>
         </Layout>
       </>
     )
@@ -178,17 +286,17 @@ export const pageQuery = graphql`
         title
       }
     }
-    allMarkdownRemark(sort: { fields: [frontmatter___date], order: DESC }) {
+    allSanityPicture(filter: { active: { eq: true } }) {
       edges {
         node {
-          excerpt
-          fields {
-            slug
-          }
-          frontmatter {
-            date(formatString: "MMMM DD, YYYY")
-            title
-            description
+          altText
+          image {
+            asset {
+              fixed {
+                srcWebp
+                src
+              }
+            }
           }
         }
       }
