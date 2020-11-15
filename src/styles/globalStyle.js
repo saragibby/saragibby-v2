@@ -6,11 +6,12 @@ const GlobalStyle = createGlobalStyle`
   html {
     font-size: 62.5%;
   }
-  
+
   body {
     padding: 0;
     margin: 0;
     font-size: 1.6rem;
+    font-family: "Raleway", sans-serif;
   }
 
   p {
