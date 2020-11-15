@@ -3,16 +3,14 @@ import { above, below } from "../utils/breakpoint.js"
 import colors from "../utils/colors.js"
 
 const GlobalStyle = createGlobalStyle`
+  html {
+    font-size: 62.5%;
+  }
+  
   body {
     padding: 0;
     margin: 0;
-    // ${above.med`
-    //   position: fixed;
-    // `};
-    
-    // ${below.med`
-    //   max-width: 100vw;
-    // `};
+    font-size: 1.6rem;
   }
 
   p {
