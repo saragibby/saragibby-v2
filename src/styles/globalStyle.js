@@ -26,10 +26,13 @@ const GlobalStyle = createGlobalStyle`
 
   h1 {
     font-size: 4rem;
+    margin-bottom: 0;
   }
 
   h2 {
-    font-size: 3rem;
+    font-size: 2.5rem;
+    font-weight: 400;
+    margin-top: 1rem;
   }
 
   h3 {

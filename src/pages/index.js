@@ -156,6 +156,7 @@ const MicrosoftProjectList = styled.ul`
   background-color: rgb(255,255,255,0.5);
 
   li {
+    padding: 1rem 0;
     a {
       text-decoration: none;
       color: ${colors.purple};
@@ -172,7 +173,7 @@ const MicrosoftProjectList = styled.ul`
 
     p {
       margin-left: 1rem;
-      margin-top: -0.75rem;
+      margin-bottom: 0;
     }
   }
 `

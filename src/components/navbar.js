@@ -27,7 +27,7 @@ const Toggle = styled.div`
 
 const Navbox = styled.div`
   background-color: ${colors.purple};
-  padding: 1rem;
+  padding-right: 1rem;
   display: flex;
   height: 100%;
   justify-content: flex-end;
