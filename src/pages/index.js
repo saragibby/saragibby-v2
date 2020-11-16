@@ -165,11 +165,11 @@ class Index extends React.Component {
                   />
                   <MainImage
                     src={data.sanityPicture.image.asset.fluid.src}
-                    alt={data.sanityPicture.image.asset.altText}
+                    alt="Sara Gibbons"
                   />
                 </picture>
               </ImageContainer>
-              <Signature src={"/sara-sig.png"} />
+              <Signature src={"/sara-sig.png"} alt="Sara signature" />
             </SectionContent>
           </Section>
           <Section key="about" backgroundColor={colors.coral}>

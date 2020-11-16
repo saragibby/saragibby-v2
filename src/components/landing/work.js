@@ -78,7 +78,7 @@ const Work = () => {
       <Title>Current Projects</Title>
       <WorkDetail>
         <div style={{ textAlign: "right" }}>
-          <MicrosoftLogo src="/microsoft.png" />
+          <MicrosoftLogo src="/microsoft.png" alt="Microsoft" />
         </div>
         <div>
           <MicrosoftProjectList>
@@ -123,7 +123,7 @@ const Work = () => {
               </p>
             </li>
           </MicrosoftProjectList>
-          <DevRelMascot src="/microsoft-developer-advocate.png" />
+          <DevRelMascot src="/microsoft-developer-advocate.png" alt="Microsoft Developer Advocate" />
         </div>
       </WorkDetail>
     </>
