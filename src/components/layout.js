@@ -177,6 +177,10 @@ const Layout = props => {
     <div>
       <header>
         <GlobalStyle />
+        <meta
+          name="google-site-verification"
+          content="kPNehli59Kh-YnyY9g144XS3GQfa2JUed82cGTaoi3k"
+        />
       </header>
       <Main>
         <TopLines>
@@ -185,14 +189,18 @@ const Layout = props => {
           })}
         </TopLines>
         <Navbar />
-          <div>{children}</div>
+        <div>{children}</div>
       </Main>
-      
+
       <FooterLine>
         <FooterTriangle />
         <Footer>
           <Socials>
-            <a href="https://www.linkedin.com/in/saragibby/" target="_blank" rel="noreferrer">
+            <a
+              href="https://www.linkedin.com/in/saragibby/"
+              target="_blank"
+              rel="noreferrer"
+            >
               <Svg
                 role="img"
                 xmlns="http://www.w3.org/2000/svg"
@@ -200,11 +208,15 @@ const Layout = props => {
               >
                 <title>Linked In</title>
                 {svgs["linkedIn"].path.map((item, index) => {
-                  return <path d={item} key={`linkedin-${index}`}/>
+                  return <path d={item} key={`linkedin-${index}`} />
                 })}
               </Svg>
             </a>
-            <a href="https://github.com/saragibby" target="_blank" rel="noreferrer">
+            <a
+              href="https://github.com/saragibby"
+              target="_blank"
+              rel="noreferrer"
+            >
               <Svg
                 role="img"
                 xmlns="http://www.w3.org/2000/svg"
@@ -212,11 +224,15 @@ const Layout = props => {
               >
                 <title>Github</title>
                 {svgs["github"].path.map((item, index) => {
-                  return <path d={item} key={`github-${index}`}/>
+                  return <path d={item} key={`github-${index}`} />
                 })}
               </Svg>
             </a>
-            <a href="https://www.instagram.com/gibbette03" target="_blank" rel="noreferrer">
+            <a
+              href="https://www.instagram.com/gibbette03"
+              target="_blank"
+              rel="noreferrer"
+            >
               <Svg
                 role="img"
                 xmlns="http://www.w3.org/2000/svg"
@@ -228,7 +244,11 @@ const Layout = props => {
                 })}
               </Svg>
             </a>
-            <a href="https://www.facebook.com/saragibby" target="_blank" rel="noreferrer">
+            <a
+              href="https://www.facebook.com/saragibby"
+              target="_blank"
+              rel="noreferrer"
+            >
               <Svg
                 role="img"
                 xmlns="http://www.w3.org/2000/svg"
@@ -240,7 +260,11 @@ const Layout = props => {
                 })}
               </Svg>
             </a>
-            <a href="https://twitter.com/saragibby" target="_blank" rel="noreferrer">
+            <a
+              href="https://twitter.com/saragibby"
+              target="_blank"
+              rel="noreferrer"
+            >
               <Svg
                 role="img"
                 xmlns="http://www.w3.org/2000/svg"
