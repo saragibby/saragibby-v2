@@ -177,10 +177,6 @@ const Layout = props => {
     <div>
       <header>
         <GlobalStyle />
-        <meta
-          name="google-site-verification"
-          content="kPNehli59Kh-YnyY9g144XS3GQfa2JUed82cGTaoi3k"
-        />
       </header>
       <Main>
         <TopLines>

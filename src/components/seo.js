@@ -106,7 +106,11 @@ function SEO({ description, lang, meta, title, image }) {
       ].concat(meta)}
     >
       <script type="application/ld+json">{JSON.stringify(jsonLdData)}</script>
-      </Helmet>
+      <meta
+        name="google-site-verification"
+        content="kPNehli59Kh-YnyY9g144XS3GQfa2JUed82cGTaoi3k"
+      />
+    </Helmet>
   )
 }
 
