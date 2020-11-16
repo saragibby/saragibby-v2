@@ -31,6 +31,26 @@ function SEO({ description, lang, meta, title, image }) {
   const ogImageUrl =
     site.siteMetadata.siteUrl + (image || defaultOpenGraphImage)
 
+  const jsonLdData = {
+    "@context": "https://schema.org/",
+    "@type": "Person",
+    name: "Sara Gibbons",
+    url: site.siteMetadata.siteUrl,
+    image: ogImageUrl,
+    sameAs: [
+      "https://www.facebook.com/saragibby",
+      "https://twitter.com/saragibby",
+      "https://www.instagram.com/gibbette03",
+      "https://www.linkedin.com/in/saragibby/",
+      "https://github.com/saragibby",
+    ],
+    jobTitle: "Software Engineer",
+    worksFor: {
+      "@type": "Organization",
+      name: "Microsoft",
+    },
+  }
+
   return (
     <Helmet
       htmlAttributes={{
@@ -84,7 +104,9 @@ function SEO({ description, lang, meta, title, image }) {
           content: metaDescription,
         },
       ].concat(meta)}
-    />
+    >
+      <script type="application/ld+json">{JSON.stringify(jsonLdData)}</script>
+      </Helmet>
   )
 }
 

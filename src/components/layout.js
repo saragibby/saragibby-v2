@@ -180,8 +180,8 @@ const Layout = props => {
       </header>
       <Main>
         <TopLines>
-          {Array.from({ length: 7 }, index => {
-            return <DottedLine key={index} />
+          {Array.from({ length: 7 }, (_, index) => {
+            return <DottedLine key={`key-${index}`} />
           })}
         </TopLines>
         <Navbar />
@@ -199,8 +199,8 @@ const Layout = props => {
                 viewBox={`0 0 24 24`}
               >
                 <title>Linked In</title>
-                {svgs["linkedIn"].path.map(item => {
-                  return <path d={item} />
+                {svgs["linkedIn"].path.map((item, index) => {
+                  return <path d={item} key={`linkedin-${index}`}/>
                 })}
               </Svg>
             </a>
@@ -211,8 +211,8 @@ const Layout = props => {
                 viewBox={`0 0 24 24`}
               >
                 <title>Github</title>
-                {svgs["github"].path.map(item => {
-                  return <path d={item} />
+                {svgs["github"].path.map((item, index) => {
+                  return <path d={item} key={`github-${index}`}/>
                 })}
               </Svg>
             </a>
@@ -223,8 +223,8 @@ const Layout = props => {
                 viewBox={`0 0 24 24`}
               >
                 <title>Instagram</title>
-                {svgs["instagram"].path.map(item => {
-                  return <path d={item} />
+                {svgs["instagram"].path.map((item, index) => {
+                  return <path d={item} key={`instagram-${index}`} />
                 })}
               </Svg>
             </a>
@@ -235,8 +235,8 @@ const Layout = props => {
                 viewBox={`0 0 24 24`}
               >
                 <title>Facebook</title>
-                {svgs["facebook"].path.map(item => {
-                  return <path d={item} />
+                {svgs["facebook"].path.map((item, index) => {
+                  return <path d={item} key={`facebook-${index}`} />
                 })}
               </Svg>
             </a>
@@ -247,8 +247,8 @@ const Layout = props => {
                 viewBox={`0 0 24 24`}
               >
                 <title>Twitter</title>
-                {svgs["twitter"].path.map(item => {
-                  return <path d={item} />
+                {svgs["twitter"].path.map((item, index) => {
+                  return <path d={item} key={`twitter-${index}`} />
                 })}
               </Svg>
             </a>

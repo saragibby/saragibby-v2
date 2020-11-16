@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "styled-components"
-import { below } from "../utils/breakpoint.js"
 import colors from "../utils/colors.js"
 
 const RightSide = styled.div`

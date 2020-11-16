@@ -26,18 +26,17 @@ const Pictures = styled.div`
 `
 
 const PictureLine = ({ pictures }) => {
-  console.log("pictures", pictures)
   return (
     <Pictures>
       {pictures.map(picture => (
-        <div>
+        <div key={picture.node.id}>
           <picture>
             <source
-              srcset={picture.node.image.asset.fixed.srcWebp}
+              srcSet={picture.node.image.asset.fixed.srcWebp}
               type="image/webp"
             />
             <source
-              srcset={picture.node.image.asset.fixed.src}
+              srcSet={picture.node.image.asset.fixed.src}
               type="image/jpeg"
             />
             <img

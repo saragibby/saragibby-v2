@@ -4,6 +4,7 @@ import Layout from "../components/layout"
 import PictureLine from "../components/pictureLine"
 import SEO from "../components/seo"
 import Section from "../components/section"
+import Work from "../components/landing/work"
 import colors from "../utils/colors.js"
 import { below } from "../utils/breakpoint.js"
 
@@ -27,6 +28,7 @@ const ImageContainer = styled.div`
 
 const MainImage = styled.img`
   height: 60vh;
+  margin-bottom: 0;
 
   ${below.med`
     height: auto;
@@ -128,63 +130,6 @@ const AboutDetail = styled.div`
   }
 `
 
-const WorkDetail = styled.div`
-  display: flex;
-  margin: 6rem;
-  justify-items: center;
-  align-items: center;
-  width: 100%;
-  overflow: hidden;
-
-  div {
-    flex-grow: 2;
-  }
-
-  ${below.small`
-    flex-direction: column;
-    padding-top: 15rem;
-    width: 80%;
-  `}
-`
-
-const MicrosoftLogo = styled.img`
-  width: 16rem;
-`
-
-const MicrosoftProjectList = styled.ul`
-  list-style: none;
-  background-color: rgb(255,255,255,0.5);
-
-  li {
-    padding: 1rem 0;
-    a {
-      text-decoration: none;
-      color: ${colors.purple};
-      font-size: 2rem;
-      text-align: center;
-      font-weight: 600;
-      margin: 1rem;
-
-      &:hover {
-        color: ${colors.teal};
-        font-weight: 700;
-      }
-    }
-
-    p {
-      margin-left: 1rem;
-      margin-top: 0;
-    }
-  }
-`
-
-const DevRelMascot = styled.img`
-  position: absolute;
-  right: 2rem;
-  bottom: 0;
-  height: 10rem;
-`
-
 class Index extends React.Component {
   render() {
     const { data } = this.props
@@ -208,7 +153,21 @@ class Index extends React.Component {
                 Kindness always.
               </Motto>
               <ImageContainer>
-                <MainImage src={"/sara-lg.png"} />
+                {/* <MainImage src={"/sara-lg.png"} /> */}
+                <picture>
+                  <source
+                    srcSet={data.sanityPicture.image.asset.fluid.srcWebp}
+                    type="image/webp"
+                  />
+                  <source
+                    srcSet={data.sanityPicture.image.asset.fluid.src}
+                    type="image/jpeg"
+                  />
+                  <MainImage
+                    src={data.sanityPicture.image.asset.fluid.src}
+                    alt={data.sanityPicture.image.asset.altText}
+                  />
+                </picture>
               </ImageContainer>
               <Signature src={"/sara-sig.png"} />
             </SectionContent>
@@ -221,56 +180,7 @@ class Index extends React.Component {
           </Section>
           <PictureLine pictures={data.allSanityPicture.edges} />
           <Section backgroundAlt>
-            <WorkDetail>
-              <div style={{ textAlign: "right" }}>
-                <MicrosoftLogo src="/microsoft.png" />
-              </div>
-              <div>
-                <MicrosoftProjectList>
-                  <li>
-                    <a
-                      href="https://rd.microsoft.com/en-us/"
-                      target="_blank"
-                      rel="noreffer"
-                    >
-                      Regional Directors
-                    </a>
-                    <p>
-                      Trusted advisors to the developer and IT professional
-                      audiences and Microsoft.
-                    </p>
-                  </li>
-                  <li>
-                    <a
-                      href="https://mvp.microsoft.com/"
-                      target="_blank"
-                      rel="noreffer"
-                    >
-                      Most Valuable Professional
-                    </a>
-                    <p>
-                      Technology experts who passionately share their knowledge
-                      with the community.
-                    </p>
-                  </li>
-                  <li>
-                    <a
-                      href="https://studentambassadors.microsoft.com/"
-                      target="_blank"
-                      rel="noreffer"
-                    >
-                      Student Partners
-                    </a>
-                    <p>
-                      Student leaders with a passion for making a difference,
-                      building vibrant communities, and sharing the latest tech
-                      with their peers.
-                    </p>
-                  </li>
-                </MicrosoftProjectList>
-                <DevRelMascot src="/microsoft-developer-advocate.png" />
-              </div>
-            </WorkDetail>
+            <Work />
           </Section>
         </Layout>
       </>
@@ -287,10 +197,21 @@ export const pageQuery = graphql`
         title
       }
     }
+    sanityPicture(_id: { eq: "3d224840-b582-4d9e-ba17-500f42869430" }) {
+      image {
+        asset {
+          fluid {
+            src
+            srcWebp
+          }
+        }
+      }
+    }
     allSanityPicture(filter: { active: { eq: true } }) {
       edges {
         node {
           altText
+          id
           image {
             asset {
               fixed {

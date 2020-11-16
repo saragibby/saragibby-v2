@@ -1,5 +1,4 @@
 import { createGlobalStyle } from "styled-components"
-import { above, below } from "../utils/breakpoint.js"
 import colors from "../utils/colors.js"
 
 const GlobalStyle = createGlobalStyle`
@@ -20,7 +19,6 @@ const GlobalStyle = createGlobalStyle`
   }
 
   h1, h2, h3 {
-    font-family: "Playfair Display", Serif;
     color: ${colors.purple}
   }
 
