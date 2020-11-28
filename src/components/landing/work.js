@@ -15,35 +15,34 @@ const WorkDetail = styled.div`
   margin: 0 6rem 6rem;
   justify-items: center;
   align-items: center;
-  width: 100%;
-  overflow: hidden;
-
-  div {
-    flex-grow: 2;
-  }
 
   ${below.small`
     flex-direction: column;
-    padding-top: 15rem;
     width: 80%;
   `}
 `
 
-const MicrosoftLogo = styled.img`
+const LogoBlock = styled.div`
+  text-align: right;
+  min-width: 22rem;
+`
+
+const Logo = styled.img`
   width: 18rem;
+  max-width: 18rem;
 
   ${below.small`
     width: 16rem;
   `}
 `
 
-const MicrosoftProjectList = styled.ul`
+const ProjectList = styled.ul`
   list-style: none;
   background-color: rgb(255, 255, 255, 0.5);
 
   li {
     padding: 1rem 0;
-    max-width: 70%; 
+
     a {
       text-decoration: none;
       color: ${colors.purple};
@@ -61,6 +60,7 @@ const MicrosoftProjectList = styled.ul`
     p {
       margin-left: 1rem;
       margin-top: 0;
+      max-width: 80rem;
     }
   }
 `
@@ -72,16 +72,16 @@ const DevRelMascot = styled.img`
   height: 10rem;
 `
 
-const Work = () => {
+const Work = ({ className }) => {
   return (
-    <>
+    <div className={className}>
       <Title>Current Projects</Title>
       <WorkDetail>
-        <div style={{ textAlign: "right" }}>
-          <MicrosoftLogo src="/microsoft.png" alt="Microsoft" />
-        </div>
+        <LogoBlock>
+          <Logo src="/microsoft.png" alt="Microsoft" />
+        </LogoBlock>
         <div>
-          <MicrosoftProjectList>
+          <ProjectList>
             <li>
               <a
                 href="https://rd.microsoft.com/en-us/"
@@ -122,14 +122,40 @@ const Work = () => {
                 peers.
               </p>
             </li>
-          </MicrosoftProjectList>
-          <DevRelMascot src="/microsoft-developer-advocate.png" alt="Microsoft Developer Advocate" />
+          </ProjectList>
+          <DevRelMascot
+            src="/microsoft-developer-advocate.png"
+            alt="Microsoft Developer Advocate"
+          />
         </div>
       </WorkDetail>
-    </>
+      <WorkDetail>
+        <LogoBlock>
+          <Logo src="/c-us-logo.png" alt="Comprend Us" />
+        </LogoBlock>
+        <div>
+          <ProjectList>
+            <li>
+              <a href="https://comprend.us" target="_blank" rel="noreferrer">
+                Comprend Us: changing the face of tech
+              </a>
+              <p>
+                To be able to change where we are headed we have to know where
+                we have been. The goal of Comprend Us is spread that
+                understanding. To give us all a glimpse to the past and current
+                state of diversity across the tech industry through conferences
+                and communities.
+              </p>
+            </li>
+          </ProjectList>
+        </div>
+      </WorkDetail>
+    </div>
   )
 }
 
 export default styled(Work)`
-  background-color: red;
-`;
+  ${below.small`
+    padding-top: 23rem;
+  `}
+`
