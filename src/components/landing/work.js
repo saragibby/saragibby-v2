@@ -39,6 +39,8 @@ const Logo = styled.img`
 const ProjectList = styled.ul`
   list-style: none;
   background-color: rgb(255, 255, 255, 0.5);
+  padding-left: 1rem;
+  margin-left: 3rem;
 
   li {
     padding: 1rem 0;
