@@ -2,3 +2,9 @@
 package.json
 package-lock.json
 public
+# Archived source is retained verbatim.
+legacy/
+.next/
+node_modules/
+package-lock.json
+src/payload-types.ts

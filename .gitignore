@@ -54,10 +54,16 @@ typings/
 # dotenv environment variables file
 .env
 .env.development
+.env.*
+!.env.example
+.next/
+out/
+*.tsbuildinfo
+playwright-report/
+test-results/
 
-# gatsby files
+# Legacy Gatsby build cache
 .cache/
-public
 
 # Mac files
 .DS_Store
