@@ -69,6 +69,7 @@
     "migrate": "payload migrate",
     "migrate:create": "payload migrate:create",
     "worker": "tsx src/worker.ts",
-    "bootstrap:admin": "tsx src/scripts/bootstrap-admin.ts"
+    "bootstrap:admin": "tsx src/scripts/bootstrap-admin.ts",
+    "publish:launch-content": "tsx src/scripts/publish-launch-content.ts"
   }
 }

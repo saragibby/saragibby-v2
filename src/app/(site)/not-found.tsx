@@ -7,9 +7,7 @@ export default function NotFound() {
       <header className="page-intro">
         <p className="eyebrow">404 · Off the map</p>
         <h1>
-          Wrong turn.
-          <br />
-          Still a good signal.
+          Wrong turn. Still a good signal.
         </h1>
         <p className="lead">
           That page isn’t here. It may have moved, or the link might have a

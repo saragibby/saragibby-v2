@@ -14,6 +14,7 @@ import {
 } from "@/lib/site/content"
 import { FormPolicyProvider } from "@/components/site/forms"
 import { getSiteURL } from "@/lib/site-url"
+import { isEmailDeliveryEnabled } from "@/lib/email-availability"
 import "./site.css"
 
 export const dynamic = "force-dynamic"
@@ -79,6 +80,7 @@ export default async function SiteLayout({
           name={text(site.siteName, "Sara Gibby")}
         />
         <FormPolicyProvider
+          deliveryEnabled={isEmailDeliveryEnabled()}
           enabled={preview || privacy?.ownerApproved === true}
           kitReady={preview || Boolean(text(kit.title) && text(kit.version))}
         >

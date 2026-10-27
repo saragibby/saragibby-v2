@@ -4,6 +4,7 @@ import { notFound } from "next/navigation"
 import { InquiryForm, SignupForm } from "@/components/site/forms"
 import { PageIntro } from "@/components/site/shell"
 import { RichText } from "@/components/site/rich-text"
+import { VentureLogo } from "@/components/site/venture-logo"
 import {
   getDocument,
   getPage,
@@ -229,6 +230,7 @@ function DraftContent({ slug }: { slug: string }) {
     return (
       <div className="grid two">
         <article className="card">
+          <VentureLogo name="Rise & Shore" />
           <p className="eyebrow">Travel and hospitality</p>
           <h2>Rise &amp; Shore</h2>
           <p className="muted">
@@ -237,6 +239,7 @@ function DraftContent({ slug }: { slug: string }) {
           </p>
         </article>
         <article className="card">
+          <VentureLogo name="TaxDedux" />
           <p className="eyebrow">Fintech and tax</p>
           <h2>TaxDedux</h2>
           <p className="muted">

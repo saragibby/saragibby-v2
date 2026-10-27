@@ -6,7 +6,7 @@ The public site and owned content/subscriber platform for Sara Gibby and The 10 
 
 - **Next.js + TypeScript** serve the site and API on Vercel.
 - **Payload** runs the private editor at `/admin` in the same application. Content is not managed in an external CMS.
-- **Heroku Postgres** stores content, admin users, consent, subscribers, inquiries, and durable email work.
+- **Supabase Postgres** stores content, admin users, consent, subscribers, inquiries, and durable email work.
 - **Supabase Storage** supplies S3-compatible persistent media storage.
 - A **Heroku worker** processes email outside Vercel request lifetimes. SMTP supplies delivery only, not audience management.
 - Legacy Gatsby sources, blog posts, recipe schemas, and media are preserved in [legacy](./legacy), excluded from the new application and deployment uploads.
@@ -70,6 +70,16 @@ The backend and standalone worker load the root `.env` natively. Injected enviro
 
 Use a Postgres connection pool sized for the Vercel plan and Heroku database connection limit. Configure certificate-verified TLS; do not solve certificate failures by disabling verification globally. Storage credentials should have access only to the required buckets. Public images and private kit files have different access requirements.
 
+On Supabase, use the transaction pooler (port 6543) for Vercel with
+`DATABASE_POOL_MAX=3` to bound connections across serverless instances. Payload's
+adapter reserves a connection, so a pool of one deadlocks initialization.
+Use the session pooler (port 5432) for migrations, offline admin bootstrap, and the
+long-running worker. The bootstrap needs at least three connections because it holds a
+session advisory lock while creating the administrator. The two hosts' database URLs
+therefore intentionally differ by pooler port.
+
+For Supabase, set `DATABASE_CA_CERT` to the complete PEM CA certificate downloaded from Database Settings, on both Vercel and the worker. Multiline environment values are supported. The adapter verifies the certificate and hostname; connection-string SSL parameters cannot override that policy. Only exact loopback hosts disable TLS for local development.
+
 The local filesystem on Vercel is not durable storage. Keep uploaded files in Supabase Storage, with public access limited to genuinely published imagery. Do not expose starter-kit or draft files by making every bucket public.
 
 The public media collection is explicitly public: an image uploaded there remains accessible even if its only reference is a draft. Do not upload confidential draft imagery to it. Starter Kit assets use a separate protected collection and private bucket. Removing a public page does not revoke already shared public image URLs.
@@ -91,7 +101,35 @@ The Night Signal system uses Manrope, Caveat, and IBM Plex Mono; Ink Black surfa
 
 The portrait in the initial design is cropped from the owner-supplied homepage PDF. Replace it with the original high-resolution image before launch if available.
 
+Venture logos are local copies of the official Rise & Shore `/rise-shore-logo.svg`
+and TaxDedux `/tax-dedux-logo.png` assets, retrieved from their respective websites.
+They retain their original colors on a light backing for contrast against the dark cards.
+
 ## Email operations
+
+For a content-only production launch, set `EMAIL_DELIVERY_ENABLED=false` on both hosts.
+This keeps the CMS and published site live while replacing signup/inquiry forms with
+availability notices and returning HTTP 503 from their APIs before storing submissions.
+SMTP sends are also blocked, including admin password resets. Keep the worker stopped.
+After configuring and testing delivery and approving privacy information, set this flag
+to `true`, redeploy, and start the worker. Never enable sends merely to complete a build.
+
+On a newly migrated database, `PUBLISH_LAUNCH_CONTENT=true npm run publish:launch-content`
+publishes the initial homepage and informational pages from the supplied mockup.
+It refuses to overwrite an existing homepage, preserves existing page/offer slugs,
+does not invent tutorials or legal policies, and leaves products marked as previews.
+Review subsequent changes in the owned admin.
+
+The pending audience addition can be applied to an existing homepage with
+`UPDATE_HOMEPAGE_AUDIENCES=true npx tsx src/scripts/add-marketing-audience.ts`
+using the target environment configuration. This preserves existing audience tags
+and does nothing if the new tag already exists. Run only when ready to publish;
+deploying code alone does not update existing CMS content.
+
+The pending biography rewrite uses the shared copy in `src/lib/site/biography.ts`.
+When ready to publish, run `UPDATE_BIOGRAPHY=true npx tsx src/scripts/update-biography.ts`
+with the target configuration to update the homepage story and About page together.
+Review the current CMS copy first; this replaces those two bodies, not other fields.
 
 Forms must persist submissions before acknowledging them and queue delivery durably. A successful form response is not proof of inbox delivery.
 

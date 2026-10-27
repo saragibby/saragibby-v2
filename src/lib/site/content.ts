@@ -1,5 +1,6 @@
 import "server-only"
 import { cache } from "react"
+import { biography } from "./biography"
 
 export type RecordValue = Record<string, unknown>
 export function record(value: unknown): RecordValue {
@@ -109,10 +110,8 @@ export const homeDraft = {
     "Practical systems, templates, and lessons from a builder and consultant with 25+ years shipping software for startups and enterprises. No hype, honest results, and a few surprises along the way.",
   alwaysBuilding:
     "AI products for fintech, real estate, and travel, and consulting for founders bringing AI into their business.",
-  story:
-    "I bought my first computer in 1994 with a loan from my part-time job, and I have been building software ever since. I have built as an engineer, led teams as a Director of Engineering, and consulted with startups across industries. Today I build AI products and consult on the side, using AI to do what used to take a whole team.",
-  teaching:
-    "I have taught in middle schools, high schools, and universities, including AI at the University of Michigan, and founded a Girls Who Code club. Now I teach the system I actually use, with honest numbers and the occasional hidden surprise.",
+  story: biography[0],
+  teaching: biography[1],
 }
 
 export function homeCopy(home: RecordValue, key: keyof typeof homeDraft) {

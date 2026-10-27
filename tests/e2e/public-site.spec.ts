@@ -9,6 +9,13 @@ test("homepage follows the mockup and fits the viewport", async ({ page }) => {
   await expect(page.getByRole("heading", { name: /you don't need to quit/i })).toBeVisible()
   await expect(page.getByRole("heading", { name: /your first AI win/i })).toBeVisible()
   await expect(page.getByRole("heading", { name: /25 years across/i })).toBeVisible()
+  await expect(page.locator(".story-section .tags")).toContainText(
+    "Marketing tech and AI tooling"
+  )
+  await expect(page.locator(".story-section")).toContainText(
+    "built and led engineering and product teams"
+  )
+  await expect(page.locator(".story-section")).not.toContainText("1994")
   const overflow = await page.evaluate(
     () => document.documentElement.scrollWidth > window.innerWidth
   )
@@ -21,6 +28,63 @@ test("homepage passes automated WCAG checks", async ({ page }) => {
     .withTags(["wcag2a", "wcag2aa", "wcag21aa", "wcag22aa"])
     .analyze()
   expect(results.violations).toEqual([])
+})
+
+test("venture cards display official logos without overflowing", async ({ page }) => {
+  await page.goto("/")
+  for (const name of ["Rise & Shore", "TaxDedux"]) {
+    const card = page.locator("article").filter({
+      has: page.getByRole("heading", { name, exact: true }),
+    })
+    const logo = card.locator(".venture-logo img")
+    await logo.scrollIntoViewIfNeeded()
+    await logo.evaluate((image: HTMLImageElement) => image.decode())
+    expect(await logo.evaluate((image: HTMLImageElement) => image.naturalWidth)).toBeGreaterThan(0)
+    await expect(logo).toHaveAttribute("alt", "")
+    await expect(card.locator(".venture-logo")).toHaveCSS("background-color", "rgb(245, 239, 233)")
+  }
+  expect(await page.evaluate(
+    () => document.documentElement.scrollWidth > window.innerWidth
+  )).toBe(false)
+})
+
+test("signup notices remain readable inside the sand closing band", async ({ page }) => {
+  await page.goto("/")
+  await page.locator(".closing-band .signup-form").evaluate((form) => {
+    const notice = document.createElement("p")
+    notice.className = "notice small"
+    notice.textContent = "Signup is not open yet. Email delivery is being connected."
+    form.replaceWith(notice)
+  })
+  const notice = page.locator(".closing-band .notice")
+  await expect(notice).toHaveCSS("color", "rgb(245, 239, 233)")
+  await expect(notice).toHaveCSS("background-color", "rgb(23, 42, 59)")
+  const results = await new AxeBuilder({ page })
+    .include(".closing-band")
+    .withRules(["color-contrast"])
+    .analyze()
+  expect(results.violations).toEqual([])
+})
+
+test("headings use one line when they fit and wrap on small screens", async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 1000 })
+  await page.goto("/")
+  await page.evaluate(() => document.fonts.ready)
+  await expect(page.locator("h1 br, h2 br, h3 br, h4 br")).toHaveCount(0)
+  const heading = page.getByRole("heading", {
+    name: "Learn something useful in 15 minutes.",
+    exact: true,
+  })
+  const lineCount = () => heading.evaluate((element) => {
+    const style = getComputedStyle(element)
+    return element.getBoundingClientRect().height / parseFloat(style.lineHeight)
+  })
+  expect(await lineCount()).toBeCloseTo(1, 1)
+  await page.setViewportSize({ width: 390, height: 844 })
+  expect(await lineCount()).toBeGreaterThan(1.5)
+  expect(await page.evaluate(
+    () => document.documentElement.scrollWidth > window.innerWidth
+  )).toBe(false)
 })
 
 test("public routes, retirement responses, and unknown routes work", async ({ page }) => {

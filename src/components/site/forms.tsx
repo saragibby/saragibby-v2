@@ -11,19 +11,21 @@ import Link from "next/link"
 
 type Interest = "kit" | "newsletter" | "course" | "community" | "shop"
 
-const FormPolicy = createContext({ enabled: false, kitReady: false })
+const FormPolicy = createContext({ enabled: false, kitReady: false, deliveryEnabled: true })
 
 export function FormPolicyProvider({
   enabled,
   kitReady,
+  deliveryEnabled = true,
   children,
 }: {
   enabled: boolean
   kitReady: boolean
+  deliveryEnabled?: boolean
   children: React.ReactNode
 }) {
   return (
-    <FormPolicy.Provider value={{ enabled, kitReady }}>
+    <FormPolicy.Provider value={{ enabled, kitReady, deliveryEnabled }}>
       {children}
     </FormPolicy.Provider>
   )
@@ -71,7 +73,7 @@ export function SignupForm({
   const [pending, setPending] = useState(false)
   const [result, setResult] = useState("")
   const [error, setError] = useState("")
-  const { enabled, kitReady } = useContext(FormPolicy)
+  const { enabled, kitReady, deliveryEnabled } = useContext(FormPolicy)
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
     const form = event.currentTarget
@@ -100,6 +102,12 @@ export function SignupForm({
       setPending(false)
     }
   }
+  if (!deliveryEnabled)
+    return (
+      <p className="notice small">
+        Signup is not open yet. Email delivery is being connected.
+      </p>
+    )
   if (!enabled)
     return (
       <p className="notice small">
@@ -171,7 +179,7 @@ export function InquiryForm() {
   const [pending, setPending] = useState(false)
   const [message, setMessage] = useState("")
   const [error, setError] = useState("")
-  const { enabled } = useContext(FormPolicy)
+  const { enabled, deliveryEnabled } = useContext(FormPolicy)
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
     const form = event.currentTarget
@@ -192,6 +200,12 @@ export function InquiryForm() {
       setPending(false)
     }
   }
+  if (!deliveryEnabled)
+    return (
+      <p className="notice">
+        Online inquiries are not open yet. Email delivery is being connected.
+      </p>
+    )
   if (!enabled)
     return (
       <p className="notice">

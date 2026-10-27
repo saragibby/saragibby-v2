@@ -3,6 +3,7 @@ import Image from "next/image"
 import { access } from "node:fs/promises"
 import path from "node:path"
 import { SignupForm } from "@/components/site/forms"
+import { VentureLogo } from "@/components/site/venture-logo"
 import { ContentImage, RichText } from "@/components/site/rich-text"
 import {
   contentItems,
@@ -82,6 +83,7 @@ export default async function Home() {
       "Travel and hospitality",
       "Publishing",
       "Small business",
+      "Marketing tech and AI tooling",
     ].map((label) => ({ label }))
   )
   const ventures = contentItems(home, "ventures", [
@@ -238,8 +240,7 @@ export default async function Home() {
               <article className="card featured">
                 <p className="eyebrow">Free · Starter Kit</p>
                 <h3>
-                  One small start.
-                  <br />A real first win.
+                  One small start. A real first win.
                 </h3>
                 <p>
                   Prompts, an idea scorecard, and a short video to help you get
@@ -417,6 +418,7 @@ export default async function Home() {
             <div className="grid two">
               {ventures.map((venture, index) => (
                 <article className="card" key={index}>
+                  <VentureLogo name={text(venture.title)} />
                   <h4>{text(venture.title)}</h4>
                   <p className="eyebrow">{text(venture.role)}</p>
                   <p className="muted">{text(venture.description)}</p>
@@ -436,9 +438,7 @@ export default async function Home() {
           <div>
             <p className="eyebrow">Latest tutorials</p>
             <h2>
-              Learn something useful
-              <br />
-              in 15 minutes.
+              Learn something useful in 15 minutes.
             </h2>
           </div>
           <Link className="text-link" href="/resources">

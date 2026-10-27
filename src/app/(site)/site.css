@@ -311,9 +311,6 @@ img {
   color: var(--bone);
   font-weight: 800;
 }
-.section-title {
-  max-width: 700px;
-}
 .grid {
   display: grid;
   gap: 24px;
@@ -483,9 +480,6 @@ img {
   gap: 96px;
   border-top: 1px solid var(--border);
 }
-.story-section h2 {
-  max-width: 560px;
-}
 .tags {
   display: flex;
   gap: 10px;
@@ -512,6 +506,21 @@ img {
 }
 .experience .card {
   padding: 24px;
+}
+.venture-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 104px;
+  padding: 16px;
+  margin-bottom: 24px;
+  border-radius: 10px;
+  background: var(--bone);
+}
+.venture-logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 .experience .card .eyebrow {
   font-size: 0.6rem;
@@ -708,6 +717,7 @@ textarea::placeholder {
 .notice {
   border-left: 3px solid var(--sand);
   background: var(--surface);
+  color: var(--bone);
   padding: 32px;
   max-width: 850px;
 }

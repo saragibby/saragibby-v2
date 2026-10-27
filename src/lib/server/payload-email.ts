@@ -1,6 +1,7 @@
 import { nodemailerAdapter } from '@payloadcms/email-nodemailer'
 import type { EmailAdapter } from 'payload'
 import { getEmailEnvironment } from './env'
+import { isEmailDeliveryEnabled } from '../email-availability'
 
 const smtpVariables = [
   'SMTP_HOST',
@@ -18,7 +19,7 @@ export async function createPayloadEmailAdapter(
     (variable) => Boolean(environment[variable]?.trim()),
   )
 
-  if (!anySMTPConfiguration) {
+  if (!isEmailDeliveryEnabled(environment) || !anySMTPConfiguration) {
     return () => ({
       defaultFromAddress: 'no-reply@invalid.invalid',
       defaultFromName: 'Sara Gibby',

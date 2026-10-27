@@ -1,0 +1,4 @@
+export const biography = [
+  "I turn ambitious ideas into technology people can actually use. I've designed and built platforms from scrappy first products to large-scale systems, and built and led engineering and product teams to bring them to life. Today I bring that same builder's mindset to AI: finding where it makes a real difference, then turning possibility into something that works.",
+  "Building is only half the fun. The other half is helping someone discover what they can create. I've taught in classrooms from middle schools to universities, and helped working professionals build software engineering skills and make the leap into tech careers. Here, I share the systems I use, the experiments that surprise me, and the lessons worth passing on, so you can spend less time figuring out where to start and more time building.",
+]

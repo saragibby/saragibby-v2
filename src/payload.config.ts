@@ -25,6 +25,7 @@ import { createPayloadEmailAdapter } from './lib/server/payload-email'
 import { publicMediaURL } from './lib/server/storage'
 import { createPayloadTasks } from './lib/server/tasks'
 import { isAdmin } from './lib/server/access'
+import { databaseConnectionOptions } from './lib/server/database-tls'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -73,13 +74,8 @@ const storageConfig = {
 const database = postgresAdapter({
   push: false,
   pool: {
-    connectionString: env.DATABASE_URL,
+    ...databaseConnectionOptions(env.DATABASE_URL, env.DATABASE_CA_CERT),
     max: env.DATABASE_POOL_MAX,
-    ssl:
-      env.DATABASE_URL.includes('localhost') ||
-      env.DATABASE_URL.includes('127.0.0.1')
-        ? false
-        : { rejectUnauthorized: true },
   },
   migrationDir: path.resolve(dirname, 'migrations'),
 })

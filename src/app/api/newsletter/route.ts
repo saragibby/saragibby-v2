@@ -16,6 +16,7 @@ import { NextResponse } from 'next/server'
 import type { Payload } from 'payload'
 import { ZodError } from 'zod'
 import type { Subscriber } from '@/payload-types'
+import { isEmailDeliveryEnabled } from '@/lib/email-availability'
 
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
@@ -115,6 +116,12 @@ async function updateExistingSubscriber(
 }
 
 export async function POST(request: Request) {
+  if (!isEmailDeliveryEnabled()) {
+    return NextResponse.json(
+      { error: 'Signup is not open yet. Email delivery is being connected.' },
+      { status: 503 },
+    )
+  }
   let body: unknown
   try {
     body = await readJsonBody(request)

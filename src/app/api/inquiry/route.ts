@@ -4,11 +4,18 @@ import { getServerPayload } from '@/lib/server/payload'
 import { clientAddress, consumeRateLimit, rateLimitKey } from '@/lib/server/rate-limit'
 import { NextResponse } from 'next/server'
 import { hasApprovedPrivacyPolicy } from '@/lib/server/privacy-approval'
+import { isEmailDeliveryEnabled } from '@/lib/email-availability'
 
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
 
 export async function POST(request: Request) {
+  if (!isEmailDeliveryEnabled()) {
+    return NextResponse.json(
+      { error: 'Online inquiries are not open yet. Email delivery is being connected.' },
+      { status: 503 },
+    )
+  }
   let body: unknown
   try {
     body = await readJsonBody(request)

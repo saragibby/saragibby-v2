@@ -1,12 +1,14 @@
 import './load-env'
 import { z } from 'zod'
 import { assertBackendAvailable } from './preview'
+import { isEmailDeliveryEnabled } from '../email-availability'
 
 const optionalNonEmpty = z.string().trim().min(1).optional()
 
 const serverEnvironmentSchema = z.object({
   DATABASE_URL: z.string().trim().min(1),
-  DATABASE_POOL_MAX: z.coerce.number().int().min(1).max(100).default(5),
+  DATABASE_CA_CERT: optionalNonEmpty,
+  DATABASE_POOL_MAX: z.coerce.number().int().min(2).max(100).default(5),
   PAYLOAD_SECRET: z.string().min(32),
   SITE_URL: z.string().url().optional(),
   EMAIL_SIGNING_SECRET: z.string().min(32).optional(),
@@ -126,6 +128,9 @@ const smtpEnvironmentSchema = z
 export function getEmailEnvironment(
   env: NodeJS.ProcessEnv = process.env,
 ): z.infer<typeof smtpEnvironmentSchema> {
+  if (!isEmailDeliveryEnabled(env)) {
+    throw new Error('Email delivery is disabled until the sending service is connected.')
+  }
   const parsed = smtpEnvironmentSchema.safeParse(env)
   if (!parsed.success) {
     const details = parsed.error.issues

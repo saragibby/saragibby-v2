@@ -76,3 +76,4 @@ yarn-error.log
 .yarn-integrity
 
 sanity/dist/*
+.vercel
