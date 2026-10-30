@@ -78,6 +78,37 @@ long-running worker. The bootstrap needs at least three connections because it h
 session advisory lock while creating the administrator. The two hosts' database URLs
 therefore intentionally differ by pooler port.
 
+Vercel builds reject Supabase pooler URLs that do not use port 6543, before the
+deployment can replace the live site. This check applies to both Preview and
+Production. Keep local maintenance URLs on port 5432; do not copy them into
+Vercel. `EMAXCONNSESSION` / `max clients reached in session mode` means the session
+pool has been exhausted, not that homepage content needs republishing.
+
+### Preview-to-Production releases
+
+1. Set Vercel's Production Branch to `main`. Configure Preview and Production
+   variables separately, including distinct Supabase projects, storage credentials,
+   and signing secrets. In **both Vercel environments**, use transaction-pooler
+   `DATABASE_URL` values (port 6543) and `DATABASE_POOL_MAX=3`.
+2. Push changes to a feature branch and open a pull request. Review its Vercel
+   Preview deployment and the **Validate site** checks. The draft visual preview
+   used in CI is not a connected-database health check.
+3. If a change adds migrations, back up the target database and apply the reviewed,
+   backward-compatible migrations using that environment's session-pooler URL
+   (port 5432) before releasing dependent code. Normal CSS/copy-layout changes
+   require no migration. Never automatically seed or overwrite live CMS content.
+4. Merge the reviewed pull request into `main`. Vercel builds a new Production
+   deployment using Production-scoped settings; no manual promotion or secret
+   copying is needed. Changing Vercel variables requires a new deployment.
+5. Verify the public homepage and `/api/health` (`200`, `{"status":"ready"}`).
+   On failure, roll back to the last healthy Production deployment and inspect
+   Runtime Logs. Rollback does not restore database content or undo migrations.
+
+CMS edits are separate from code releases: Preview content is not copied into
+Production by a merge or promotion. Use Production `/admin` for approved copy
+changes, or explicitly run the relevant content updater against Production.
+Do not rerun an entire content updater for an unrelated layout release.
+
 For Supabase, set `DATABASE_CA_CERT` to the complete PEM CA certificate downloaded from Database Settings, on both Vercel and the worker. Multiline environment values are supported. The adapter verifies the certificate and hostname; connection-string SSL parameters cannot override that policy. Only exact loopback hosts disable TLS for local development.
 
 The local filesystem on Vercel is not durable storage. Keep uploaded files in Supabase Storage, with public access limited to genuinely published imagery. Do not expose starter-kit or draft files by making every bucket public.

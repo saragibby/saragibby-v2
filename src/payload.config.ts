@@ -74,7 +74,11 @@ const storageConfig = {
 const database = postgresAdapter({
   push: false,
   pool: {
-    ...databaseConnectionOptions(env.DATABASE_URL, env.DATABASE_CA_CERT),
+    ...databaseConnectionOptions(
+      env.DATABASE_URL,
+      env.DATABASE_CA_CERT,
+      process.env.VERCEL === '1',
+    ),
     max: env.DATABASE_POOL_MAX,
   },
   migrationDir: path.resolve(dirname, 'migrations'),
