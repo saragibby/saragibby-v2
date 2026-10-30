@@ -2,14 +2,9 @@
 
 import Link from "next/link"
 import { useRef, useState } from "react"
+import { siteNavigation } from "@/lib/site/site-navigation"
 
-const defaultLinks = [
-  ["Start Here", "/start-here"],
-  ["Course", "/course"],
-  ["Community", "/community"],
-  ["Shop", "/shop"],
-  ["Build With Me", "/build-with-me"],
-]
+const defaultLinks = siteNavigation.map(({ label, href }) => [label, href])
 
 export function Navigation({
   links = defaultLinks,
@@ -58,7 +53,7 @@ export function Navigation({
             href="/newsletter"
             onClick={() => setOpen(false)}
           >
-            Free Starter Kit
+            Free CTO Kit
           </Link>
         </nav>
       </div>

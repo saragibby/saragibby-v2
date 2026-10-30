@@ -16,6 +16,7 @@ import { FormPolicyProvider } from "@/components/site/forms"
 import { getSiteURL } from "@/lib/site-url"
 import { isEmailDeliveryEnabled } from "@/lib/email-availability"
 import "./site.css"
+import { siteDescription } from "@/lib/site/homepage-design"
 
 export const dynamic = "force-dynamic"
 
@@ -41,11 +42,10 @@ const mono = localFont({
 export const metadata: Metadata = {
   metadataBase: getSiteURL(),
   title: {
-    default: "Sara Gibby · The 10 Hour Founder",
+    default: "Sara Gibby · Clear answers for your biggest tech decisions",
     template: "%s · Sara Gibby",
   },
-  description:
-    "Practical AI systems for building something real, a few hours at a time.",
+  description: siteDescription,
   ...(preview || !configured
     ? { robots: { index: false, follow: false } }
     : {}),

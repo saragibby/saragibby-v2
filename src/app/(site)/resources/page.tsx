@@ -3,7 +3,7 @@ import { getDocuments, resourceType, text } from "@/lib/site/content"
 import { PageIntro } from "@/components/site/shell"
 import { ContentImage } from "@/components/site/rich-text"
 
-export const metadata = { title: "Resources" }
+export const metadata = { title: "Playbooks" }
 
 export default async function Resources({
   searchParams,
@@ -31,8 +31,11 @@ export default async function Resources({
   )
   return (
     <div className="container section interior">
-      <PageIntro label="Resources" title="Useful things. No filler.">
-        <p>Practical guides, articles, and tutorials for building with AI.</p>
+      <PageIntro label="Playbooks" title="Clear guides for big tech decisions.">
+        <p>
+          Practical guides to technology, hiring, vendors, and using AI in real
+          businesses.
+        </p>
       </PageIntro>
       <form className="filter-form" action="/resources">
         <div>
@@ -53,7 +56,7 @@ export default async function Resources({
             ))}
           </select>
         </div>
-        <button className="button">Filter resources</button>
+        <button className="button">Filter playbooks</button>
         <Link href="/resources">Clear filters</Link>
       </form>
       {filtered.length ? (
@@ -85,15 +88,15 @@ export default async function Resources({
           <h2>
             {resources.length
               ? "No matching resources."
-              : "The library is on the workbench."}
+              : "The playbook library is on the workbench."}
           </h2>
           <p>
             {resources.length
               ? "Try another type or topic."
-              : "There are no published resources yet. Real tutorials will appear here when they’re ready."}
+              : "There are no published playbooks yet. Practical guides will appear here when they’re ready."}
           </p>
-          <Link className="text-link" href="/start-here">
-            Start here instead →
+          <Link className="text-link" href="/newsletter">
+            Get the free CTO Kit →
           </Link>
         </div>
       )}

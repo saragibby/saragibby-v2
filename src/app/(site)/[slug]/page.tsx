@@ -18,10 +18,10 @@ const routes: Record<
   { title: string; label: string; description: string }
 > = {
   "start-here": {
-    title: "A little time. A real first step.",
+    title: "Start with the decision in front of you.",
     label: "Start here",
     description:
-      "You don’t need every tool or a perfect plan. Start with one problem, one idea, and a small block of time.",
+      "You do not need to be technical to make a thoughtful technology decision. Start with the problem, then choose the next step.",
   },
   about: {
     title: "A builder, before anything else.",
@@ -36,21 +36,22 @@ const routes: Record<
       "A look at current work, experiments, and the things getting my attention.",
   },
   resources: {
-    title: "Useful things. No filler.",
-    label: "Resources",
-    description: "Practical guides and tutorials for building with AI.",
+    title: "Playbooks and practical guides.",
+    label: "Playbooks",
+    description:
+      "Clear guides to tech decisions, hiring, vendors, and using AI in real businesses.",
   },
   course: {
-    title: "The 10 Hour Founder",
+    title: "Learn to make better tech decisions.",
     label: "Course · In development",
     description:
-      "A practical path from idea to launch, built around a real life and a limited calendar.",
+      "Practical lessons for making confident technology decisions without becoming a developer.",
   },
   community: {
-    title: "Progress is better together.",
-    label: "Community · In development",
+    title: "Ask Sara.",
+    label: "Ask Sara · In development",
     description:
-      "A future gathering place for builders making steady progress, a few hours at a time.",
+      "Bring a real question about tech, AI, hiring, or vendors. Get a clear answer without judgment.",
   },
   shop: {
     title: "Less starting from scratch.",
@@ -59,16 +60,16 @@ const routes: Record<
       "Practical templates and AI toolkits are in the works. There are no products for sale yet.",
   },
   "build-with-me": {
-    title: "Bring AI into real work.",
-    label: "Build with me",
+    title: "Have a tech decision reviewed.",
+    label: "Independent reviews",
     description:
-      "Tell me what you’re building, where you’re stuck, and what a useful next step would look like.",
+      "Get an independent review of your tech stack, architecture, code, vendor proposal, or AI plan.",
   },
   newsletter: {
-    title: "Your 10 hours start here.",
-    label: "The free Starter Kit",
+    title: "The free CTO Starter Kit.",
+    label: "Free CTO Starter Kit",
     description:
-      "A practical starting point for your next idea. Request the kit, and choose whether you’d also like ongoing email.",
+      "A practical guide to the tech decisions every founder faces. Request the kit, and choose whether you would also like ongoing email.",
   },
   privacy: {
     title: "Privacy",

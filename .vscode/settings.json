@@ -1,0 +1,14 @@
+{
+    "chat.tools.terminal.autoApprove": {
+        "npx playwright": true,
+        "test": true,
+        "printf": true,
+        "pdftotext": true,
+        "npm run typecheck": true,
+        "npx eslint": true,
+        "npx vitest": true,
+        "npm test": true,
+        "npx prettier": true,
+        "npm run test:e2e": true
+    }
+}

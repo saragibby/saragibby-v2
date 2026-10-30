@@ -318,6 +318,9 @@ img {
 .three {
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
+.four {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
 .two {
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
@@ -337,6 +340,36 @@ img {
 }
 .section > .grid {
   margin-top: 40px;
+}
+.audience-grid > :last-child {
+  grid-column: 1 / -1;
+}
+.translator {
+  padding-top: 0;
+}
+.translator-grid {
+  gap: 16px;
+  margin-top: 32px;
+}
+.translator-card {
+  min-width: 0;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 22px;
+  background: #0f2030;
+}
+.translator-card .eyebrow {
+  margin-bottom: 10px;
+}
+.translator-card h3 {
+  font-size: 1.15rem;
+  margin-bottom: 20px;
+}
+.translator-card p:last-child {
+  margin-bottom: 0;
+}
+.faq-card h3 {
+  font-size: 1.2rem;
 }
 .section-heading {
   display: flex;
@@ -843,6 +876,9 @@ textarea::placeholder {
     padding: 12px;
     font-size: 0.8rem;
   }
+  .four {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
   .hero {
     gap: 40px;
     grid-template-columns: 1.2fr 1fr;
@@ -945,6 +981,7 @@ textarea::placeholder {
     font-size: 0.76rem;
   }
   .three,
+  .four,
   .two,
   .kit-section,
   .story-section,

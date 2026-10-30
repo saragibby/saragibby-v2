@@ -30,20 +30,18 @@ export function Footer({ site = {} }: { site?: RecordValue }) {
     {
       title: "Learn",
       links: [
-        ["Start Here", "/start-here"],
         ["Course", "/course"],
-        ["Resources", "/resources"],
-        ["Newsletter", "/newsletter"],
+        ["Playbooks", "/resources"],
+        ["About", "/about"],
         ["Now", "/now"],
       ],
     },
     {
-      title: "Work with me",
+      title: "Get help",
       links: [
-        ["Shop", "/shop"],
-        ["Community", "/community"],
-        ["Build With Me", "/build-with-me"],
-        ["About", "/about"],
+        ["Ask Sara", "/community"],
+        ["Reviews", "/build-with-me"],
+        ["Free CTO Kit", "/newsletter"],
       ],
     },
     {
@@ -61,8 +59,10 @@ export function Footer({ site = {} }: { site?: RecordValue }) {
         <Link className="wordmark" href="/">
           {text(site.siteName, "Sara Gibby")}
         </Link>
-        <p className="muted small">Made after hours in Michigan.</p>
-        <p className="handwriting">a little time. something real.</p>
+        <p className="muted small">
+          Clear answers for your biggest tech decisions.
+        </p>
+        <p className="handwriting">no jargon. no judgment. just answers.</p>
         {items(site.socialLinks).map((social, index) => {
           const href = safeHref(social.url)
           return href ? (

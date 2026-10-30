@@ -4,7 +4,7 @@ import { access } from "node:fs/promises"
 import path from "node:path"
 import { SignupForm } from "@/components/site/forms"
 import { VentureLogo } from "@/components/site/venture-logo"
-import { ContentImage, RichText } from "@/components/site/rich-text"
+import { RichText } from "@/components/site/rich-text"
 import {
   contentItems,
   getDocuments,
@@ -12,33 +12,23 @@ import {
   homeCopy,
   preview,
   record,
-  resourceType,
   safeHref,
   selectedDocuments,
   text,
 } from "@/lib/site/content"
-
-const audience = [
-  [
-    "You have an idea and a day job",
-    "The idea keeps coming back. The calendar keeps saying no. You need a way to move it forward in small, real steps.",
-  ],
-  [
-    "AI feels powerful and overwhelming",
-    "New tools every week, and no clear place to start. You want the few workflows that actually matter.",
-  ],
-  [
-    "You can find 10 hours, not 40",
-    "Evenings and a weekend block. That is enough when the system does the heavy lifting.",
-  ],
-]
+import {
+  homepageDesign,
+  homepageFaqHeading,
+  homepageOfferingEyebrows,
+  homepageQuestions,
+  homepageOfferings,
+  techTranslations,
+} from "@/lib/site/homepage-design"
 
 export default async function Home() {
-  const [home, resources, offerings, kit] = await Promise.all([
+  const [home, offerings] = await Promise.all([
     getGlobal("homepage"),
-    getDocuments("resources"),
     getDocuments("offerings"),
-    getGlobal("starterKit"),
   ])
   let hasPortrait = false
   try {
@@ -54,60 +44,36 @@ export default async function Home() {
   const audienceItems = contentItems(
     home,
     "audienceItems",
-    audience.map(([title, description]) => ({ title, description }))
+    homepageDesign.audienceItems
   )
-  const kitContents = contentItems(home, "kitContents", [
-    { label: "50 tested prompts from real building work" },
-    { label: "An idea scorecard to pick the one worth your 10 hours" },
-    { label: "A 10 minute walkthrough to put it all together" },
-  ])
+  const kitContents = contentItems(
+    home,
+    "kitContents",
+    homepageDesign.kitContents.map((label) => ({ label }))
+  )
   const industries = contentItems(
     home,
     "industries",
-    [
-      "Fintech",
-      "Real estate",
-      "AI and developer tools",
-      "Travel",
-      "Education",
-      "Automotive",
-      "Marketing",
-    ].map((label) => ({ label }))
+    homepageDesign.industries.map((label) => ({ label }))
   )
   const sectors = contentItems(
     home,
     "audiences",
-    [
-      "Fintech and tax",
-      "Real estate and investing",
-      "Travel and hospitality",
-      "Publishing",
-      "Small business",
-      "Marketing tech and AI tooling",
-    ].map((label) => ({ label }))
+    homepageDesign.audiences.map((label) => ({ label }))
   )
-  const ventures = contentItems(home, "ventures", [
-    {
-      title: "Rise & Shore",
-      role: "Travel and hospitality · Founder",
-      description:
-        "AI-powered search for beach vacation rentals, booked direct with local agencies.",
-    },
-    {
-      title: "TaxDedux",
-      role: "Fintech and tax · Technical co-founder",
-      description:
-        "AI tax planning and deduction discovery for freelancers, the self-employed, and CPA firms.",
-    },
-  ])
+  const ventures = contentItems(home, "ventures", homepageDesign.ventures)
   const copy = (key: string, draft: string, fallback = "") =>
     text(home[key], preview ? draft : fallback)
   const story = record(home.story)
-  const featuredResources = selectedDocuments(home.featuredResources, resources)
-  const featuredOfferings = selectedDocuments(home.offerings, offerings)
+  const featuredOfferings = selectedDocuments(
+    home.offerings,
+    offerings.length
+      ? offerings
+      : homepageOfferings.map((offer) => ({ ...offer, _status: "published" }))
+  )
   const consultingDescription = copy(
     "consultingDescription",
-    "AI strategy, development, architecture design and reviews, and engineering leadership for founders and teams bringing AI into real products."
+    homepageDesign.consultingDescription
   )
   if (!title)
     return (
@@ -128,14 +94,7 @@ export default async function Home() {
           <h1>{title}</h1>
           <p className="lead">{homeCopy(home, "description")}</p>
           <div className="hero-signup">
-            <p className="small muted">
-              {text(
-                kit.description,
-                preview
-                  ? "Starter Kit preview: 50 tested prompts, an idea scorecard, and a 10 minute video."
-                  : "Get the free Starter Kit."
-              )}
-            </p>
+            <p className="small muted">{homepageDesign.kitDescription}</p>
             <SignupForm source="home-hero" />
             <p className="handwriting">free, and no spam. promise.</p>
           </div>
@@ -167,26 +126,21 @@ export default async function Home() {
       </section>
       <div className="credibility-strip">
         <div className="container credibility">
-          {contentItems(home, "credibilityItems", [
-            { label: "25+ years building software" },
-            { label: "Taught AI at the University of Michigan" },
-            { label: "Built and advised startups across industries" },
-            { label: "Founded a Girls Who Code club" },
-          ]).map((item, index) => (
+          {contentItems(
+            home,
+            "credibilityItems",
+            homepageDesign.credibilityItems.map((label) => ({ label }))
+          ).map((item, index) => (
             <p key={index}>{text(item.label)}</p>
           ))}
         </div>
       </div>
       <section className="container section">
-        <p className="eyebrow">Is this you?</p>
+        <p className="eyebrow">Sound familiar?</p>
         <h2 className="section-title">
-          {copy(
-            "audienceHeading",
-            "You don't need to quit your job to start building.",
-            "Make room for your next idea."
-          )}
+          {copy("audienceHeading", homepageDesign.audienceHeading)}
         </h2>
-        <div className="grid three">
+        <div className="grid three audience-grid">
           {audienceItems.map((item, index) => (
             <article className="card" key={index}>
               <p className="eyebrow">{String(index + 1).padStart(2, "0")}</p>
@@ -196,22 +150,32 @@ export default async function Home() {
           ))}
         </div>
       </section>
+      <section className="container section translator">
+        <p className="eyebrow">The tech translator</p>
+        <h2 className="section-title">What they said, and what they meant.</h2>
+        <div className="grid four translator-grid">
+          {techTranslations.map((translation) => (
+            <article className="translator-card" key={translation.theySaid}>
+              <p className="eyebrow">They said</p>
+              <h3>{translation.theySaid}</h3>
+              <p className="eyebrow">They meant</p>
+              <p>{translation.theyMeant}</p>
+            </article>
+          ))}
+        </div>
+      </section>
       <section className="container section offerings">
         <div className="section-heading">
           <div>
-            <p className="eyebrow">Ways to work with me</p>
+            <p className="eyebrow">How it works</p>
             <h2 className="section-title">
-              {copy(
-                "offeringsHeading",
-                "Start free. Go as deep as you want.",
-                "Find your next step."
-              )}
+              {copy("offeringsHeading", homepageDesign.offeringsHeading)}
             </h2>
           </div>
-          <p className="handwriting">most people start with the kit</p>
+          <p className="handwriting">no question is too basic</p>
         </div>
         {featuredOfferings.length ? (
-          <div className="grid three">
+          <div className="grid four">
             {featuredOfferings.map((offer) => (
               <article
                 className={
@@ -219,7 +183,12 @@ export default async function Home() {
                 }
                 key={text(offer.slug)}
               >
-                <p className="eyebrow">{text(offer.availability, "Preview")}</p>
+                <p className="eyebrow">
+                  {text(
+                    homepageOfferingEyebrows[text(offer.slug)],
+                    text(offer.availability, "Preview")
+                  )}
+                </p>
                 <h3>{text(offer.title)}</h3>
                 <p>{text(offer.description)}</p>
                 <Link
@@ -234,59 +203,6 @@ export default async function Home() {
               </article>
             ))}
           </div>
-        ) : preview ? (
-          <>
-            <div className="grid three">
-              <article className="card featured">
-                <p className="eyebrow">Free · Starter Kit</p>
-                <h3>
-                  One small start. A real first win.
-                </h3>
-                <p>
-                  Prompts, an idea scorecard, and a short video to help you get
-                  started.
-                </p>
-                <Link className="button" href="/newsletter">
-                  Explore the kit
-                </Link>
-              </article>
-              <article className="card">
-                <p className="eyebrow">In development</p>
-                <h3>Toolkits</h3>
-                <p className="muted">
-                  Ready-made templates and AI assistants for the work that keeps
-                  coming back.
-                </p>
-                <Link className="text-link" href="/shop">
-                  Preview the shop <span aria-hidden="true">↗</span>
-                </Link>
-              </article>
-              <article className="card">
-                <p className="eyebrow">Course preview</p>
-                <h3>The 10 Hour Founder</h3>
-                <p className="muted">
-                  A practical path from idea to launch, designed to fit around
-                  the rest of your life.
-                </p>
-                <Link className="text-link" href="/course">
-                  See what’s coming <span aria-hidden="true">↗</span>
-                </Link>
-              </article>
-            </div>
-            <article className="card community-card">
-              <div>
-                <p className="eyebrow">Community preview</p>
-                <h3>Build alongside other builders.</h3>
-                <p className="muted">
-                  A space for steady progress, useful questions, and showing
-                  your work.
-                </p>
-              </div>
-              <Link className="text-link" href="/community">
-                Join the interest list <span aria-hidden="true">→</span>
-              </Link>
-            </article>
-          </>
         ) : (
           <div className="empty-state">
             Offering details are not published yet.{" "}
@@ -295,24 +211,18 @@ export default async function Home() {
         )}
         <div className="consulting-strip">
           <p>
-            Bringing AI into your business? Let’s find where it fits, and build
-            it together.
+            Need a second opinion on a tech decision? Get a clear, independent
+            review.
           </p>
           <Link className="text-link" href="/build-with-me">
-            Build With Me <span aria-hidden="true">→</span>
+            See review options <span aria-hidden="true">→</span>
           </Link>
         </div>
       </section>
       <section className="container section kit-section">
         <div>
-          <p className="eyebrow">Inside the free Starter Kit</p>
-          <h2>
-            {copy(
-              "kitHeading",
-              "Your first AI win, this week.",
-              "A practical place to start."
-            )}
-          </h2>
+          <p className="eyebrow">Inside the free CTO Starter Kit</p>
+          <h2>{copy("kitHeading", homepageDesign.kitHeading)}</h2>
           <ul className="check-list">
             {kitContents.map((item, index) => (
               <li key={index}>{text(item.label)}</li>
@@ -327,35 +237,26 @@ export default async function Home() {
           <SignupForm source="home-kit" />
         </div>
         <div className="worksheet">
-          <p className="eyebrow">Worksheet 01 · Idea scorecard</p>
-          <h3>Score your idea in 15 minutes.</h3>
+          <p className="eyebrow">Tech decisions · founder checklist</p>
+          <h3>Is this dev quote any good?</h3>
           {[
-            "Do people already pay for this?",
-            "Can AI do the heavy lifting?",
-            "Fits in 10 hours a week?",
+            "Is the scope written down?",
+            "Do you own the code?",
+            "Does “done” include testing?",
           ].map((question) => (
             <div className="worksheet-row" key={question}>
               <span>{question}</span>
               <span className="score">__ / 5</span>
             </div>
           ))}
-          <p className="handwriting">start with the one that bugs you most</p>
-          <span className="worksheet-foot">
-            THE 10 HOUR FOUNDER / A SMALL START
-          </span>
+          <p className="handwriting">ask these before you sign anything</p>
+          <span className="worksheet-foot">THE FREE CTO STARTER KIT</span>
         </div>
       </section>
       <section className="container section story-section">
         <div>
           <p className="eyebrow">Hi, I’m Sara</p>
-          <h2>
-            {text(
-              story.heading,
-              preview
-                ? "I build after hours, and I show you exactly how."
-                : "A builder, before anything else."
-            )}
-          </h2>
+          <h2>{text(story.heading, homepageDesign.storyHeading)}</h2>
           {story.body ? (
             <RichText value={story.body} />
           ) : (
@@ -377,7 +278,7 @@ export default async function Home() {
           </div>
           <article className="card consulting-card">
             <p className="eyebrow">Consulting</p>
-            <h3>Good ideas need thoughtful systems.</h3>
+            <h3>Good advice should be on your side.</h3>
             <p className="muted">{consultingDescription}</p>
             <Link className="text-link" href="/build-with-me">
               Work with me <span aria-hidden="true">→</span>
@@ -391,17 +292,10 @@ export default async function Home() {
       <section className="container section experience">
         <p className="eyebrow">Experience</p>
         <h2 className="section-title">
-          {copy(
-            "experienceHeading",
-            "25 years across startups and enterprise.",
-            "A career spent building."
-          )}
+          {copy("experienceHeading", homepageDesign.experienceHeading)}
         </h2>
         <p className="lead">
-          {copy(
-            "experienceDescription",
-            "From first commit to scale, as an engineer, engineering leader, consultant, and teacher."
-          )}
+          {copy("experienceDescription", homepageDesign.experienceDescription)}
         </p>
         <div className="grid two">
           <div>
@@ -433,60 +327,33 @@ export default async function Home() {
           </div>
         </div>
       </section>
-      <section className="container section">
+      <section className="container section faq-section">
         <div className="section-heading">
           <div>
-            <p className="eyebrow">Latest tutorials</p>
-            <h2>
-              Learn something useful in 15 minutes.
-            </h2>
+            <p className="eyebrow">From Ask Sara</p>
+            <h2>{homepageFaqHeading}</h2>
           </div>
-          <Link className="text-link" href="/resources">
-            All resources <span aria-hidden="true">→</span>
+          <Link className="text-link" href="/community">
+            See Ask Sara <span aria-hidden="true">→</span>
           </Link>
         </div>
-        {featuredResources.length ? (
-          <div className="grid three">
-            {featuredResources.slice(0, 3).map((resource) => (
-              <article className="card" key={text(resource.slug)}>
-                <ContentImage value={resource.cover} />
-                <p className="eyebrow">{resourceType(resource)}</p>
-                <h3>
-                  <Link href={`/resources/${text(resource.slug)}`}>
-                    {text(resource.title)}
-                  </Link>
-                </h3>
-                <p className="muted">{text(resource.excerpt)}</p>
-              </article>
-            ))}
-          </div>
-        ) : (
-          <div className="empty-state">
-            <span className="eyebrow">Good things take building</span>
-            <p>
-              No tutorials published yet. When they’re ready, you’ll find
-              practical walkthroughs here, not placeholder lessons.
-            </p>
-          </div>
-        )}
+        <div className="grid three">
+          {homepageQuestions.map((item) => (
+            <article className="card faq-card" key={item.question}>
+              <p className="eyebrow">Question</p>
+              <h3>{item.question}</h3>
+              <p className="muted">{item.answer}</p>
+            </article>
+          ))}
+        </div>
       </section>
       <section className="closing-band">
         <div className="container closing-inner">
           <div>
-            <p className="eyebrow">A small start, this week</p>
-            <h2>
-              {copy(
-                "closingHeading",
-                "Your 10 hours start here.",
-                "Start with something small."
-              )}
-            </h2>
+            <p className="eyebrow">Independent advice, no jargon</p>
+            <h2>{copy("closingHeading", homepageDesign.closingHeading)}</h2>
             <p>
-              {copy(
-                "closingDescription",
-                "Grab the free Starter Kit. Add the newsletter if you’d like one idea, one template, and one honest result in your inbox.",
-                "Request the Starter Kit and choose whether you’d like ongoing email."
-              )}
+              {copy("closingDescription", homepageDesign.closingDescription)}
             </p>
           </div>
           <SignupForm source="home-closing" />

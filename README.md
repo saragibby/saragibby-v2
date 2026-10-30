@@ -1,6 +1,6 @@
 # Sara Gibby · Night Signal
 
-The public site and owned content/subscriber platform for Sara Gibby and The 10 Hour Founder.
+The public site and owned content/subscriber platform for Sara Gibby: clear answers for your biggest tech decisions.
 
 ## Architecture
 
@@ -97,7 +97,23 @@ Use `/admin` for site settings, homepage sections, public pages, resources, offe
 - Keep necessary information in body text, not handwritten decoration.
 - Verify public pages after publishing; draft previews must not appear in public listings or sitemaps.
 
-The Night Signal system uses Manrope, Caveat, and IBM Plex Mono; Ink Black surfaces; Blue Spruce actions; and Desert Sand features. Rosewood is for handwriting, not error states or buttons. Graph paper is reserved for teaching materials.
+### Positioning and voice
+
+The promise is **clear answers for your biggest tech decisions**. Sara provides independent, honest CTO-level guidance to non-technical founders, small business owners, startup teams, and solo founders. Help readers decide, understand, or avoid a costly mistake. You do not need to be technical to make great tech decisions.
+
+Write like Sara is explaining something to a smart friend over coffee. Lead with the recommendation, then the reason. Use short sentences, second person, and plain words. Explain technical terms the first time they appear. Be confident, warm, and useful, never salesy or judgmental. Humor belongs in asides and examples, not in security, money, legal guidance, forms, or error messages. Avoid buzzwords, guarantees, em dashes as pauses, and employer or confidential details. Keep claims factual and never promise outcomes.
+
+### Visual system
+
+Use Manrope for headlines and body text, Caveat only for occasional handwritten notes, and IBM Plex Mono for uppercase eyebrows, tags, and numbers. Ink Black (`#0D1B2A`) is the page background; Blue Spruce (`#0E7C6B`) is for actions; Desert Sand (`#EDCBB1`) is for featured moments; Rosewood (`#B7245C`) is for handwriting on light surfaces. On dark surfaces use Spruce Light (`#5FBFAE`) for accents and Rosewood Light (`#D94C83`) for large handwritten notes. Bone (`#F5EFE9`) is the primary text color. Do not use Rosewood for buttons or errors. Reserve graph paper for worksheets and teaching materials, never page backgrounds or long text.
+
+Keep the layout calm and direct: a 1200px content width, 24px side gutters, generous section spacing, and flat cards. Use one featured Sand card per section at most. Keep one primary action per section. Handwritten notes are lowercase, at least 24px, under eight words, and never carry essential information. Use warm, natural owner photography; do not use generic stock imagery.
+
+### Homepage content
+
+The homepage leads with the tech-decision promise, then shows who needs a senior second opinion, translates common jargon, and offers four ways to get help: the free CTO Starter Kit, playbooks and a course, Ask Sara, and async reviews. The worksheet section uses the graph-paper treatment. Follow with Sara's experience and ventures, real questions with straight answers, and one clear next step. Keep planned materials labeled as planned until the owner approves the actual kit and delivery.
+
+The same copy and visual rules apply to Ask Sara, courses, playbooks, reviews, the Margin Notes newsletter, social posts, and video. A publishable piece should help someone make a tech decision, put the recommendation early, make sense to a non-technical founder, and offer one clear next step.
 
 The portrait in the initial design is cropped from the owner-supplied homepage PDF. Replace it with the original high-resolution image before launch if available.
 
@@ -130,6 +146,14 @@ The pending biography rewrite uses the shared copy in `src/lib/site/biography.ts
 When ready to publish, run `UPDATE_BIOGRAPHY=true npx tsx src/scripts/update-biography.ts`
 with the target configuration to update the homepage story and About page together.
 Review the current CMS copy first; this replaces those two bodies, not other fields.
+
+The pending brand and homepage rewrite uses `src/lib/site/homepage-design.ts`.
+When ready to publish, run
+`UPDATE_HOMEPAGE_DESIGN=true npx tsx src/scripts/update-homepage-design.ts`
+with the intended target configuration. It updates the site navigation, homepage
+copy, shared biography, and offering descriptions while preserving existing
+offering availability, legal approval, signup, and delivery settings. Review CMS
+content first; this is an explicit copy update and does not deploy code.
 
 Forms must persist submissions before acknowledging them and queue delivery durably. A successful form response is not proof of inbox delivery.
 

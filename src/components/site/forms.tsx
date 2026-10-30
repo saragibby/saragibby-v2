@@ -11,7 +11,11 @@ import Link from "next/link"
 
 type Interest = "kit" | "newsletter" | "course" | "community" | "shop"
 
-const FormPolicy = createContext({ enabled: false, kitReady: false, deliveryEnabled: true })
+const FormPolicy = createContext({
+  enabled: false,
+  kitReady: false,
+  deliveryEnabled: true,
+})
 
 export function FormPolicyProvider({
   enabled,
@@ -117,7 +121,8 @@ export function SignupForm({
   if (interest === "kit" && !kitReady)
     return (
       <p className="notice small">
-        The Starter Kit is not released yet. Please check back for availability.
+        The free CTO Starter Kit is not released yet. Please check back for
+        availability.
       </p>
     )
   return (

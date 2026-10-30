@@ -1,16 +1,34 @@
 import { expect, test } from "@playwright/test"
 import AxeBuilder from "@axe-core/playwright"
 
-test("homepage follows the mockup and fits the viewport", async ({ page }) => {
+test("homepage follows the tech-decision design and fits the viewport", async ({
+  page,
+}) => {
   await page.goto("/")
-  await expect(page.getByRole("heading", { level: 1 })).toContainText(
-    "Build an AI-powered"
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText(
+    "Clear answers for your biggest tech decisions."
   )
-  await expect(page.getByRole("heading", { name: /you don't need to quit/i })).toBeVisible()
-  await expect(page.getByRole("heading", { name: /your first AI win/i })).toBeVisible()
-  await expect(page.getByRole("heading", { name: /25 years across/i })).toBeVisible()
+  await expect(
+    page.getByRole("heading", {
+      name: /big tech decisions, and nobody senior to ask/i,
+    })
+  ).toBeVisible()
+  await expect(
+    page.getByRole("heading", { name: /what they said, and what they meant/i })
+  ).toBeVisible()
+  await expect(
+    page.getByRole("heading", {
+      name: /the 10 tech decisions every founder faces/i,
+    })
+  ).toBeVisible()
+  await expect(
+    page.getByRole("heading", { name: /real questions, straight answers/i })
+  ).toBeVisible()
+  await expect(
+    page.getByRole("heading", { name: /25 years across/i })
+  ).toBeVisible()
   await expect(page.locator(".story-section .tags")).toContainText(
-    "Marketing tech and AI tooling"
+    "Non-technical founders"
   )
   await expect(page.locator(".story-section")).toContainText(
     "built and led engineering and product teams"
@@ -30,7 +48,9 @@ test("homepage passes automated WCAG checks", async ({ page }) => {
   expect(results.violations).toEqual([])
 })
 
-test("venture cards display official logos without overflowing", async ({ page }) => {
+test("venture cards display official logos without overflowing", async ({
+  page,
+}) => {
   await page.goto("/")
   for (const name of ["Rise & Shore", "TaxDedux"]) {
     const card = page.locator("article").filter({
@@ -39,21 +59,31 @@ test("venture cards display official logos without overflowing", async ({ page }
     const logo = card.locator(".venture-logo img")
     await logo.scrollIntoViewIfNeeded()
     await logo.evaluate((image: HTMLImageElement) => image.decode())
-    expect(await logo.evaluate((image: HTMLImageElement) => image.naturalWidth)).toBeGreaterThan(0)
+    expect(
+      await logo.evaluate((image: HTMLImageElement) => image.naturalWidth)
+    ).toBeGreaterThan(0)
     await expect(logo).toHaveAttribute("alt", "")
-    await expect(card.locator(".venture-logo")).toHaveCSS("background-color", "rgb(245, 239, 233)")
+    await expect(card.locator(".venture-logo")).toHaveCSS(
+      "background-color",
+      "rgb(245, 239, 233)"
+    )
   }
-  expect(await page.evaluate(
-    () => document.documentElement.scrollWidth > window.innerWidth
-  )).toBe(false)
+  expect(
+    await page.evaluate(
+      () => document.documentElement.scrollWidth > window.innerWidth
+    )
+  ).toBe(false)
 })
 
-test("signup notices remain readable inside the sand closing band", async ({ page }) => {
+test("signup notices remain readable inside the sand closing band", async ({
+  page,
+}) => {
   await page.goto("/")
   await page.locator(".closing-band .signup-form").evaluate((form) => {
     const notice = document.createElement("p")
     notice.className = "notice small"
-    notice.textContent = "Signup is not open yet. Email delivery is being connected."
+    notice.textContent =
+      "Signup is not open yet. Email delivery is being connected."
     form.replaceWith(notice)
   })
   const notice = page.locator(".closing-band .notice")
@@ -66,28 +96,37 @@ test("signup notices remain readable inside the sand closing band", async ({ pag
   expect(results.violations).toEqual([])
 })
 
-test("headings use one line when they fit and wrap on small screens", async ({ page }) => {
+test("headings use one line when they fit and wrap on small screens", async ({
+  page,
+}) => {
   await page.setViewportSize({ width: 1440, height: 1000 })
   await page.goto("/")
   await page.evaluate(() => document.fonts.ready)
   await expect(page.locator("h1 br, h2 br, h3 br, h4 br")).toHaveCount(0)
   const heading = page.getByRole("heading", {
-    name: "Learn something useful in 15 minutes.",
+    name: "Real questions, straight answers.",
     exact: true,
   })
-  const lineCount = () => heading.evaluate((element) => {
-    const style = getComputedStyle(element)
-    return element.getBoundingClientRect().height / parseFloat(style.lineHeight)
-  })
+  const lineCount = () =>
+    heading.evaluate((element) => {
+      const style = getComputedStyle(element)
+      return (
+        element.getBoundingClientRect().height / parseFloat(style.lineHeight)
+      )
+    })
   expect(await lineCount()).toBeCloseTo(1, 1)
   await page.setViewportSize({ width: 390, height: 844 })
   expect(await lineCount()).toBeGreaterThan(1.5)
-  expect(await page.evaluate(
-    () => document.documentElement.scrollWidth > window.innerWidth
-  )).toBe(false)
+  expect(
+    await page.evaluate(
+      () => document.documentElement.scrollWidth > window.innerWidth
+    )
+  ).toBe(false)
 })
 
-test("public routes, retirement responses, and unknown routes work", async ({ page }) => {
+test("public routes, retirement responses, and unknown routes work", async ({
+  page,
+}) => {
   for (const route of [
     "/start-here",
     "/about",
@@ -109,7 +148,9 @@ test("public routes, retirement responses, and unknown routes work", async ({ pa
   for (const route of ["/blog", "/eats", "/recaps/7-03-20/"]) {
     const response = await page.goto(route)
     expect(response?.status()).toBe(410)
-    await expect(page.getByRole("heading", { name: "This page has been retired." })).toBeVisible()
+    await expect(
+      page.getByRole("heading", { name: "This page has been retired." })
+    ).toBeVisible()
   }
   const response = await page.goto("/a-page-that-does-not-exist")
   expect(response?.status()).toBe(404)
@@ -141,7 +182,9 @@ test("draft previews cannot be indexed", async ({ request }) => {
   expect(await sitemap.text()).not.toContain("<loc>")
 })
 
-test("the public bundle excludes legacy assets and cannot expose subscriber records", async ({ request }) => {
+test("the public bundle excludes legacy assets and cannot expose subscriber records", async ({
+  request,
+}) => {
   for (const route of [
     "/legacy/content/blog/recaps/7-03-20/index.md",
     "/sara.JPG",
@@ -162,7 +205,10 @@ test("signup surfaces server errors and permits a retry", async ({ page }) => {
       contentType: "application/json",
       body: JSON.stringify(
         attempts === 1
-          ? { error: "Email service is temporarily unavailable. Please try again." }
+          ? {
+              error:
+                "Email service is temporarily unavailable. Please try again.",
+            }
           : { message: "Check your inbox to confirm your request." }
       ),
     })
@@ -174,8 +220,14 @@ test("signup surfaces server errors and permits a retry", async ({ page }) => {
     await checkbox.check()
   }
   await form.getByRole("button", { name: /send me the kit/i }).click()
-  await expect(page.getByText("Email service is temporarily unavailable. Please try again.")).toBeVisible()
+  await expect(
+    page.getByText(
+      "Email service is temporarily unavailable. Please try again."
+    )
+  ).toBeVisible()
   await form.getByRole("button", { name: /send me the kit/i }).click()
-  await expect(page.getByText("Check your inbox to confirm your request.")).toBeVisible()
+  await expect(
+    page.getByText("Check your inbox to confirm your request.")
+  ).toBeVisible()
   expect(attempts).toBe(2)
 })

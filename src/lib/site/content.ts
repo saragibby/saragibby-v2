@@ -1,6 +1,7 @@
 import "server-only"
 import { cache } from "react"
 import { biography } from "./biography"
+import { homepageDesign } from "./homepage-design"
 
 export type RecordValue = Record<string, unknown>
 export function record(value: unknown): RecordValue {
@@ -104,12 +105,10 @@ export async function getSitemapDocuments(collection: "resources" | "pages") {
 }
 
 export const homeDraft = {
-  eyebrow: "the 10 hour founder",
-  title: "Build an AI-powered side business in 10 hours a week.",
-  description:
-    "Practical systems, templates, and lessons from a builder and consultant with 25+ years shipping software for startups and enterprises. No hype, honest results, and a few surprises along the way.",
-  alwaysBuilding:
-    "AI products for fintech, real estate, and travel, and consulting for founders bringing AI into their business.",
+  eyebrow: homepageDesign.hero.eyebrow,
+  title: homepageDesign.hero.heading,
+  description: homepageDesign.hero.description,
+  alwaysBuilding: homepageDesign.alwaysBuilding,
   story: biography[0],
   teaching: biography[1],
 }
