@@ -3,7 +3,6 @@ import Image from "next/image"
 import { access } from "node:fs/promises"
 import path from "node:path"
 import { SignupForm } from "@/components/site/forms"
-import { VentureLogo } from "@/components/site/venture-logo"
 import { RichText } from "@/components/site/rich-text"
 import {
   contentItems,
@@ -18,6 +17,7 @@ import {
 } from "@/lib/site/content"
 import {
   homepageDesign,
+  homepageAudienceFocuses,
   homepageFaqHeading,
   homepageOfferingEyebrows,
   homepageQuestions,
@@ -131,7 +131,19 @@ export default async function Home() {
             "credibilityItems",
             homepageDesign.credibilityItems.map((label) => ({ label }))
           ).map((item, index) => (
-            <p key={index}>{text(item.label)}</p>
+            <p key={index}>
+              {text(item.label)
+                .split(
+                  /(25\+? years|Multi-startup|AI strategy|University of Michigan)/
+                )
+                .map((part, partIndex) =>
+                  partIndex % 2 === 1 ? (
+                    <strong key={partIndex}>{part}</strong>
+                  ) : (
+                    part
+                  )
+                )}
+            </p>
           ))}
         </div>
       </div>
@@ -140,12 +152,28 @@ export default async function Home() {
         <h2 className="section-title">
           {copy("audienceHeading", homepageDesign.audienceHeading)}
         </h2>
+        <p className="handwriting">you’re in good company</p>
         <div className="grid three audience-grid">
           {audienceItems.map((item, index) => (
             <article className="card" key={index}>
-              <p className="eyebrow">{String(index + 1).padStart(2, "0")}</p>
-              <h3>{text(item.title)}</h3>
-              <p className="muted">{text(item.description)}</p>
+              <div>
+                <p className="eyebrow">
+                  {homepageAudienceFocuses[index] || text(item.title)}
+                </p>
+                <h3>{text(item.title)}</h3>
+                <p className="muted">{text(item.description)}</p>
+              </div>
+              {index === audienceItems.length - 1 && (
+                <div className="audience-next-step">
+                  <p className="eyebrow">Build on what works</p>
+                  <p className="muted">
+                    You do not have to start over. Get a clear view of what to
+                    keep, where reliability or security needs attention, and
+                    which parts need experienced hands. Make your next hire or
+                    handoff with a practical plan, not a bigger pile of tools.
+                  </p>
+                </div>
+              )}
             </article>
           ))}
         </div>
@@ -153,6 +181,7 @@ export default async function Home() {
       <section className="container section translator">
         <p className="eyebrow">The tech translator</p>
         <h2 className="section-title">What they said, and what they meant.</h2>
+        <p className="handwriting">bookmark this for your next dev meeting</p>
         <div className="grid four translator-grid">
           {techTranslations.map((translation) => (
             <article className="translator-card" key={translation.theySaid}>
@@ -211,46 +240,58 @@ export default async function Home() {
         )}
         <div className="consulting-strip">
           <p>
-            Need a second opinion on a tech decision? Get a clear, independent
-            review.
+            <strong>Independent, on purpose.</strong> I don’t run a dev shop or
+            take referral fees, so the only thing I’m selling you is good
+            advice.
           </p>
-          <Link className="text-link" href="/build-with-me">
-            See review options <span aria-hidden="true">→</span>
-          </Link>
+          <p className="handwriting">no upsell. pinky promise.</p>
         </div>
       </section>
-      <section className="container section kit-section">
-        <div>
-          <p className="eyebrow">Inside the free CTO Starter Kit</p>
-          <h2>{copy("kitHeading", homepageDesign.kitHeading)}</h2>
-          <ul className="check-list">
-            {kitContents.map((item, index) => (
-              <li key={index}>{text(item.label)}</li>
+      <section className="kit-band">
+        <div className="container section kit-section">
+          <div>
+            <p className="eyebrow">Inside the free CTO Starter Kit</p>
+            <h2>{copy("kitHeading", homepageDesign.kitHeading)}</h2>
+            <ul className="check-list">
+              {kitContents.map((item, index) => (
+                <li key={index}>
+                  {text(item.label)
+                    .split(
+                      /(A decision guide|A tech stack checklist|A 10-minute video)/
+                    )
+                    .map((part, partIndex) =>
+                      partIndex % 2 === 1 ? (
+                        <strong key={partIndex}>{part}</strong>
+                      ) : (
+                        part
+                      )
+                    )}
+                </li>
+              ))}
+            </ul>
+            {preview && (
+              <p className="small muted">
+                Planned contents. Final assets and delivery require owner
+                approval.
+              </p>
+            )}
+            <SignupForm source="home-kit" />
+          </div>
+          <div className="worksheet">
+            <p className="eyebrow">Checklist 03 · Before you sign</p>
+            <h3>Is this dev quote any good?</h3>
+            {[
+              "Is the scope written down?",
+              "Do you own the code?",
+              "Does “done” include testing?",
+            ].map((question) => (
+              <div className="worksheet-row" key={question}>
+                <span>{question}</span>
+                <span className="score">Y / N</span>
+              </div>
             ))}
-          </ul>
-          {preview && (
-            <p className="small muted">
-              Planned contents. Final assets and delivery require owner
-              approval.
-            </p>
-          )}
-          <SignupForm source="home-kit" />
-        </div>
-        <div className="worksheet">
-          <p className="eyebrow">Tech decisions · founder checklist</p>
-          <h3>Is this dev quote any good?</h3>
-          {[
-            "Is the scope written down?",
-            "Do you own the code?",
-            "Does “done” include testing?",
-          ].map((question) => (
-            <div className="worksheet-row" key={question}>
-              <span>{question}</span>
-              <span className="score">__ / 5</span>
-            </div>
-          ))}
-          <p className="handwriting">ask these before you sign anything</p>
-          <span className="worksheet-foot">THE FREE CTO STARTER KIT</span>
+            <p className="handwriting">ask these before you sign anything</p>
+          </div>
         </div>
       </section>
       <section className="container section story-section">
@@ -305,14 +346,16 @@ export default async function Home() {
                 <span key={index}>{text(item.label)}</span>
               ))}
             </div>
-            <p className="muted">{consultingDescription}</p>
+            <p className="expertise-list">
+              AI strategy · Development · Architecture design and reviews ·
+              Engineering leadership · Teaching
+            </p>
           </div>
           <div>
             <h3>Startups I’m building</h3>
             <div className="grid two">
               {ventures.map((venture, index) => (
                 <article className="card" key={index}>
-                  <VentureLogo name={text(venture.title)} />
                   <h4>{text(venture.title)}</h4>
                   <p className="eyebrow">{text(venture.role)}</p>
                   <p className="muted">{text(venture.description)}</p>
@@ -321,7 +364,7 @@ export default async function Home() {
             </div>
             {ventures.length > 0 && (
               <p className="handwriting">
-                every one taught me something I now teach
+                I make the same calls I help you make
               </p>
             )}
           </div>
@@ -347,8 +390,8 @@ export default async function Home() {
           ))}
         </div>
       </section>
-      <section className="closing-band">
-        <div className="container closing-inner">
+      <section className="container closing-band">
+        <div className="closing-inner">
           <div>
             <p className="eyebrow">Independent advice, no jargon</p>
             <h2>{copy("closingHeading", homepageDesign.closingHeading)}</h2>

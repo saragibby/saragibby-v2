@@ -1,6 +1,13 @@
 export const siteDescription =
   "Clear answers for your biggest tech decisions. Independent guidance for founders and small businesses on tech, AI, hiring, and vendors."
 
+export const homepageAudienceFocuses = [
+  "Non-technical founders",
+  "Small businesses",
+  "Startup teams",
+  "Solo founders",
+]
+
 export const homepageDesign = {
   hero: {
     eyebrow: "I speak fluent tech.",
@@ -9,7 +16,7 @@ export const homepageDesign = {
       "Independent, honest guidance on tech, AI, hiring, and vendors. I have spent 25 years building software and leading engineering teams. Now I help founders and small businesses decide what to build, buy, and who to trust. No hype, no jargon, and no question too basic.",
   },
   alwaysBuilding:
-    "Building AI tools for travel and tax, and reviewing tech decisions for people who would rather ask than guess.",
+    "Building practical AI tools and helping people across industries make confident tech decisions. No jargon, no guesswork.",
   credibilityItems: [
     "25 years building software",
     "Multi-startup tech founder",
