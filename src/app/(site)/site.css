@@ -470,8 +470,8 @@ img {
   color: var(--ink);
   background-color: #fffdfa;
   background-image:
-    linear-gradient(#edcbb180 1px, transparent 1px),
-    linear-gradient(90deg, #edcbb180 1px, transparent 1px);
+    linear-gradient(#edcbb133 1px, transparent 1px),
+    linear-gradient(90deg, #edcbb133 1px, transparent 1px);
   background-size: 25px 25px;
 }
 .kit-band .eyebrow,
@@ -525,12 +525,15 @@ img {
 }
 .worksheet {
   color-scheme: light;
-  background-color: #fff;
-  border: 1px solid #edcbb180;
-  border-radius: 20px;
+  background-color: #fff2a8;
+  background-image: linear-gradient(#e4cf7233 40px, transparent 40px);
+  border: 0;
+  border-radius: 2px 2px 12px 2px;
   color: var(--ink);
-  padding: 32px;
-  box-shadow: 0 16px 40px #0d1b2a1a;
+  padding: 48px 32px 32px;
+  box-shadow:
+    2px 8px 12px #0d1b2a26,
+    0 2px 3px #0d1b2a0d;
   transform: rotate(-1.5deg);
 }
 .worksheet .eyebrow {
@@ -1158,7 +1161,7 @@ textarea::placeholder {
     padding: 24px;
   }
   .worksheet {
-    padding: 24px;
+    padding: 48px 24px 24px;
   }
   .worksheet h3 {
     font-size: 1.45rem;

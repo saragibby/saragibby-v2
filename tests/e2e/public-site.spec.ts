@@ -72,7 +72,7 @@ test("homepage follows the tech-decision design and fits the viewport", async ({
   expect(overflow).toBe(false)
 })
 
-test("starter kit uses graph paper and a readable checklist", async ({
+test("starter kit uses faint graph paper and a readable post-it checklist", async ({
   page,
 }) => {
   await page.goto("/")
@@ -81,9 +81,22 @@ test("starter kit uses graph paper and a readable checklist", async ({
     "25px 25px, 25px 25px"
   )
   await expect(page.locator(".kit-band")).toHaveCSS("color", "rgb(13, 27, 42)")
+  await expect(page.locator(".kit-band")).toHaveCSS(
+    "background-image",
+    "linear-gradient(rgba(237, 203, 177, 0.2) 1px, rgba(0, 0, 0, 0) 1px), linear-gradient(90deg, rgba(237, 203, 177, 0.2) 1px, rgba(0, 0, 0, 0) 1px)"
+  )
   await expect(page.locator(".worksheet")).toHaveCSS(
     "background-color",
-    "rgb(255, 255, 255)"
+    "rgb(255, 242, 168)"
+  )
+  await expect(page.locator(".worksheet")).toHaveCSS("border-top-width", "0px")
+  await expect(page.locator(".worksheet")).toHaveCSS(
+    "border-radius",
+    "2px 2px 12px"
+  )
+  await expect(page.locator(".worksheet")).toHaveCSS(
+    "background-image",
+    "linear-gradient(rgba(228, 207, 114, 0.2) 40px, rgba(0, 0, 0, 0) 40px)"
   )
   await expect(page.locator(".worksheet .eyebrow")).toHaveText(
     "Checklist 03 · Before you sign"
