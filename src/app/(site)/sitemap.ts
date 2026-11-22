@@ -5,10 +5,6 @@ import { getSitemapDocuments, preview, text } from "@/lib/site/content"
 export const dynamic = "force-dynamic"
 
 const pageRoutes = new Set([
-  "start-here",
-  "about",
-  "now",
-  "build-with-me",
   "privacy",
   "terms",
   "disclaimer",
@@ -20,6 +16,10 @@ const fixedRoutes = [
   "/community",
   "/shop",
   "/newsletter",
+  "/start-here",
+  "/about",
+  "/now",
+  "/build-with-me",
 ]
 
 function modified(value: unknown): Date | undefined {

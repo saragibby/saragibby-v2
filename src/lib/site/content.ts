@@ -1,7 +1,5 @@
 import "server-only"
 import { cache } from "react"
-import { biography } from "./biography"
-import { homepageDesign } from "./homepage-design"
 
 export type RecordValue = Record<string, unknown>
 export function record(value: unknown): RecordValue {
@@ -34,7 +32,7 @@ async function cms() {
   return getPayload({ config })
 }
 
-export async function getGlobal(slug: "site" | "homepage" | "starterKit") {
+export async function getGlobal(slug: "starterKit") {
   if (preview) return {}
   const payload = await cms()
   return record(
@@ -104,26 +102,6 @@ export async function getSitemapDocuments(collection: "resources" | "pages") {
   return documents
 }
 
-export const homeDraft = {
-  eyebrow: homepageDesign.hero.eyebrow,
-  title: homepageDesign.hero.heading,
-  description: homepageDesign.hero.description,
-  alwaysBuilding: homepageDesign.alwaysBuilding,
-  story: biography[0],
-  teaching: biography[1],
-}
-
-export function homeCopy(home: RecordValue, key: keyof typeof homeDraft) {
-  const hero = record(home.hero)
-  const field =
-    key === "title"
-      ? hero.heading
-      : key === "eyebrow" || key === "description"
-        ? hero[key]
-        : home[key]
-  return text(field, preview ? homeDraft[key] : "")
-}
-
 export function safeHref(value: unknown): string | undefined {
   const url = text(value)
   return /^(https?:\/\/|mailto:|\/(?!\/)|#)/i.test(url) ? url : undefined
@@ -131,29 +109,4 @@ export function safeHref(value: unknown): string | undefined {
 
 export function resourceType(resource: RecordValue) {
   return text(resource.resourceType, "Resource")
-}
-
-export function selectedDocuments(value: unknown, fallback: RecordValue[]) {
-  if (!Array.isArray(value) || !value.length) return fallback
-  return value.flatMap((entry) => {
-    const populated = record(entry)
-    if (populated._status === "published") return [populated]
-    const id =
-      typeof entry === "string" || typeof entry === "number"
-        ? entry
-        : populated.id
-    const found = fallback.find(
-      (document) => String(document.id) === String(id)
-    )
-    return found ? [found] : []
-  })
-}
-
-export function contentItems(
-  home: RecordValue,
-  key: string,
-  draft: RecordValue[]
-): RecordValue[] {
-  const published = items(home[key])
-  return published.length ? published : preview ? draft : []
 }

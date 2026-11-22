@@ -5,10 +5,10 @@ import { InquiryForm, SignupForm } from "@/components/site/forms"
 import { PageIntro } from "@/components/site/shell"
 import { RichText } from "@/components/site/rich-text"
 import { VentureLogo } from "@/components/site/venture-logo"
+import { biography } from "@/lib/site/biography"
 import {
   getDocument,
   getPage,
-  homeDraft,
   preview,
   text,
 } from "@/lib/site/content"
@@ -103,11 +103,11 @@ export default async function PublicPage({ params }: Props) {
   const { slug } = await params
   const route = routes[slug]
   if (!route || slug === "resources") notFound()
+  const legal = ["privacy", "terms", "disclaimer"].includes(slug)
   const [page, offering] = await Promise.all([
-    getPage(slug),
+    legal ? getPage(slug) : Promise.resolve(undefined),
     getDocument("offerings", slug),
   ])
-  const legal = ["privacy", "terms", "disclaimer"].includes(slug)
   const bodyApproved = Boolean(page && (!legal || page.ownerApproved === true))
   const interest = ["course", "community", "shop"].includes(slug)
     ? (slug as "course" | "community" | "shop")
@@ -134,10 +134,6 @@ export default async function PublicPage({ params }: Props) {
             notice, not legal policy. Public launch and collection of personal
             information require the approved policy.
           </p>
-        </div>
-      ) : !preview ? (
-        <div className="empty-state">
-          <p>Full page content has not been published yet.</p>
         </div>
       ) : (
         <DraftContent slug={slug} />
@@ -177,8 +173,8 @@ function DraftContent({ slug }: { slug: string }) {
     return (
       <div className="prose">
         <h2>I build after hours, and I show you exactly how.</h2>
-        <p>{homeDraft.story}</p>
-        <p>{homeDraft.teaching}</p>
+        <p>{biography[0]}</p>
+        <p>{biography[1]}</p>
         <Link className="text-link" href="/now">
           See what I’m building now →
         </Link>

@@ -5,3 +5,5 @@ export const siteNavigation = [
   { label: "Reviews", href: "/build-with-me" },
   { label: "About", href: "/about" },
 ]
+
+export const siteSocialLinks: { label: string; url: string }[] = []
