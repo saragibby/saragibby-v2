@@ -16,8 +16,6 @@ import { StarterKitAssets } from './collections/StarterKitAssets'
 import { Subscribers } from './collections/Subscribers'
 import { Suppressions } from './collections/Suppressions'
 import { Users } from './collections/Users'
-import { Homepage } from './globals/Homepage'
-import { SiteSettings } from './globals/SiteSettings'
 import { StarterKit } from './globals/StarterKit'
 import { getPayloadConfigEnvironment } from './lib/server/env'
 import { assertBackendAvailable } from './lib/server/preview'
@@ -114,7 +112,7 @@ export default buildConfig({
     NewsletterCampaigns,
     NewsletterDeliveries,
   ],
-  globals: [SiteSettings, Homepage, StarterKit],
+  globals: [StarterKit],
   email: createPayloadEmailAdapter(preview ? { NODE_ENV: process.env.NODE_ENV } : process.env),
   editor: lexicalEditor(),
   db: database,

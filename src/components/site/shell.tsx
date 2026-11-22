@@ -1,12 +1,6 @@
 import Link from "next/link"
-import {
-  preview,
-  configured,
-  items,
-  safeHref,
-  text,
-  type RecordValue,
-} from "@/lib/site/content"
+import { configured, preview, safeHref } from "@/lib/site/content"
+import { siteSocialLinks } from "@/lib/site/site-navigation"
 
 export function StatusBanner() {
   if (preview)
@@ -25,7 +19,7 @@ export function StatusBanner() {
   return null
 }
 
-export function Footer({ site = {} }: { site?: RecordValue }) {
+export function Footer() {
   const groups = [
     {
       title: "Learn",
@@ -56,20 +50,18 @@ export function Footer({ site = {} }: { site?: RecordValue }) {
   return (
     <footer className="site-footer container">
       <div>
-        <Link className="wordmark" href="/">
-          {text(site.siteName, "Sara Gibby")}
-        </Link>
+        <Link className="wordmark" href="/">Sara Gibby</Link>
         <p className="muted small">
           Clear answers for your biggest tech decisions.
         </p>
         <p className="handwriting">no jargon. no judgment. just answers.</p>
-        {items(site.socialLinks).map((social, index) => {
-          const href = safeHref(social.url)
+        {siteSocialLinks.flatMap(({ label, url }) => {
+          const href = safeHref(url)
           return href ? (
-            <a className="footer-social" key={index} href={href}>
-              {text(social.label)}
+            <a className="footer-social" key={url} href={href}>
+              {label}
             </a>
-          ) : null
+          ) : []
         })}
       </div>
       {groups.map((group) => (

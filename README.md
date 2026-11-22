@@ -6,7 +6,7 @@ The public site and owned content/subscriber platform for Sara Gibby: clear answ
 
 - **Next.js + TypeScript** serve the site and API on Vercel.
 - **Payload** runs the private editor at `/admin` in the same application. Content is not managed in an external CMS.
-- **Supabase Postgres** stores content, admin users, consent, subscribers, inquiries, and durable email work.
+- **Supabase Postgres** stores legal policies, articles/resources, offerings, Starter Kit settings, admin users, consent, subscribers, inquiries, and durable email work. The homepage, navigation, and ordinary informational copy live in the application.
 - **Supabase Storage** supplies S3-compatible persistent media storage.
 - A **Heroku worker** processes email outside Vercel request lifetimes. SMTP supplies delivery only, not audience management.
 - Legacy Gatsby sources, blog posts, recipe schemas, and media are preserved in [legacy](./legacy), excluded from the new application and deployment uploads.
@@ -105,9 +105,21 @@ pool has been exhausted, not that homepage content needs republishing.
    Runtime Logs. Rollback does not restore database content or undo migrations.
 
 CMS edits are separate from code releases: Preview content is not copied into
-Production by a merge or promotion. Use Production `/admin` for approved copy
-changes, or explicitly run the relevant content updater against Production.
-Do not rerun an entire content updater for an unrelated layout release.
+Production by a merge or promotion. Use Production `/admin` for resources,
+offerings, legal policies, Starter Kit settings, and newsletter operations.
+Homepage and ordinary informational-page copy changes are code releases.
+
+The homepage, navigation, footer, and ordinary informational pages are
+maintained in the application source, not `/admin`. Update them in
+`src/lib/site/homepage-design.ts`, `src/lib/site/biography.ts`,
+`src/lib/site/site-navigation.ts`, and
+`src/app/(site)/[slug]/page.tsx`, then deploy. Before applying the migration
+that removes the old `site` and `homepage` globals, back up the database and
+compare their current values with those source files. Copy any CMS-only edits
+into the source first, including any footer social links; the migration drops
+those globals and their stored values. Older nonlegal `pages` records remain in
+the database but are not rendered; review and remove them manually after
+preserving any copy you want to keep. Legal policy records remain CMS-managed.
 
 For Supabase, set `DATABASE_CA_CERT` to the complete PEM CA certificate downloaded from Database Settings, on both Vercel and the worker. Multiline environment values are supported. The adapter verifies the certificate and hostname; connection-string SSL parameters cannot override that policy. Only exact loopback hosts disable TLS for local development.
 
@@ -117,7 +129,7 @@ The public media collection is explicitly public: an image uploaded there remain
 
 ## Editing and publishing
 
-Use `/admin` for site settings, homepage sections, public pages, resources, offerings, media, and subscriber operations. Keep unfinished material in draft.
+Use `/admin` for legal policies, resources, offerings, Starter Kit settings, media, newsletter campaigns, and subscriber operations. Homepage, navigation, and ordinary informational pages are maintained in code. Keep unfinished CMS material in draft.
 
 - Provide meaningful alt text on images.
 - Use stable resource slugs; changing an already published URL needs an explicit redirect.
@@ -162,29 +174,16 @@ After configuring and testing delivery and approving privacy information, set th
 to `true`, redeploy, and start the worker. Never enable sends merely to complete a build.
 
 On a newly migrated database, `PUBLISH_LAUNCH_CONTENT=true npm run publish:launch-content`
-publishes the initial homepage and informational pages from the supplied mockup.
-It refuses to overwrite an existing homepage, preserves existing page/offer slugs,
-does not invent tutorials or legal policies, and leaves products marked as previews.
-Review subsequent changes in the owned admin.
+publishes the initial offering records from the supplied mockup. It preserves
+existing offering slugs and leaves offerings marked as previews. Informational
+pages are part of the application; create legal policies in `/admin` only after
+they have been reviewed.
 
-The pending audience addition can be applied to an existing homepage with
-`UPDATE_HOMEPAGE_AUDIENCES=true npx tsx src/scripts/add-marketing-audience.ts`
-using the target environment configuration. This preserves existing audience tags
-and does nothing if the new tag already exists. Run only when ready to publish;
-deploying code alone does not update existing CMS content.
-
-The pending biography rewrite uses the shared copy in `src/lib/site/biography.ts`.
-When ready to publish, run `UPDATE_BIOGRAPHY=true npx tsx src/scripts/update-biography.ts`
-with the target configuration to update the homepage story and About page together.
-Review the current CMS copy first; this replaces those two bodies, not other fields.
-
-The pending brand and homepage rewrite uses `src/lib/site/homepage-design.ts`.
-When ready to publish, run
-`UPDATE_HOMEPAGE_DESIGN=true npx tsx src/scripts/update-homepage-design.ts`
-with the intended target configuration. It updates the site navigation, homepage
-copy, shared biography, and offering descriptions while preserving existing
-offering availability, legal approval, signup, and delivery settings. Review CMS
-content first; this is an explicit copy update and does not deploy code.
+Offering copy is managed in the CMS. To apply the current defaults from
+`src/lib/site/homepage-design.ts`, run
+`UPDATE_OFFERINGS=true npx tsx src/scripts/update-offerings.ts` with the target
+configuration. It preserves availability settings. Review existing offering
+copy first; this explicit update does not deploy code.
 
 Forms must persist submissions before acknowledging them and queue delivery durably. A successful form response is not proof of inbox delivery.
 

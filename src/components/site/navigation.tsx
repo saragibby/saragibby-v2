@@ -6,13 +6,7 @@ import { siteNavigation } from "@/lib/site/site-navigation"
 
 const defaultLinks = siteNavigation.map(({ label, href }) => [label, href])
 
-export function Navigation({
-  links = defaultLinks,
-  name = "Sara Gibby",
-}: {
-  links?: string[][]
-  name?: string
-}) {
+export function Navigation() {
   const [open, setOpen] = useState(false)
   const toggle = useRef<HTMLButtonElement>(null)
   return (
@@ -26,8 +20,8 @@ export function Navigation({
       }}
     >
       <div className="container header-inner">
-        <Link className="wordmark" href="/" aria-label={`${name} home`}>
-          {name}
+        <Link className="wordmark" href="/" aria-label="Sara Gibby home">
+          Sara Gibby
         </Link>
         <button
           ref={toggle}
@@ -43,7 +37,7 @@ export function Navigation({
           className={open ? "navigation is-open" : "navigation"}
           aria-label="Main navigation"
         >
-          {links.map(([label, href]) => (
+          {defaultLinks.map(([label, href]) => (
             <Link key={href} href={href} onClick={() => setOpen(false)}>
               {label}
             </Link>

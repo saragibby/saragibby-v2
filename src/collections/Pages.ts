@@ -6,6 +6,7 @@ export const Pages: CollectionConfig = {
   admin: {
     useAsTitle: 'title',
     defaultColumns: ['title', 'slug', '_status', 'updatedAt'],
+    description: 'Use this collection for legal policies and owner approval. Ordinary site copy is maintained in the application; older page records are not rendered.',
     preview: (doc) => {
       const base = process.env.SITE_URL ?? 'http://localhost:3000'
       return `${base}/${String(doc.slug ?? '')}?preview=true`

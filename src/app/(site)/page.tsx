@@ -3,16 +3,11 @@ import Image from "next/image"
 import { access } from "node:fs/promises"
 import path from "node:path"
 import { SignupForm } from "@/components/site/forms"
-import { RichText } from "@/components/site/rich-text"
+import { biography } from "@/lib/site/biography"
 import {
-  contentItems,
   getDocuments,
-  getGlobal,
-  homeCopy,
   preview,
-  record,
   safeHref,
-  selectedDocuments,
   text,
 } from "@/lib/site/content"
 import {
@@ -26,10 +21,7 @@ import {
 } from "@/lib/site/homepage-design"
 
 export default async function Home() {
-  const [home, offerings] = await Promise.all([
-    getGlobal("homepage"),
-    getDocuments("offerings"),
-  ])
+  const offerings = await getDocuments("offerings")
   let hasPortrait = false
   try {
     await access(path.join(process.cwd(), "public/images/sara-portrait.jpg"))
@@ -37,62 +29,30 @@ export default async function Home() {
   } catch {
     /* Missing owner asset is shown explicitly. */
   }
-  const title = homeCopy(home, "title")
-  const hero = record(home.hero)
-  const portrait = record(hero.portrait)
-  const portraitURL = safeHref(portrait.url)
-  const audienceItems = contentItems(
-    home,
-    "audienceItems",
-    homepageDesign.audienceItems
-  )
-  const kitContents = contentItems(
-    home,
-    "kitContents",
-    homepageDesign.kitContents.map((label) => ({ label }))
-  )
-  const industries = contentItems(
-    home,
-    "industries",
-    homepageDesign.industries.map((label) => ({ label }))
-  )
-  const sectors = contentItems(
-    home,
-    "audiences",
-    homepageDesign.audiences.map((label) => ({ label }))
-  )
-  const ventures = contentItems(home, "ventures", homepageDesign.ventures)
-  const copy = (key: string, draft: string, fallback = "") =>
-    text(home[key], preview ? draft : fallback)
-  const story = record(home.story)
-  const featuredOfferings = selectedDocuments(
-    home.offerings,
-    offerings.length
-      ? offerings
-      : homepageOfferings.map((offer) => ({ ...offer, _status: "published" }))
-  )
-  const consultingDescription = copy(
-    "consultingDescription",
-    homepageDesign.consultingDescription
-  )
-  if (!title)
-    return (
-      <section className="container section holding">
-        <p className="eyebrow">Sara Gibby</p>
-        <h1>Something thoughtful is in the works.</h1>
-        <p className="lead">
-          The new site is being prepared. Please check back for published
-          resources and availability.
-        </p>
-      </section>
+  const title = homepageDesign.hero.heading
+  const audienceItems = homepageDesign.audienceItems
+  const kitContents = homepageDesign.kitContents.map((label) => ({ label }))
+  const industries = homepageDesign.industries.map((label) => ({ label }))
+  const sectors = homepageDesign.audiences.map((label) => ({ label }))
+  const ventures = homepageDesign.ventures
+  const featuredOfferings = homepageOfferings.flatMap((defaultOffer) => {
+    const published = offerings.find(
+      (offer) => text(offer.slug) === defaultOffer.slug
     )
+    if (published) return [published]
+    return preview
+      ? [{ ...defaultOffer, availability: "Preview" }]
+      : []
+  })
   return (
     <>
       <section className="container hero">
         <div className="hero-copy">
-          <p className="handwriting hero-note">{homeCopy(home, "eyebrow")}</p>
+          <p className="handwriting hero-note">
+            {homepageDesign.hero.eyebrow}
+          </p>
           <h1>{title}</h1>
-          <p className="lead">{homeCopy(home, "description")}</p>
+          <p className="lead">{homepageDesign.hero.description}</p>
           <div className="hero-signup">
             <p className="small muted">{homepageDesign.kitDescription}</p>
             <SignupForm source="home-hero" />
@@ -100,15 +60,14 @@ export default async function Home() {
           </div>
         </div>
         <div className="hero-visual">
-          {portraitURL || hasPortrait ? (
+          {hasPortrait ? (
             <Image
               className="portrait"
-              src={portraitURL || "/images/sara-portrait.jpg"}
-              alt={text(portrait.alt, "Sara Gibby")}
+              src="/images/sara-portrait.jpg"
+              alt="Sara Gibby"
               width={800}
               height={1000}
               sizes="(max-width: 760px) 100vw, 42vw"
-              unoptimized={Boolean(portraitURL)}
               priority
             />
           ) : (
@@ -120,19 +79,15 @@ export default async function Home() {
           )}
           <aside className="building-card">
             <p className="eyebrow">Always building</p>
-            <p>{homeCopy(home, "alwaysBuilding")}</p>
+            <p>{homepageDesign.alwaysBuilding}</p>
           </aside>
         </div>
       </section>
       <div className="credibility-strip">
         <div className="container credibility">
-          {contentItems(
-            home,
-            "credibilityItems",
-            homepageDesign.credibilityItems.map((label) => ({ label }))
-          ).map((item, index) => (
+          {homepageDesign.credibilityItems.map((label, index) => (
             <p key={index}>
-              {text(item.label)
+              {text(label)
                 .split(
                   /(25\+? years|Multi-startup|AI strategy|University of Michigan)/
                 )
@@ -150,7 +105,7 @@ export default async function Home() {
       <section className="container section">
         <p className="eyebrow">Sound familiar?</p>
         <h2 className="section-title">
-          {copy("audienceHeading", homepageDesign.audienceHeading)}
+          {homepageDesign.audienceHeading}
         </h2>
         <p className="handwriting">you’re in good company</p>
         <div className="grid three audience-grid">
@@ -198,7 +153,7 @@ export default async function Home() {
           <div>
             <p className="eyebrow">How it works</p>
             <h2 className="section-title">
-              {copy("offeringsHeading", homepageDesign.offeringsHeading)}
+              {homepageDesign.offeringsHeading}
             </h2>
           </div>
           <p className="handwriting">no question is too basic</p>
@@ -251,7 +206,7 @@ export default async function Home() {
         <div className="container section kit-section">
           <div>
             <p className="eyebrow">Inside the free CTO Starter Kit</p>
-            <h2>{copy("kitHeading", homepageDesign.kitHeading)}</h2>
+            <h2>{homepageDesign.kitHeading}</h2>
             <ul className="check-list">
               {kitContents.map((item, index) => (
                 <li key={index}>
@@ -297,15 +252,9 @@ export default async function Home() {
       <section className="container section story-section">
         <div>
           <p className="eyebrow">Hi, I’m Sara</p>
-          <h2>{text(story.heading, homepageDesign.storyHeading)}</h2>
-          {story.body ? (
-            <RichText value={story.body} />
-          ) : (
-            <>
-              <p className="muted">{homeCopy(home, "story")}</p>
-              <p className="muted">{homeCopy(home, "teaching")}</p>
-            </>
-          )}
+          <h2>{homepageDesign.storyHeading}</h2>
+          <p className="muted">{biography[0]}</p>
+          <p className="muted">{biography[1]}</p>
           <Link className="text-link" href="/about">
             Read my story <span aria-hidden="true">→</span>
           </Link>
@@ -320,7 +269,7 @@ export default async function Home() {
           <article className="card consulting-card">
             <p className="eyebrow">Consulting</p>
             <h3>Good advice should be on your side.</h3>
-            <p className="muted">{consultingDescription}</p>
+            <p className="muted">{homepageDesign.consultingDescription}</p>
             <Link className="text-link" href="/build-with-me">
               Work with me <span aria-hidden="true">→</span>
             </Link>
@@ -333,10 +282,10 @@ export default async function Home() {
       <section className="container section experience">
         <p className="eyebrow">Experience</p>
         <h2 className="section-title">
-          {copy("experienceHeading", homepageDesign.experienceHeading)}
+          {homepageDesign.experienceHeading}
         </h2>
         <p className="lead">
-          {copy("experienceDescription", homepageDesign.experienceDescription)}
+          {homepageDesign.experienceDescription}
         </p>
         <div className="grid two">
           <div>
@@ -394,10 +343,8 @@ export default async function Home() {
         <div className="closing-inner">
           <div>
             <p className="eyebrow">Independent advice, no jargon</p>
-            <h2>{copy("closingHeading", homepageDesign.closingHeading)}</h2>
-            <p>
-              {copy("closingDescription", homepageDesign.closingDescription)}
-            </p>
+            <h2>{homepageDesign.closingHeading}</h2>
+            <p>{homepageDesign.closingDescription}</p>
           </div>
           <SignupForm source="home-closing" />
         </div>

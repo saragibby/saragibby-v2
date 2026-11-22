@@ -108,14 +108,10 @@ export interface Config {
   };
   fallbackLocale: null;
   globals: {
-    site: Site;
-    homepage: Homepage;
     starterKit: StarterKit;
     'payload-jobs-stats': PayloadJobsStat;
   };
   globalsSelect: {
-    site: SiteSelect<false> | SiteSelect<true>;
-    homepage: HomepageSelect<false> | HomepageSelect<true>;
     starterKit: StarterKitSelect<false> | StarterKitSelect<true>;
     'payload-jobs-stats': PayloadJobsStatsSelect<false> | PayloadJobsStatsSelect<true>;
   };
@@ -231,6 +227,8 @@ export interface StarterKitAsset {
   focalY?: number | null;
 }
 /**
+ * Use this collection for legal policies and owner approval. Ordinary site copy is maintained in the application; older page records are not rendered.
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "pages".
  */
@@ -933,123 +931,6 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "site".
- */
-export interface Site {
-  id: number;
-  siteName: string;
-  siteDescription?: string | null;
-  contactEmail?: string | null;
-  navigation?:
-    | {
-        label: string;
-        href: string;
-        id?: string | null;
-      }[]
-    | null;
-  socialLinks?:
-    | {
-        label: string;
-        url: string;
-        id?: string | null;
-      }[]
-    | null;
-  seoDefaults?: {
-    title?: string | null;
-    description?: string | null;
-    socialImage?: (number | null) | Media;
-  };
-  updatedAt?: string | null;
-  createdAt?: string | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "homepage".
- */
-export interface Homepage {
-  id: number;
-  alwaysBuilding?: string | null;
-  audienceHeading?: string | null;
-  audienceItems?:
-    | {
-        title: string;
-        description: string;
-        id?: string | null;
-      }[]
-    | null;
-  offeringsHeading?: string | null;
-  kitHeading?: string | null;
-  kitContents?:
-    | {
-        label: string;
-        id?: string | null;
-      }[]
-    | null;
-  audiences?:
-    | {
-        label: string;
-        id?: string | null;
-      }[]
-    | null;
-  consultingDescription?: string | null;
-  experienceHeading?: string | null;
-  experienceDescription?: string | null;
-  industries?:
-    | {
-        label: string;
-        id?: string | null;
-      }[]
-    | null;
-  ventures?:
-    | {
-        title: string;
-        role?: string | null;
-        description?: string | null;
-        id?: string | null;
-      }[]
-    | null;
-  closingHeading?: string | null;
-  closingDescription?: string | null;
-  hero: {
-    eyebrow?: string | null;
-    heading: string;
-    description?: string | null;
-    portrait?: (number | null) | Media;
-    primaryLabel?: string | null;
-    primaryHref?: string | null;
-  };
-  credibilityItems?:
-    | {
-        label: string;
-        id?: string | null;
-      }[]
-    | null;
-  story?: {
-    heading?: string | null;
-    body?: {
-      root: {
-        type: string;
-        children: {
-          type: any;
-          version: number;
-          [k: string]: unknown;
-        }[];
-        direction: ('ltr' | 'rtl') | null;
-        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-        indent: number;
-        version: number;
-      };
-      [k: string]: unknown;
-    } | null;
-    image?: (number | null) | Media;
-  };
-  featuredResources?: (number | Resource)[] | null;
-  offerings?: (number | Offering)[] | null;
-  updatedAt?: string | null;
-  createdAt?: string | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "starterKit".
  */
 export interface StarterKit {
@@ -1082,115 +963,6 @@ export interface PayloadJobsStat {
     | null;
   updatedAt?: string | null;
   createdAt?: string | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "site_select".
- */
-export interface SiteSelect<T extends boolean = true> {
-  siteName?: T;
-  siteDescription?: T;
-  contactEmail?: T;
-  navigation?:
-    | T
-    | {
-        label?: T;
-        href?: T;
-        id?: T;
-      };
-  socialLinks?:
-    | T
-    | {
-        label?: T;
-        url?: T;
-        id?: T;
-      };
-  seoDefaults?:
-    | T
-    | {
-        title?: T;
-        description?: T;
-        socialImage?: T;
-      };
-  updatedAt?: T;
-  createdAt?: T;
-  globalType?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "homepage_select".
- */
-export interface HomepageSelect<T extends boolean = true> {
-  alwaysBuilding?: T;
-  audienceHeading?: T;
-  audienceItems?:
-    | T
-    | {
-        title?: T;
-        description?: T;
-        id?: T;
-      };
-  offeringsHeading?: T;
-  kitHeading?: T;
-  kitContents?:
-    | T
-    | {
-        label?: T;
-        id?: T;
-      };
-  audiences?:
-    | T
-    | {
-        label?: T;
-        id?: T;
-      };
-  consultingDescription?: T;
-  experienceHeading?: T;
-  experienceDescription?: T;
-  industries?:
-    | T
-    | {
-        label?: T;
-        id?: T;
-      };
-  ventures?:
-    | T
-    | {
-        title?: T;
-        role?: T;
-        description?: T;
-        id?: T;
-      };
-  closingHeading?: T;
-  closingDescription?: T;
-  hero?:
-    | T
-    | {
-        eyebrow?: T;
-        heading?: T;
-        description?: T;
-        portrait?: T;
-        primaryLabel?: T;
-        primaryHref?: T;
-      };
-  credibilityItems?:
-    | T
-    | {
-        label?: T;
-        id?: T;
-      };
-  story?:
-    | T
-    | {
-        heading?: T;
-        body?: T;
-        image?: T;
-      };
-  featuredResources?: T;
-  offerings?: T;
-  updatedAt?: T;
-  createdAt?: T;
-  globalType?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

@@ -7,9 +7,7 @@ import {
   configured,
   getGlobal,
   getPage,
-  items,
   preview,
-  safeHref,
   text,
 } from "@/lib/site/content"
 import { FormPolicyProvider } from "@/components/site/forms"
@@ -56,15 +54,10 @@ export default async function SiteLayout({
 }: {
   children: React.ReactNode
 }) {
-  const [site, privacy, kit] = await Promise.all([
-    getGlobal("site"),
+  const [privacy, kit] = await Promise.all([
     getPage("privacy"),
     getGlobal("starterKit"),
   ])
-  const navigation = items(site.navigation).flatMap((item) => {
-    const href = safeHref(item.href)
-    return href && text(item.label) ? [[text(item.label), href]] : []
-  })
   return (
     <html
       lang="en"
@@ -75,10 +68,7 @@ export default async function SiteLayout({
           Skip to content
         </a>
         <StatusBanner />
-        <Navigation
-          links={navigation.length ? navigation : undefined}
-          name={text(site.siteName, "Sara Gibby")}
-        />
+        <Navigation />
         <FormPolicyProvider
           deliveryEnabled={isEmailDeliveryEnabled()}
           enabled={preview || privacy?.ownerApproved === true}
@@ -86,7 +76,7 @@ export default async function SiteLayout({
         >
           <main id="main">{children}</main>
         </FormPolicyProvider>
-        <Footer site={site} />
+        <Footer />
         <RetireOfflineWorker />
       </body>
     </html>
