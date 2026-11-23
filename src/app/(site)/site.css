@@ -850,6 +850,10 @@ textarea::placeholder {
 .page-intro .lead {
   max-width: 700px;
 }
+.page-about .page-intro,
+.page-about .page-intro .lead {
+  max-width: none;
+}
 .page-action {
   margin-top: 56px;
   max-width: 680px;

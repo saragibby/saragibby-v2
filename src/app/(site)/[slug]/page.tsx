@@ -116,7 +116,7 @@ export default async function PublicPage({ params }: Props) {
     ? (slug as "course" | "community" | "shop")
     : null
   return (
-    <div className="container section interior">
+    <div className={`container section interior page-${slug}`}>
       <PageIntro
         label={
           offering
