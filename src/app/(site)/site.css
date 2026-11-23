@@ -1265,6 +1265,10 @@ textarea::placeholder {
     animation: none !important;
   }
 }
+.start-note {
+  margin-bottom: 20px;
+  font-size: 30px;
+}
 .start-path {
   display: flex;
   flex-direction: column;

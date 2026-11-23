@@ -23,7 +23,7 @@ const routes: Record<
     title: "Start with the situation you’re in.",
     label: "Start here",
     description:
-      "You do not need to be technical to make a good tech decision. Pick the one that sounds like you, and take the first step.",
+      "You do not need to be technical to make a good tech decision. Start with what’s in front of you, and take the first step.",
   },
   about: {
     title: "25 years of building software. Now I help you decide.",
@@ -172,7 +172,6 @@ export default async function PublicPage({ params }: Props) {
 
 const startPaths = [
   {
-    number: "01",
     situation: "You’re starting with AI",
     description:
       "You know AI could save you time, but not where to begin, which tools to trust, or what’s safe to share with them.",
@@ -183,7 +182,6 @@ const startPaths = [
     ],
   },
   {
-    number: "02",
     situation: "You got a quote or proposal",
     description:
       "An agency, developer, or vendor sent a price and a timeline. You need to know whether it’s fair before you sign.",
@@ -194,7 +192,6 @@ const startPaths = [
     ],
   },
   {
-    number: "03",
     situation: "You built something with AI",
     description:
       "You built something impressive with AI or no-code tools. Now you need to know whether it will hold up with real users.",
@@ -261,23 +258,27 @@ function DraftContent({ slug }: { slug: string }) {
     )
   if (slug === "start-here")
     return (
-      <div className="grid three">
-        {startPaths.map(({ number, situation, description, steps }) => (
-          <article className="card start-path" key={number}>
-            <p className="eyebrow">{number}</p>
-            <h2>{situation}</h2>
-            <p className="muted">{description}</p>
-            <ul className="check-list">
-              {steps.map((step) => (
-                <li key={step}>{step}</li>
-              ))}
-            </ul>
-            <Link className="text-link" href="/newsletter">
-              Get the free {kitName} <span>→</span>
-            </Link>
-          </article>
-        ))}
-      </div>
+      <>
+        <p className="handwriting start-note">
+          pick the one that feels a little too familiar.
+        </p>
+        <div className="grid three">
+          {startPaths.map(({ situation, description, steps }) => (
+            <article className="card start-path" key={situation}>
+              <h2>{situation}</h2>
+              <p className="muted">{description}</p>
+              <ul className="check-list">
+                {steps.map((step) => (
+                  <li key={step}>{step}</li>
+                ))}
+              </ul>
+              <Link className="text-link" href="/newsletter">
+                Get the free {kitName} <span>→</span>
+              </Link>
+            </article>
+          ))}
+        </div>
+      </>
     )
   if (slug === "newsletter")
     return (
