@@ -1352,7 +1352,45 @@ textarea::placeholder {
 .contact-line {
   margin-top: 16px;
 }
+.review-sheet {
+  transform: rotate(-1.5deg);
+}
+.form-note {
+  margin-bottom: 20px;
+}
 .contact-line a {
   color: var(--bone);
   font-weight: 700;
+}
+.course-layout {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 72px;
+  align-items: start;
+}
+.course-layout .tags {
+  margin-block: 0 28px;
+}
+.course-layout .prose .eyebrow {
+  margin-top: 32px;
+}
+.course-syllabus {
+  transform: rotate(1.5deg);
+}
+.lesson-box {
+  flex: none;
+  width: 18px;
+  height: 18px;
+  border: 1.5px solid #295e5599;
+  border-radius: 3px;
+}
+@media (max-width: 760px) {
+  .course-layout {
+    grid-template-columns: 1fr;
+    gap: 48px;
+  }
+  .course-syllabus,
+  .review-sheet {
+    transform: rotate(-1deg);
+  }
 }

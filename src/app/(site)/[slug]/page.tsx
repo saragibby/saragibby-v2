@@ -157,7 +157,12 @@ export default async function PublicPage({ params }: Props) {
               />
             </>
           ) : slug === "build-with-me" ? (
-            <InquiryForm />
+            <>
+              <p className="handwriting form-note">
+                start with the messy version. that’s fine.
+              </p>
+              <InquiryForm />
+            </>
           ) : ["start-here", "newsletter"].includes(slug) ? (
             <SignupForm source={slug} />
           ) : (
@@ -340,44 +345,82 @@ function DraftContent({ slug }: { slug: string }) {
     )
   if (slug === "build-with-me")
     return (
-      <div className="card">
-        <p className="eyebrow">Where I can help</p>
-        <h2>Independent, on purpose.</h2>
-        <p className="muted">
-          AI strategy, architecture design and reviews, code reviews, vendor
-          proposal reviews, and engineering leadership advice. Start with an
-          honest conversation about the problem, not a tool looking for a use
-          case. There is no development work to sell and no referral fees.
-        </p>
-        <p className="muted contact-line">
-          Prefer to talk first? Email{" "}
-          <a href={`mailto:${contactEmail}`}>{contactEmail}</a> or{" "}
-          <a href={linkedInUrl}>connect on LinkedIn</a>.
-        </p>
-      </div>
+      <section className="course-layout review-layout">
+        <div className="prose">
+          <h2>Independent, on purpose.</h2>
+          <p>
+            AI strategy, architecture design and reviews, code reviews, vendor
+            proposal reviews, and engineering leadership advice. Start with an
+            honest conversation about the problem, not a tool looking for a use
+            case.
+          </p>
+          <p>There is no development work to sell and no referral fees.</p>
+          <p className="contact-line">
+            Prefer to talk first? Email{" "}
+            <a href={`mailto:${contactEmail}`}>{contactEmail}</a> or{" "}
+            <a href={linkedInUrl}>connect on LinkedIn</a>.
+          </p>
+        </div>
+        <div className="worksheet review-sheet">
+          <p className="eyebrow">What you can send</p>
+          <h3>Have this reviewed</h3>
+          {[
+            "Your tech stack",
+            "Architecture or system design",
+            "A codebase",
+            "A vendor proposal or quote",
+            "An AI plan",
+          ].map((item) => (
+            <div className="worksheet-row" key={item}>
+              <span>{item}</span>
+              <span className="lesson-box" aria-hidden="true" />
+            </div>
+          ))}
+          <p className="handwriting">honest answers, even the awkward ones.</p>
+        </div>
+      </section>
     )
   if (slug === "course")
     return (
-      <div className="card">
-        <p className="eyebrow">Planned lessons</p>
-        <h2>A course for the tech calls you can’t hand off.</h2>
-        <p className="muted">
-          A practical, self-paced course for founders and small business owners.
-          You won’t learn to code. You’ll learn to ask the right questions and
-          judge the answers.
-        </p>
-        <ul className="check-list">
-          <li>Build, buy, or hire: choosing the right path</li>
-          <li>Reading a quote, a proposal, or a timeline</li>
-          <li>Choosing AI tools without the hype</li>
-          <li>Hiring your first developer or agency</li>
-        </ul>
-        <p className="small muted">
-          Lesson topics are planned and may change. Looking for something to use
-          today? The <Link href="/resources">playbooks</Link> are short,
-          standalone guides.
-        </p>
-      </div>
+      <section className="course-layout">
+        <div className="prose">
+          <h2>A course for the tech calls you can’t hand off.</h2>
+          <p>
+            A practical, self-paced course for founders and small business
+            owners. You won’t learn to code. You’ll learn to ask the right
+            questions and judge the answers.
+          </p>
+          <p className="eyebrow">Made for</p>
+          <div className="tags">
+            {homepageDesign.audiences.map((audience) => (
+              <span key={audience}>{audience}</span>
+            ))}
+          </div>
+          <p className="small muted">
+            Looking for something to use today? The{" "}
+            <Link href="/resources">playbooks</Link> are short, standalone
+            guides.
+          </p>
+        </div>
+        <div className="worksheet course-syllabus">
+          <p className="eyebrow">Draft syllabus</p>
+          <h3>What we’ll cover</h3>
+          {[
+            "Build, buy, or hire: choosing the right path",
+            "Reading a quote, a proposal, or a timeline",
+            "Choosing AI tools without the hype",
+            "Hiring your first developer or agency",
+          ].map((lesson) => (
+            <div className="worksheet-row" key={lesson}>
+              <span>{lesson}</span>
+              <span className="lesson-box" aria-hidden="true" />
+            </div>
+          ))}
+          <p className="handwriting">
+            written in pencil. tell me what’s missing.
+          </p>
+        </div>
+      </section>
     )
   return (
     <div className="notice">
