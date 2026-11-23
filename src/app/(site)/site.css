@@ -1358,6 +1358,16 @@ textarea::placeholder {
 .form-note {
   margin-bottom: 20px;
 }
+.playbook-note {
+  margin-block: -24px 40px;
+}
+.playbook-sheet {
+  transform: rotate(1deg);
+}
+.prose a.button {
+  color: #fff;
+  text-decoration: none;
+}
 .contact-line a {
   color: var(--bone);
   font-weight: 700;
@@ -1390,7 +1400,8 @@ textarea::placeholder {
     gap: 48px;
   }
   .course-syllabus,
-  .review-sheet {
+  .review-sheet,
+  .playbook-sheet {
     transform: rotate(-1deg);
   }
 }
