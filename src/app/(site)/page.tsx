@@ -19,6 +19,7 @@ import {
   homepageOfferings,
   techTranslations,
 } from "@/lib/site/homepage-design"
+import { kitName } from "@/lib/site/site-navigation"
 
 export default async function Home() {
   const offerings = await getDocuments("offerings")
@@ -205,7 +206,7 @@ export default async function Home() {
       <section className="kit-band">
         <div className="container section kit-section">
           <div>
-            <p className="eyebrow">Inside the free CTO Starter Kit</p>
+            <p className="eyebrow">Inside the free {kitName}</p>
             <h2>{homepageDesign.kitHeading}</h2>
             <ul className="check-list">
               {kitContents.map((item, index) => (

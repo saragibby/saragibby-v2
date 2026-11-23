@@ -8,6 +8,7 @@ import {
   type FormEvent,
 } from "react"
 import Link from "next/link"
+import { kitName } from "@/lib/site/site-navigation"
 
 type Interest = "kit" | "newsletter" | "course" | "community" | "shop"
 
@@ -121,7 +122,7 @@ export function SignupForm({
   if (interest === "kit" && !kitReady)
     return (
       <p className="notice small">
-        The free CTO Starter Kit is not released yet. Please check back for
+        The free {kitName} is not released yet. Please check back for
         availability.
       </p>
     )

@@ -1,6 +1,6 @@
 import Link from "next/link"
 import { configured, preview, safeHref } from "@/lib/site/content"
-import { siteSocialLinks } from "@/lib/site/site-navigation"
+import { kitLabel, siteSocialLinks } from "@/lib/site/site-navigation"
 
 export function StatusBanner() {
   if (preview)
@@ -22,20 +22,20 @@ export function StatusBanner() {
 export function Footer() {
   const groups = [
     {
-      title: "Learn",
+      title: "Get help",
       links: [
-        ["Course", "/course"],
-        ["Playbooks", "/resources"],
-        ["About", "/about"],
-        ["Now", "/now"],
+        [kitLabel, "/newsletter"],
+        ["Reviews", "/build-with-me"],
+        ["Ask Sara (soon)", "/community"],
       ],
     },
     {
-      title: "Get help",
+      title: "Learn",
       links: [
-        ["Ask Sara", "/community"],
-        ["Reviews", "/build-with-me"],
-        ["Free CTO Kit", "/newsletter"],
+        ["Playbooks", "/resources"],
+        ["Course (soon)", "/course"],
+        ["About", "/about"],
+        ["Now", "/now"],
       ],
     },
     {
@@ -50,19 +50,25 @@ export function Footer() {
   return (
     <footer className="site-footer container">
       <div>
-        <Link className="wordmark" href="/">Sara Gibby</Link>
+        <Link className="wordmark" href="/">
+          Sara Gibby
+        </Link>
         <p className="muted small">
           Clear answers for your biggest tech decisions.
         </p>
         <p className="handwriting">no jargon. no judgment. just answers.</p>
-        {siteSocialLinks.flatMap(({ label, url }) => {
-          const href = safeHref(url)
-          return href ? (
-            <a className="footer-social" key={url} href={href}>
-              {label}
-            </a>
-          ) : []
-        })}
+        <p className="footer-contact">
+          {siteSocialLinks.flatMap(({ label, url }) => {
+            const href = safeHref(url)
+            return href ? (
+              <a className="footer-social" key={url} href={href}>
+                {label}
+              </a>
+            ) : (
+              []
+            )
+          })}
+        </p>
       </div>
       {groups.map((group) => (
         <nav key={group.title} aria-label={group.title}>
