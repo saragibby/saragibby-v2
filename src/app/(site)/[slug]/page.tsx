@@ -1,4 +1,5 @@
 import type { Metadata } from "next"
+import Image from "next/image"
 import Link from "next/link"
 import { notFound } from "next/navigation"
 import { InquiryForm, SignupForm } from "@/components/site/forms"
@@ -213,27 +214,46 @@ const nowUpdated = { iso: "2026-11-22", label: "November 22, 2026" }
 function DraftContent({ slug }: { slug: string }) {
   if (slug === "about")
     return (
-      <div className="prose">
-        <h2>Across startups and enterprise.</h2>
-        <p>
-          I’ve worked as an engineer, engineering leader, consultant, and
-          teacher, from first commit to scale. I’ve founded and led technology
-          at several startups, built and led engineering and product teams, and
-          designed platforms from scrappy first products to large-scale systems.
-        </p>
-        <div className="grid two about-facts">
-          <article className="card">
-            <p className="eyebrow">Roles</p>
-            <ul className="check-list">
-              <li>Multi-startup tech founder</li>
-              <li>Engineering and product team leader</li>
-              <li>Architecture, AI strategy, and code reviewer</li>
-              <li>
-                Founder of Rise &amp; Shore, technical co-founder of TaxDedux
-              </li>
-            </ul>
-          </article>
-          <article className="card">
+      <div className="about">
+        <section className="about-story">
+          <div>
+            <div className="prose">
+              <h2>Across startups and enterprise.</h2>
+              <p>
+                I’ve worked as an engineer, engineering leader, consultant, and
+                teacher, and founded and led technology at several startups.
+              </p>
+              <p>{biography[0]}</p>
+            </div>
+            <article className="card about-roles">
+              <p className="eyebrow">Roles</p>
+              <ul className="check-list">
+                <li>Multi-startup tech founder</li>
+                <li>Engineering and product team leader</li>
+                <li>Architecture, AI strategy, and code reviewer</li>
+                <li>
+                  Founder of Rise &amp; Shore, technical co-founder of TaxDedux
+                </li>
+              </ul>
+            </article>
+          </div>
+          <figure className="about-photo">
+            <Image
+              className="portrait"
+              src="/images/sara-speaking.jpg"
+              alt="Sara Gibby speaking on stage, smiling and gesturing with a slide clicker in hand"
+              width={1000}
+              height={1249}
+              sizes="(max-width: 760px) 100vw, 40vw"
+              priority
+            />
+            <figcaption className="handwriting">
+              building is only half the fun. the other half is teaching.
+            </figcaption>
+          </figure>
+        </section>
+        <section className="about-facts">
+          <article className="worksheet about-teaching">
             <p className="eyebrow">Teaching</p>
             <ul className="check-list">
               <li>Taught AI at the University of Michigan</li>
@@ -242,18 +262,20 @@ function DraftContent({ slug }: { slug: string }) {
                 Helped working professionals build software engineering skills
               </li>
             </ul>
+            <p className="handwriting">no question too basic. ever.</p>
           </article>
-        </div>
-        <p className="eyebrow">Industries</p>
-        <div className="tags">
-          {homepageDesign.industries.map((industry) => (
-            <span key={industry}>{industry}</span>
-          ))}
-        </div>
-        <p>{biography[0]}</p>
-        <Link className="text-link" href="/now">
-          See what I’m building now →
-        </Link>
+          <div className="about-industries">
+            <p className="eyebrow">Industries</p>
+            <div className="tags">
+              {homepageDesign.industries.map((industry) => (
+                <span key={industry}>{industry}</span>
+              ))}
+            </div>
+            <Link className="text-link" href="/now">
+              See what I’m building now <span>→</span>
+            </Link>
+          </div>
+        </section>
       </div>
     )
   if (slug === "start-here")

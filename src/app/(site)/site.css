@@ -1279,11 +1279,68 @@ textarea::placeholder {
 .start-path .text-link {
   margin-top: auto;
 }
+.about-story {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 72px;
+  align-items: start;
+}
+.about-photo {
+  margin: 0;
+}
+.about-photo .portrait {
+  transform: rotate(1.5deg);
+  box-shadow: 0 18px 40px #0000004d;
+}
+.about-photo figcaption {
+  margin-top: 22px;
+  text-align: center;
+}
 .about-facts {
-  margin-block: 32px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 40px;
+  align-items: start;
+  margin-block: 72px 56px;
 }
 .about-facts .check-list {
   margin: 0;
+}
+.about-teaching {
+  padding: 32px;
+}
+.about-teaching .check-list li::before {
+  color: #295e55;
+}
+.about-roles {
+  margin-top: 32px;
+}
+.about-industries {
+  padding-top: 24px;
+}
+.about-industries .tags {
+  margin-block: 0 32px;
+}
+@media (max-width: 760px) {
+  .about-story,
+  .about-facts {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+  .about-facts {
+    margin-block: 56px 40px;
+  }
+  .about-photo {
+    order: -1;
+  }
+  .about-photo .portrait {
+    transform: none;
+    aspect-ratio: 4 / 5;
+    object-position: center top;
+  }
+  .about-teaching {
+    transform: rotate(-1deg);
+  }
 }
 .now-updated {
   margin-bottom: 24px;
