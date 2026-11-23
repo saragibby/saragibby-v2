@@ -2,7 +2,7 @@
 export const kitName = "CTO Starter Kit"
 export const kitLabel = `Free ${kitName}`
 
-export const contactEmail = "saragibby@gmail.com"
+export const contactEmail = "heythere@saragibby.com"
 export const linkedInUrl = "https://www.linkedin.com/in/saragibby/"
 
 export const siteNavigation = [
