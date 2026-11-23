@@ -2,6 +2,7 @@ import Link from "next/link"
 import { getDocuments, resourceType, text } from "@/lib/site/content"
 import { PageIntro } from "@/components/site/shell"
 import { ContentImage } from "@/components/site/rich-text"
+import { kitName } from "@/lib/site/site-navigation"
 
 export const metadata = { title: "Playbooks" }
 
@@ -96,7 +97,7 @@ export default async function Resources({
               : "There are no published playbooks yet. Practical guides will appear here when they’re ready."}
           </p>
           <Link className="text-link" href="/newsletter">
-            Get the free CTO Kit →
+            Get the free {kitName} →
           </Link>
         </div>
       )}

@@ -22,7 +22,7 @@ export function VentureLogo({ name }: { name: string }) {
         src={logo.src}
         width={logo.width}
         height={logo.height}
-        alt=""
+        alt={`${name} logo`}
         sizes="(max-width: 760px) 220px, 180px"
       />
     </div>

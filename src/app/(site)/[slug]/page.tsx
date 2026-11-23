@@ -6,28 +6,30 @@ import { PageIntro } from "@/components/site/shell"
 import { RichText } from "@/components/site/rich-text"
 import { VentureLogo } from "@/components/site/venture-logo"
 import { biography } from "@/lib/site/biography"
+import { homepageDesign } from "@/lib/site/homepage-design"
 import {
-  getDocument,
-  getPage,
-  preview,
-  text,
-} from "@/lib/site/content"
+  contactEmail,
+  kitLabel,
+  kitName,
+  linkedInUrl,
+} from "@/lib/site/site-navigation"
+import { getDocument, getPage, preview, text } from "@/lib/site/content"
 
 const routes: Record<
   string,
   { title: string; label: string; description: string }
 > = {
   "start-here": {
-    title: "Start with the decision in front of you.",
+    title: "Start with the situation you’re in.",
     label: "Start here",
     description:
-      "You do not need to be technical to make a thoughtful technology decision. Start with the problem, then choose the next step.",
+      "You do not need to be technical to make a good tech decision. Pick the one that sounds like you, and take the first step.",
   },
   about: {
-    title: "A builder, before anything else.",
+    title: "25 years of building software. Now I help you decide.",
     label: "Hi, I’m Sara",
     description:
-      "Software, systems, and making useful things. After hours, and over the long haul.",
+      "Engineer, engineering leader, startup founder, and teacher. I help founders and small businesses make clear, independent tech decisions.",
   },
   now: {
     title: "Always building.",
@@ -66,8 +68,8 @@ const routes: Record<
       "Get an independent review of your tech stack, architecture, code, vendor proposal, or AI plan.",
   },
   newsletter: {
-    title: "The free CTO Starter Kit.",
-    label: "Free CTO Starter Kit",
+    title: `The ${kitLabel}.`,
+    label: kitLabel,
     description:
       "A practical guide to the tech decisions every founder faces. Request the kit, and choose whether you would also like ongoing email.",
   },
@@ -168,13 +170,90 @@ export default async function PublicPage({ params }: Props) {
   )
 }
 
+const startPaths = [
+  {
+    number: "01",
+    situation: "You’re starting with AI",
+    description:
+      "You know AI could save you time, but not where to begin, which tools to trust, or what’s safe to share with them.",
+    steps: [
+      "Pick one repetitive task, not a chatbot",
+      "Check whether the time saved is worth the cost",
+      "Make sure the data is safe to use",
+    ],
+  },
+  {
+    number: "02",
+    situation: "You got a quote or proposal",
+    description:
+      "An agency, developer, or vendor sent a price and a timeline. You need to know whether it’s fair before you sign.",
+    steps: [
+      "Ask for an itemized scope, assumptions, and exclusions",
+      "Confirm who owns the code and what support costs",
+      "Compare quotes against the same requirements",
+    ],
+  },
+  {
+    number: "03",
+    situation: "You built something with AI",
+    description:
+      "You built something impressive with AI or no-code tools. Now you need to know whether it will hold up with real users.",
+    steps: [
+      "List what breaks, and what you’re afraid to change",
+      "Check security, data, and who can get in",
+      "Decide when it’s time to bring in real developers",
+    ],
+  },
+]
+
+const ventureSites: Record<string, string> = {
+  "Rise & Shore": "https://riseandshore.com",
+  TaxDedux: "https://taxdedux.com",
+}
+
+const nowUpdated = { iso: "2026-11-22", label: "November 22, 2026" }
+
 function DraftContent({ slug }: { slug: string }) {
   if (slug === "about")
     return (
       <div className="prose">
-        <h2>I build after hours, and I show you exactly how.</h2>
+        <h2>Across startups and enterprise.</h2>
+        <p>
+          I’ve worked as an engineer, engineering leader, consultant, and
+          teacher, from first commit to scale. I’ve founded and led technology
+          at several startups, built and led engineering and product teams, and
+          designed platforms from scrappy first products to large-scale systems.
+        </p>
+        <div className="grid two about-facts">
+          <article className="card">
+            <p className="eyebrow">Roles</p>
+            <ul className="check-list">
+              <li>Multi-startup tech founder</li>
+              <li>Engineering and product team leader</li>
+              <li>Architecture, AI strategy, and code reviewer</li>
+              <li>
+                Founder of Rise &amp; Shore, technical co-founder of TaxDedux
+              </li>
+            </ul>
+          </article>
+          <article className="card">
+            <p className="eyebrow">Teaching</p>
+            <ul className="check-list">
+              <li>Taught AI at the University of Michigan</li>
+              <li>Taught in classrooms from middle schools to universities</li>
+              <li>
+                Helped working professionals build software engineering skills
+              </li>
+            </ul>
+          </article>
+        </div>
+        <p className="eyebrow">Industries</p>
+        <div className="tags">
+          {homepageDesign.industries.map((industry) => (
+            <span key={industry}>{industry}</span>
+          ))}
+        </div>
         <p>{biography[0]}</p>
-        <p>{biography[1]}</p>
         <Link className="text-link" href="/now">
           See what I’m building now →
         </Link>
@@ -183,27 +262,19 @@ function DraftContent({ slug }: { slug: string }) {
   if (slug === "start-here")
     return (
       <div className="grid three">
-        {[
-          [
-            "01",
-            "Pick one problem",
-            "Choose something you understand, for someone you can actually talk to.",
-          ],
-          [
-            "02",
-            "Test before you build",
-            "Use the idea scorecard to ask the hard questions while the stakes are small.",
-          ],
-          [
-            "03",
-            "Make room for progress",
-            "Find a repeatable block of time. Build one useful thing, then learn from it.",
-          ],
-        ].map(([number, title, copy]) => (
-          <article className="card" key={number}>
+        {startPaths.map(({ number, situation, description, steps }) => (
+          <article className="card start-path" key={number}>
             <p className="eyebrow">{number}</p>
-            <h2>{title}</h2>
-            <p className="muted">{copy}</p>
+            <h2>{situation}</h2>
+            <p className="muted">{description}</p>
+            <ul className="check-list">
+              {steps.map((step) => (
+                <li key={step}>{step}</li>
+              ))}
+            </ul>
+            <Link className="text-link" href="/newsletter">
+              Get the free {kitName} <span>→</span>
+            </Link>
           </article>
         ))}
       </div>
@@ -213,9 +284,9 @@ function DraftContent({ slug }: { slug: string }) {
       <div className="card">
         <h2>A small kit for a real first step.</h2>
         <ul className="check-list">
-          <li>50 tested AI prompts</li>
-          <li>An idea scorecard</li>
-          <li>A short video walkthrough</li>
+          {homepageDesign.kitContents.map((item) => (
+            <li key={item}>{item}</li>
+          ))}
         </ul>
         <p className="small muted">
           Planned contents. Final assets and delivery are awaiting approval.
@@ -225,36 +296,63 @@ function DraftContent({ slug }: { slug: string }) {
     )
   if (slug === "now")
     return (
-      <div className="grid two">
-        <article className="card">
-          <VentureLogo name="Rise & Shore" />
-          <p className="eyebrow">Travel and hospitality</p>
-          <h2>Rise &amp; Shore</h2>
-          <p className="muted">
-            AI-powered search for beach vacation rentals, booked direct with
-            local agencies.
-          </p>
-        </article>
-        <article className="card">
-          <VentureLogo name="TaxDedux" />
-          <p className="eyebrow">Fintech and tax</p>
-          <h2>TaxDedux</h2>
-          <p className="muted">
-            AI tax planning and deduction discovery for freelancers, the
-            self-employed, and CPA firms.
-          </p>
-        </article>
-      </div>
+      <>
+        <p className="small muted now-updated">
+          Last updated <time dateTime={nowUpdated.iso}>{nowUpdated.label}</time>
+        </p>
+        <div className="grid two">
+          {homepageDesign.ventures.map(({ title, role, description }) => (
+            <article className="card" key={title}>
+              <VentureLogo name={title} />
+              <p className="eyebrow">{role}</p>
+              <h2>{title}</h2>
+              <p className="muted">{description}</p>
+              <a className="text-link" href={ventureSites[title]}>
+                Visit {title} <span>→</span>
+              </a>
+            </article>
+          ))}
+        </div>
+      </>
     )
   if (slug === "build-with-me")
     return (
       <div className="card">
         <p className="eyebrow">Where I can help</p>
-        <h2>Strategy meets shipping.</h2>
+        <h2>Independent, on purpose.</h2>
         <p className="muted">
-          AI strategy, development, architecture design and reviews, and
-          engineering leadership. Start with an honest conversation about the
-          problem, not a tool looking for a use case.
+          AI strategy, architecture design and reviews, code reviews, vendor
+          proposal reviews, and engineering leadership advice. Start with an
+          honest conversation about the problem, not a tool looking for a use
+          case. There is no development work to sell and no referral fees.
+        </p>
+        <p className="muted contact-line">
+          Prefer to talk first? Email{" "}
+          <a href={`mailto:${contactEmail}`}>{contactEmail}</a> or{" "}
+          <a href={linkedInUrl}>connect on LinkedIn</a>.
+        </p>
+      </div>
+    )
+  if (slug === "course")
+    return (
+      <div className="card">
+        <p className="eyebrow">Planned lessons</p>
+        <h2>A course for the tech calls you can’t hand off.</h2>
+        <p className="muted">
+          A practical, self-paced course for founders and small business owners.
+          You won’t learn to code. You’ll learn to ask the right questions and
+          judge the answers.
+        </p>
+        <ul className="check-list">
+          <li>Build, buy, or hire: choosing the right path</li>
+          <li>Reading a quote, a proposal, or a timeline</li>
+          <li>Choosing AI tools without the hype</li>
+          <li>Hiring your first developer or agency</li>
+        </ul>
+        <p className="small muted">
+          Lesson topics are planned and may change. Looking for something to use
+          today? The <Link href="/resources">playbooks</Link> are short,
+          standalone guides.
         </p>
       </div>
     )

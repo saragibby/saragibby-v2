@@ -1,3 +1,5 @@
+import { kitName } from "./site-navigation"
+
 export const siteDescription =
   "Clear answers for your biggest tech decisions. Independent guidance for founders and small businesses on tech, AI, hiring, and vendors."
 
@@ -48,8 +50,7 @@ export const homepageDesign = {
   ],
   offeringsHeading: "Learn it, ask it, or have it reviewed.",
   kitHeading: "The 10 tech decisions every founder faces.",
-  kitDescription:
-    "The free CTO Starter Kit is being prepared: a practical guide to the decisions founders face.",
+  kitDescription: `The free ${kitName} is being prepared: a practical guide to the decisions founders face.`,
   kitContents: [
     "A decision guide to build vs. buy, hiring, hosting, security, and AI",
     "A tech stack checklist to sanity-check what you have or what you are being sold",
@@ -93,8 +94,7 @@ export const homepageDesign = {
     },
   ],
   closingHeading: "Make your next tech decision with confidence.",
-  closingDescription:
-    "The free CTO Starter Kit is being prepared: practical guidance for the choices that shape your product, team, and budget.",
+  closingDescription: `The free ${kitName} is being prepared: practical guidance for the choices that shape your product, team, and budget.`,
 }
 
 export const techTranslations = [
@@ -123,7 +123,7 @@ export const techTranslations = [
 export const homepageOfferings = [
   {
     slug: "starter-kit",
-    title: "The Free CTO Starter Kit",
+    title: `The Free ${kitName}`,
     description:
       "The 10 tech decisions every founder faces, with checklists and plain-English explanations. In preparation; downloads are not available yet.",
     ctaLabel: "Get the kit",
@@ -131,9 +131,9 @@ export const homepageOfferings = [
   },
   {
     slug: "course",
-    title: "Playbooks and course",
+    title: "The course",
     description:
-      "Decision guides and templates, plus a practical course for making stronger tech calls without becoming a developer. The course is in development.",
+      "A practical, self-paced course for making stronger tech calls without becoming a developer. The course is in development.",
     ctaLabel: "See the course",
     ctaDestination: "/course",
   },
@@ -156,8 +156,8 @@ export const homepageOfferings = [
 ]
 
 export const homepageOfferingEyebrows: Record<string, string> = {
-  "starter-kit": "Free · CTO Starter Kit",
-  course: "Playbooks · Course",
+  "starter-kit": `Free · ${kitName}`,
+  course: "Course · In development",
   community: "Ask Sara",
   reviews: "Review · In development",
 }

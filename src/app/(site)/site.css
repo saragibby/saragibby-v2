@@ -216,6 +216,58 @@ img {
 .navigation .button {
   padding: 12px 19px;
 }
+.nav-group {
+  position: relative;
+}
+.nav-group-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  padding: 0;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.nav-group-toggle::after {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  transform: translateY(-2px) rotate(45deg);
+  transition: transform 0.15s ease;
+}
+.nav-group-toggle[aria-expanded="true"]::after {
+  transform: translateY(1px) rotate(225deg);
+}
+.nav-group-menu {
+  position: absolute;
+  top: calc(100% + 14px);
+  right: 0;
+  z-index: 20;
+  min-width: 170px;
+  display: flex;
+  flex-direction: column;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 8px;
+}
+.nav-group-menu[hidden] {
+  display: none;
+}
+.nav-group-menu a {
+  text-decoration: none;
+  white-space: nowrap;
+  padding: 9px 12px;
+  border-radius: 6px;
+}
+.nav-group-menu a:hover {
+  background: #ffffff0d;
+}
 .menu-toggle {
   display: none;
 }
@@ -887,10 +939,16 @@ textarea::placeholder {
   align-items: center;
   gap: 24px;
 }
+.footer-contact {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 20px;
+  margin-top: 18px;
+}
 .footer-social {
   display: inline-block;
-  margin-right: 16px;
   font-size: 0.85rem;
+  font-weight: 700;
 }
 .signal-game {
   max-width: 580px;
@@ -1034,7 +1092,26 @@ textarea::placeholder {
     font-size: 1rem;
   }
   .navigation .button {
-    margin-top: 10px;
+    margin-bottom: 10px;
+    font-size: 1rem;
+  }
+  .nav-group-toggle {
+    width: 100%;
+    justify-content: space-between;
+    padding: 12px 0;
+    font-size: 1rem;
+  }
+  .nav-group-menu {
+    position: static;
+    min-width: 0;
+    border: 0;
+    border-left: 1px solid var(--border);
+    border-radius: 0;
+    background: transparent;
+    padding: 0 0 0 16px;
+  }
+  .nav-group-menu a {
+    padding: 10px 0;
     font-size: 1rem;
   }
   .hero {
@@ -1187,4 +1264,30 @@ textarea::placeholder {
     transition: none !important;
     animation: none !important;
   }
+}
+.start-path {
+  display: flex;
+  flex-direction: column;
+}
+.start-path .check-list {
+  margin-block: 8px 24px;
+}
+.start-path .text-link {
+  margin-top: auto;
+}
+.about-facts {
+  margin-block: 32px;
+}
+.about-facts .check-list {
+  margin: 0;
+}
+.now-updated {
+  margin-bottom: 24px;
+}
+.contact-line {
+  margin-top: 16px;
+}
+.contact-line a {
+  color: var(--bone);
+  font-weight: 700;
 }
