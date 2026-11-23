@@ -1,0 +1,127 @@
+/*
+ * Brand theme for the Payload admin. Payload's own styles live in
+ * @layer payload-default, so these unlayered rules take precedence.
+ * The admin is locked to dark mode (admin.theme in payload.config.ts).
+ */
+:root {
+  --sg-ink: #0d1b2a;
+  --sg-surface: #172a3b;
+  --sg-border: #2b3f4f;
+  --sg-spruce: #0e7c6b;
+  --sg-spruce-light: #5fbfae;
+  --sg-rose-light: #d94c83;
+  --sg-sand: #edcbb1;
+  --sg-bone: #f5efe9;
+
+  --font-body: var(--font-manrope), system-ui, sans-serif;
+  --font-mono: var(--font-plex-mono), "SF Mono", Menlo, monospace;
+  --style-radius-s: 6px;
+  --style-radius-m: 10px;
+  --style-radius-l: 16px;
+}
+
+html[data-theme="dark"] {
+  /* Ink-to-bone scale replaces Payload's neutral grays. */
+  --theme-bg: var(--sg-ink);
+  --theme-input-bg: #122335;
+  --theme-text: var(--sg-bone);
+  --theme-border-color: var(--sg-border);
+  --theme-elevation-0: #0d1b2a;
+  --theme-elevation-50: #122335;
+  --theme-elevation-100: #172a3b;
+  --theme-elevation-150: #2b3f4f;
+  --theme-elevation-200: #344a5b;
+  --theme-elevation-250: #3e5466;
+  --theme-elevation-300: #4b6173;
+  --theme-elevation-350: #5a7083;
+  --theme-elevation-400: #6b8193;
+  --theme-elevation-450: #7d92a3;
+  --theme-elevation-500: #8fa2b2;
+  --theme-elevation-550: #a0b1bf;
+  --theme-elevation-600: #b6c2cd;
+  --theme-elevation-650: #c4ced6;
+  --theme-elevation-700: #d2d9df;
+  --theme-elevation-750: #dde2e6;
+  --theme-elevation-800: #eae6e0;
+  --theme-elevation-850: #efeae4;
+  --theme-elevation-900: #f5efe9;
+  --theme-elevation-950: #f8f4f0;
+  --theme-elevation-1000: #ffffff;
+
+  /* Spruce for success states and toasts. */
+  --theme-success-50: #0b2a2a;
+  --theme-success-100: #0c3532;
+  --theme-success-150: #0d443e;
+  --theme-success-200: #0e544a;
+  --theme-success-250: #0e6558;
+  --theme-success-300: #0e7c6b;
+  --theme-success-350: #2a8f7f;
+  --theme-success-400: #46a393;
+  --theme-success-450: #5fbfae;
+  --theme-success-500: #78cbbc;
+}
+
+/* Primary actions in spruce, like the site's buttons. */
+.btn--style-primary {
+  --bg-color: var(--sg-spruce);
+  --color: #fff;
+  --hover-bg: #0b6a5b;
+  --hover-color: #fff;
+  font-weight: 700;
+}
+
+.btn--style-primary.btn--disabled {
+  --bg-color: var(--theme-elevation-200);
+  --color: var(--theme-elevation-600);
+}
+
+/* Headings pick up the site's tight Manrope look. */
+.payload__app h1,
+.payload__app h2,
+.payload__app h3 {
+  font-family: var(--font-body);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+}
+
+/* Links and focus rings in spruce rather than Payload blue. */
+.payload__app a:not(.btn):not(.nav__link):not(.card) {
+  color: var(--sg-spruce-light);
+}
+
+:focus-visible {
+  outline-color: var(--sg-spruce-light);
+}
+
+/* Navigation: a slightly lifted ink panel with a spruce active marker. */
+.nav {
+  background: #0a1622;
+  border-right: 1px solid var(--sg-border);
+}
+
+.nav__link.active,
+.nav__link[aria-current="page"] {
+  color: var(--sg-bone);
+  box-shadow: inset 3px 0 0 var(--sg-spruce-light);
+}
+
+/* Dashboard cards: surface panels with a spruce edge on hover. */
+.card {
+  background: var(--sg-surface);
+  border: 1px solid var(--sg-border);
+  box-shadow: none;
+}
+
+.card:hover {
+  border-color: var(--sg-spruce);
+}
+
+/* Login: centered card on ink with a sand hairline. */
+.login .template-minimal__wrap,
+.template-minimal__wrap {
+  background: var(--sg-surface);
+  border: 1px solid var(--sg-border);
+  border-top: 3px solid var(--sg-sand);
+  border-radius: var(--style-radius-l);
+  padding: 40px;
+}

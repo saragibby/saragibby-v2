@@ -95,6 +95,13 @@ export default buildConfig({
     meta: {
       titleSuffix: ' | Sara Gibby',
     },
+    theme: 'dark',
+    components: {
+      graphics: {
+        Logo: '@/components/admin/graphics#Logo',
+        Icon: '@/components/admin/graphics#Icon',
+      },
+    },
     importMap: {
       baseDir: path.resolve(dirname, 'app/(payload)'),
     },

@@ -1,0 +1,34 @@
+.sg-admin-logo {
+  display: grid;
+  justify-items: center;
+  gap: 2px;
+}
+
+.sg-admin-wordmark {
+  font-family: var(--font-manrope), system-ui, sans-serif;
+  font-size: 2.4rem;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  color: var(--sg-bone);
+}
+
+.sg-admin-script {
+  font-family: var(--font-caveat), cursive;
+  font-size: 1.7rem;
+  color: var(--sg-rose-light);
+  transform: rotate(-3deg);
+}
+
+.sg-admin-icon {
+  display: inline-grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: var(--sg-spruce);
+  color: #fff;
+  font-family: var(--font-manrope), system-ui, sans-serif;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
