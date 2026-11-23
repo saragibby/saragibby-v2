@@ -397,9 +397,9 @@ function DraftContent({ slug }: { slug: string }) {
             ))}
           </div>
           <p className="small muted">
-            Looking for something to use today? The{" "}
-            <Link href="/resources">playbooks</Link> are short, standalone
-            guides.
+            Shorter reads are on the way too. The{" "}
+            <Link href="/resources">playbooks</Link> will be standalone guides
+            you can use without taking the course.
           </p>
         </div>
         <div className="worksheet course-syllabus">
