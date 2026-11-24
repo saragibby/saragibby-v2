@@ -3,7 +3,11 @@ import { createLocalReq, type Payload } from 'payload'
 import { afterAll, beforeAll, describe, expect, it, vi } from 'vitest'
 import { consumeRateLimit, rateLimitKey } from '../../src/lib/server/rate-limit'
 import { signEmailToken } from '../../src/lib/server/tokens'
-import { bootstrapFirstAdmin } from '../../src/lib/server/admin-bootstrap'
+import {
+  bootstrapFirstAdmin,
+  offlineBootstrapCapability,
+} from '../../src/lib/server/admin-bootstrap'
+import { resetAdminPassword } from '../../src/lib/server/reset-admin-password'
 
 const databaseURL = process.env.BACKEND_INTEGRATION_DATABASE_URL
 const permittedDatabaseURL = 'postgresql://localhost/saragibby_rebuild_7425ea14_test'
@@ -119,6 +123,57 @@ describe.skipIf(!databaseURL)('isolated Postgres backend integration', () => {
       await payload.delete({
         collection: 'users', where: { email: { equals: data.email } }, overrideAccess: true,
       })
+    }
+  })
+
+  it('resets an existing admin password, unlocks the account, and invalidates reset tokens', async () => {
+    const resetEmail = `reset-${runID}@example.test`
+    const newPassword = randomBytes(24).toString('hex')
+    const user = await payload.create({
+      collection: 'users',
+      data: {
+        email: resetEmail,
+        password: randomBytes(24).toString('hex'),
+        role: 'admin',
+        resetPasswordToken: 'stale-reset-token',
+        resetPasswordExpiration: new Date(Date.now() + 60_000).toISOString(),
+        loginAttempts: 5,
+        lockUntil: new Date(Date.now() + 60_000).toISOString(),
+      },
+      context: { offlineAdminBootstrap: offlineBootstrapCapability },
+      overrideAccess: true,
+    })
+
+    try {
+      await resetAdminPassword(payload, { email: resetEmail, password: newPassword })
+      const { rows } = await payload.db.pool.query(
+        `SELECT
+          reset_password_token AS "resetPasswordToken",
+          reset_password_expiration AS "resetPasswordExpiration",
+          login_attempts::integer AS "loginAttempts",
+          lock_until AS "lockUntil"
+        FROM users WHERE id = $1`,
+        [user.id],
+      )
+      expect(rows[0]).toMatchObject({
+        resetPasswordToken: null,
+        resetPasswordExpiration: null,
+        loginAttempts: 0,
+        lockUntil: null,
+      })
+      const login = await payload.login({
+        collection: 'users',
+        data: { email: resetEmail, password: newPassword },
+      })
+      expect(login.user?.id).toBe(user.id)
+      await expect(
+        resetAdminPassword(payload, {
+          email: `missing-${runID}@example.test`,
+          password: newPassword,
+        }),
+      ).rejects.toThrow('No user with that email exists.')
+    } finally {
+      await payload.delete({ collection: 'users', id: user.id, overrideAccess: true })
     }
   })
 
