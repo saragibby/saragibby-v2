@@ -1,6 +1,6 @@
 import Link from "next/link"
 import { configured, preview, safeHref } from "@/lib/site/content"
-import { kitLabel, siteSocialLinks } from "@/lib/site/site-navigation"
+import { bestieSignOff, kitLabel, siteSocialLinks } from "@/lib/site/site-navigation"
 
 export function StatusBanner() {
   if (preview)
@@ -33,6 +33,7 @@ export function Footer() {
       title: "Learn",
       links: [
         ["Playbooks", "/resources"],
+        ["Picks (soon)", "/picks"],
         ["Course (soon)", "/course"],
         ["About", "/about"],
         ["Now", "/now"],
@@ -57,6 +58,7 @@ export function Footer() {
           Clear answers for your biggest tech decisions.
         </p>
         <p className="handwriting">no jargon. no judgment. just answers.</p>
+        <p className="handwriting footer-signoff">{bestieSignOff}</p>
         <p className="footer-contact">
           {siteSocialLinks.flatMap(({ label, url }) => {
             const href = safeHref(url)

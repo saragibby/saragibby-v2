@@ -13,6 +13,9 @@ export default function NotFound() {
           That page isn’t here. It may have moved, or the link might have a
           typo. Let’s get you back to something useful.
         </p>
+        <p className="handwriting">
+          Bestie, this page broke. Ironic, I know.
+        </p>
         <div className="error-actions">
           <Link className="button" href="/">
             Back to home

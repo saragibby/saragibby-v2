@@ -6,6 +6,12 @@ test("homepage follows the tech-decision design and fits the viewport", async ({
 }) => {
   await page.goto("/")
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
+    "Your CTO bestie."
+  )
+  await expect(page.locator(".hero-note")).toHaveText(
+    "25 years of watching software break, so yours doesn’t."
+  )
+  await expect(page.locator(".hero-support")).toHaveText(
     "Clear answers for your biggest tech decisions."
   )
   await expect(page.locator(".building-card")).toContainText(
@@ -50,7 +56,7 @@ test("homepage follows the tech-decision design and fits the viewport", async ({
   ).toBeVisible()
   await expect(
     page.getByRole("heading", {
-      name: /the 10 tech decisions every founder faces/i,
+      name: "Leave with your one-page AI plan.",
     })
   ).toBeVisible()
   await expect(
@@ -99,14 +105,18 @@ test("starter kit uses faint graph paper and a readable post-it checklist", asyn
     "linear-gradient(rgba(228, 207, 114, 0.2) 40px, rgba(0, 0, 0, 0) 40px)"
   )
   await expect(page.locator(".worksheet .eyebrow")).toHaveText(
-    "Checklist 03 · Before you sign"
+    "The Sara Test · Before you sign up"
   )
-  await expect(page.locator(".worksheet .score")).toHaveText([
-    "Y / N",
-    "Y / N",
-    "Y / N",
+  await expect(page.locator(".worksheet .worksheet-row")).toHaveText([
+    "Where does my stuff go?",
+    "Who else can get in?",
+    "Can I break up with it?",
   ])
-  await expect(page.locator(".kit-section .check-list strong")).toHaveCount(3)
+  await expect(page.locator(".kit-section .check-list strong")).toHaveText([
+    "A one-hour worksheet",
+    "The Sara Test",
+    "A “Safe to start” one-pager",
+  ])
 })
 
 test("homepage passes automated WCAG checks", async ({ page }) => {
@@ -125,15 +135,15 @@ test("hero has compact spacing and top-aligned desktop columns", async ({
   for (const width of [800, 1024, 1440, 1920]) {
     await page.setViewportSize({ width, height: 1000 })
     const copy = await page.locator(".hero-copy").boundingBox()
-    const note = await page.locator(".hero-note").boundingBox()
+    const heading = await page.locator(".hero h1").boundingBox()
     const portrait = await page.locator(".hero-visual .portrait").boundingBox()
     const visual = await page.locator(".hero-visual").boundingBox()
     expect(copy).not.toBeNull()
-    expect(note).not.toBeNull()
+    expect(heading).not.toBeNull()
     expect(portrait).not.toBeNull()
     expect(visual).not.toBeNull()
     expect(Math.abs(copy!.y - portrait!.y)).toBeLessThanOrEqual(1)
-    expect(Math.abs(note!.y - portrait!.y)).toBeLessThanOrEqual(1)
+    expect(Math.abs(heading!.y - portrait!.y)).toBeLessThanOrEqual(1)
     expect(Math.abs(copy!.height - visual!.height)).toBeLessThanOrEqual(1)
     await expect(page.locator(".hero-visual .portrait")).toHaveCSS(
       "object-position",
@@ -233,6 +243,73 @@ test("experience uses industry pills and text-only venture cards", async ({
   ).toBe(false)
 })
 
+test("tech translator features a different AI phrase on each visit", async ({
+  page,
+}) => {
+  await page.goto("/")
+  const phrase = page.locator(".translator-spotlight h3")
+  const seen = new Set<string>()
+  for (let visit = 0; visit < 4; visit += 1) {
+    if (visit > 0) await page.reload()
+    await expect
+      .poll(() =>
+        page.evaluate(() => localStorage.getItem("translator-phrase"))
+      )
+      .toBe(String(visit))
+    await page.waitForFunction(
+      (known) =>
+        !known.includes(
+          document.querySelector(".translator-spotlight h3")?.textContent ?? ""
+        ),
+      [...seen]
+    )
+    seen.add((await phrase.textContent()) ?? "")
+  }
+  expect(seen.size).toBe(4)
+})
+
+test("bestie voice appears on the interior pages it belongs to", async ({
+  page,
+}) => {
+  await page.goto("/build-with-me")
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText(
+    "Send it to your CTO bestie."
+  )
+  await expect(page.locator(".page-intro .lead")).toContainText(
+    "25 years of watching software break, so yours doesn’t."
+  )
+  await page.goto("/about")
+  await expect(page.locator(".about-story")).toContainText("your CTO bestie")
+  await page.goto("/resources")
+  await expect(page.locator("main")).toContainText(
+    "The library is on the workbench."
+  )
+  await page.goto("/newsletter")
+  await expect(
+    page.getByRole("heading", { name: "Margin Notes" })
+  ).toBeVisible()
+  await expect(page.locator("main .handwriting")).toHaveText(
+    "xo, your CTO bestie"
+  )
+  await expect(page.locator(".footer-signoff")).toHaveText(
+    "xo, your CTO bestie"
+  )
+  await page.goto("/a-page-that-does-not-exist")
+  await expect(page.locator("main")).toContainText(
+    "Bestie, this page broke. Ironic, I know."
+  )
+})
+
+test("picks pages pass automated WCAG checks", async ({ page }) => {
+  for (const route of ["/picks", "/picks/breakup-pile"]) {
+    await page.goto(route)
+    const results = await new AxeBuilder({ page })
+      .withTags(["wcag2a", "wcag2aa", "wcag21aa", "wcag22aa"])
+      .analyze()
+    expect(results.violations, route).toEqual([])
+  }
+})
+
 test("bio and footer do not display signature artwork", async ({ page }) => {
   await page.goto("/")
   await expect(page.locator(".bio-signature, .footer-signature")).toHaveCount(0)
@@ -260,8 +337,7 @@ test("signup notices remain readable inside the sand closing band", async ({
   await page.locator(".closing-band .signup-form").evaluate((form) => {
     const notice = document.createElement("p")
     notice.className = "notice small"
-    notice.textContent =
-      "Signup is not open yet. Email delivery is being connected."
+    notice.textContent = "Almost ready. I’m still testing the pipes."
     form.replaceWith(notice)
   })
   const notice = page.locator(".closing-band .notice")
@@ -310,6 +386,8 @@ test("public routes, retirement responses, and unknown routes work", async ({
     "/about",
     "/now",
     "/resources",
+    "/picks",
+    "/picks/breakup-pile",
     "/course",
     "/community",
     "/shop",

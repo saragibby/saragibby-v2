@@ -9,10 +9,15 @@ import { VentureLogo } from "@/components/site/venture-logo"
 import { biography } from "@/lib/site/biography"
 import { homepageDesign } from "@/lib/site/homepage-design"
 import {
+  bestieLine,
+  bestieSignOff,
   contactEmail,
+  kitHeading,
   kitLabel,
   kitName,
+  kitPromise,
   linkedInUrl,
+  newsletterName,
 } from "@/lib/site/site-navigation"
 import { getDocument, getPage, preview, text } from "@/lib/site/content"
 
@@ -63,16 +68,14 @@ const routes: Record<
       "Practical templates and AI toolkits are in the works. There are no products for sale yet.",
   },
   "build-with-me": {
-    title: "Have a tech decision reviewed.",
+    title: "Send it to your CTO bestie.",
     label: "Independent reviews",
-    description:
-      "Get an independent review of your tech stack, architecture, code, vendor proposal, or AI plan.",
+    description: `${bestieLine} Get an independent review of your tech stack, architecture, code, vendor proposal, or AI plan.`,
   },
   newsletter: {
     title: `The ${kitLabel}.`,
     label: kitLabel,
-    description:
-      "A practical guide to the tech decisions every founder faces. Request the kit, and choose whether you would also like ongoing email.",
+    description: `${kitHeading} ${kitPromise} Request the kit, and choose whether you would also like ongoing email.`,
   },
   privacy: {
     title: "Privacy",
@@ -228,6 +231,9 @@ function DraftContent({ slug }: { slug: string }) {
                 I’ve worked as an engineer, engineering leader, consultant, and
                 teacher, and founded and led technology at several startups.
               </p>
+              <p>
+                Think of me as your CTO bestie: {bestieLine}
+              </p>
               <p>{biography[0]}</p>
             </div>
             <article className="card about-roles">
@@ -309,17 +315,34 @@ function DraftContent({ slug }: { slug: string }) {
     )
   if (slug === "newsletter")
     return (
-      <div className="card">
-        <h2>A small kit for a real first step.</h2>
-        <ul className="check-list">
-          {homepageDesign.kitContents.map((item) => (
-            <li key={item}>{item}</li>
-          ))}
-        </ul>
-        <p className="small muted">
-          Planned contents. Final assets and delivery are awaiting approval.
-          Ongoing marketing is optional and separate from your kit request.
-        </p>
+      <div className="grid two">
+        <section className="card">
+          <p className="eyebrow">The kit</p>
+          <h2>A small kit for a real first step.</h2>
+          <ul className="check-list">
+            {homepageDesign.kitContents.map((item) => (
+              <li key={item}>{item}</li>
+            ))}
+          </ul>
+          <p className="small muted">
+            Planned contents. Final assets and delivery are awaiting approval.
+            Ongoing marketing is optional and separate from your kit request.
+          </p>
+        </section>
+        <section className="card">
+          <p className="eyebrow">The newsletter</p>
+          <h2>{newsletterName}</h2>
+          <p className="muted">
+            What I tried, and what I think. Not a polished report, just notes
+            from someone who’s actually in it.
+          </p>
+          <ul className="check-list">
+            <li>New tool tests first, before they’re on the site</li>
+            <li>What changed this month, and what to stop paying for</li>
+            <li>Hit reply with a question. It may become an Ask Sara answer</li>
+          </ul>
+          <p className="handwriting">{bestieSignOff}</p>
+        </section>
       </div>
     )
   if (slug === "now")

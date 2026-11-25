@@ -283,7 +283,14 @@ img {
   font-size: 32px;
 }
 .hero h1 {
-  margin-bottom: 24px;
+  margin-bottom: 12px;
+}
+.hero-support {
+  margin-bottom: 12px;
+  font-size: 1.25rem;
+  font-weight: 800;
+  line-height: 1.35;
+  letter-spacing: -0.02em;
 }
 .hero .lead {
   max-width: 590px;
@@ -420,9 +427,25 @@ img {
 .translator {
   padding-top: 0;
 }
-.translator-grid {
-  gap: 16px;
+.translator-spotlight {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px 48px;
   margin-top: 32px;
+  border-radius: 12px;
+  padding: 28px;
+  background: var(--surface);
+}
+.translator-spotlight .eyebrow {
+  margin-bottom: 10px;
+}
+.translator-spotlight h3,
+.translator-spotlight p:last-child {
+  margin-bottom: 0;
+}
+.translator .translator-grid {
+  gap: 16px;
+  margin-top: 16px;
 }
 .translator-card {
   min-width: 0;
@@ -605,11 +628,6 @@ img {
   gap: 12px;
   font-size: 0.95rem;
 }
-.score {
-  font-family: var(--font-mono), monospace;
-  white-space: nowrap;
-  font-size: 0.8rem;
-}
 .worksheet .handwriting {
   color: var(--rose);
   margin-top: 24px;
@@ -749,6 +767,9 @@ img {
 }
 .site-footer .handwriting {
   font-size: 24px;
+}
+.site-footer .handwriting:has(+ .footer-signoff) {
+  margin-bottom: 4px;
 }
 label {
   display: block;
@@ -1056,6 +1077,9 @@ textarea::placeholder {
   .audience-grid > :last-child {
     grid-template-columns: 1fr;
     gap: 24px;
+  }
+  .translator-spotlight {
+    grid-template-columns: 1fr;
   }
   .audience-next-step {
     border-left: 0;
@@ -1404,4 +1428,38 @@ textarea::placeholder {
   .playbook-sheet {
     transform: rotate(-1deg);
   }
+}
+.pick-badge {
+  width: fit-content;
+  margin-bottom: 16px;
+  border: 1px solid var(--spruce-light);
+  border-radius: 999px;
+  padding: 4px 12px;
+  color: var(--spruce-light);
+  font-size: 0.78rem;
+  font-weight: 800;
+}
+.pick-badge.is-changed {
+  border-color: var(--sand);
+  color: var(--sand);
+}
+.pick-badge.is-breakup {
+  border-color: var(--muted);
+  color: var(--muted);
+}
+.pick-card h2 {
+  font-size: 1.5rem;
+}
+.sara-test {
+  margin-top: 72px;
+}
+.sara-test ol {
+  margin-block: 32px;
+  padding: 0;
+  list-style: none;
+  counter-reset: sara-test;
+}
+.sara-test li h3::before {
+  counter-increment: sara-test;
+  content: counter(sara-test) ". ";
 }

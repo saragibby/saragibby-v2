@@ -110,7 +110,7 @@ export function SignupForm({
   if (!deliveryEnabled)
     return (
       <p className="notice small">
-        Signup is not open yet. Email delivery is being connected.
+        Almost ready. I’m still testing the pipes.
       </p>
     )
   if (!enabled)

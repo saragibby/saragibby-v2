@@ -3,6 +3,7 @@ import Image from "next/image"
 import { access } from "node:fs/promises"
 import path from "node:path"
 import { SignupForm } from "@/components/site/forms"
+import { TranslatorSpotlight } from "@/components/site/translator-spotlight"
 import { biography } from "@/lib/site/biography"
 import {
   getDocuments,
@@ -49,10 +50,9 @@ export default async function Home() {
     <>
       <section className="container hero">
         <div className="hero-copy">
-          <p className="handwriting hero-note">
-            {homepageDesign.hero.eyebrow}
-          </p>
           <h1>{title}</h1>
+          <p className="handwriting hero-note">{homepageDesign.hero.note}</p>
+          <p className="hero-support">{homepageDesign.hero.supporting}</p>
           <p className="lead">{homepageDesign.hero.description}</p>
           <div className="hero-signup">
             <p className="small muted">{homepageDesign.kitDescription}</p>
@@ -138,12 +138,13 @@ export default async function Home() {
         <p className="eyebrow">The tech translator</p>
         <h2 className="section-title">What they said, and what they meant.</h2>
         <p className="handwriting">bookmark this for your next dev meeting</p>
+        <TranslatorSpotlight />
         <div className="grid four translator-grid">
           {techTranslations.map((translation) => (
             <article className="translator-card" key={translation.theySaid}>
-              <p className="eyebrow">They said</p>
+              <p className="eyebrow">What they said</p>
               <h3>{translation.theySaid}</h3>
-              <p className="eyebrow">They meant</p>
+              <p className="eyebrow">What they meant</p>
               <p>{translation.theyMeant}</p>
             </article>
           ))}
@@ -208,12 +209,13 @@ export default async function Home() {
           <div>
             <p className="eyebrow">Inside the free {kitName}</p>
             <h2>{homepageDesign.kitHeading}</h2>
+            <p>{homepageDesign.kitPromise}</p>
             <ul className="check-list">
               {kitContents.map((item, index) => (
                 <li key={index}>
                   {text(item.label)
                     .split(
-                      /(A decision guide|A tech stack checklist|A 10-minute video)/
+                      /(A one-hour worksheet|The Sara Test|A “Safe to start” one-pager)/
                     )
                     .map((part, partIndex) =>
                       partIndex % 2 === 1 ? (
@@ -234,19 +236,19 @@ export default async function Home() {
             <SignupForm source="home-kit" />
           </div>
           <div className="worksheet">
-            <p className="eyebrow">Checklist 03 · Before you sign</p>
-            <h3>Is this dev quote any good?</h3>
+            <p className="eyebrow">The Sara Test · Before you sign up</p>
+            <h3>Can I trust this tool?</h3>
             {[
-              "Is the scope written down?",
-              "Do you own the code?",
-              "Does “done” include testing?",
+              "Where does my stuff go?",
+              "Who else can get in?",
+              "Can I break up with it?",
             ].map((question) => (
               <div className="worksheet-row" key={question}>
                 <span>{question}</span>
-                <span className="score">Y / N</span>
+                <span className="lesson-box" aria-hidden="true" />
               </div>
             ))}
-            <p className="handwriting">ask these before you sign anything</p>
+            <p className="handwriting">ask these before you sign up for anything</p>
           </div>
         </div>
       </section>
