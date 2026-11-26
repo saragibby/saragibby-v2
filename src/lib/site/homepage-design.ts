@@ -1,7 +1,12 @@
-import { kitName } from "./site-navigation"
+import {
+  bestieLine,
+  bestieName,
+  kitHeading,
+  kitName,
+  kitPromise,
+} from "./site-navigation"
 
-export const siteDescription =
-  "Clear answers for your biggest tech decisions. Independent guidance for founders and small businesses on tech, AI, hiring, and vendors."
+export const siteDescription = `${bestieName}. ${bestieLine} Clear answers on tech, AI, hiring, and vendors for founders and small businesses.`
 
 export const homepageAudienceFocuses = [
   "Non-technical founders",
@@ -12,10 +17,11 @@ export const homepageAudienceFocuses = [
 
 export const homepageDesign = {
   hero: {
-    eyebrow: "I speak fluent tech.",
-    heading: "Clear answers for your biggest tech decisions.",
+    heading: `${bestieName}.`,
+    note: bestieLine,
+    supporting: "Clear answers for your biggest tech decisions.",
     description:
-      "Independent, honest guidance on tech, AI, hiring, and vendors. I have spent 25 years building software and leading engineering teams. Now I help founders and small businesses decide what to build, buy, and who to trust. No hype, no jargon, and no question too basic.",
+      "Independent, honest guidance on tech, AI, hiring, and vendors. I have spent my career building software and leading engineering teams. Now I help founders and small businesses decide what to build, buy, and who to trust. No hype, no jargon, and no question too basic.",
   },
   alwaysBuilding:
     "Building practical AI tools and helping people across industries make confident tech decisions. No jargon, no guesswork.",
@@ -49,12 +55,13 @@ export const homepageDesign = {
     },
   ],
   offeringsHeading: "Learn it, ask it, or have it reviewed.",
-  kitHeading: "The 10 tech decisions every founder faces.",
-  kitDescription: `The free ${kitName} is being prepared: a practical guide to the decisions founders face.`,
+  kitHeading,
+  kitPromise,
+  kitDescription: `The free ${kitName} is being prepared. ${kitPromise}`,
   kitContents: [
-    "A decision guide to build vs. buy, hiring, hosting, security, and AI",
-    "A tech stack checklist to sanity-check what you have or what you are being sold",
-    "A 10-minute video on how a CTO thinks through each choice, jargon translated",
+    "A one-hour worksheet that ends with your one-page AI plan: one task, the tool, the data rules, and how you’ll measure it",
+    "The Sara Test, so you can judge any tool yourself",
+    "A “Safe to start” one-pager: what never to paste into AI, which settings to turn off, and how to tell a tool is trustworthy",
   ],
   storyHeading: "Serious about tech. Not so serious about everything else.",
   audiences: [
@@ -94,7 +101,7 @@ export const homepageDesign = {
     },
   ],
   closingHeading: "Make your next tech decision with confidence.",
-  closingDescription: `The free ${kitName} is being prepared: practical guidance for the choices that shape your product, team, and budget.`,
+  closingDescription: `The free ${kitName} is being prepared. ${kitPromise}`,
 }
 
 export const techTranslations = [
@@ -120,12 +127,35 @@ export const techTranslations = [
   },
 ]
 
+// One of these is featured per visit, so each reload shows the next phrase.
+export const aiTranslations = [
+  {
+    theySaid: "“It’s AI-powered.”",
+    theyMeant:
+      "There’s a chatbot in the corner. Ask what the AI actually does.",
+  },
+  {
+    theySaid: "“The AI handles that automatically.”",
+    theyMeant:
+      "It works until it doesn’t. Ask who checks it, and how you undo it.",
+  },
+  {
+    theySaid: "“We’ll build you an AI agent.”",
+    theyMeant:
+      "It’s software that takes actions for you. Ask what it can do without checking with you first.",
+  },
+  {
+    theySaid: "“Your data is safe with our AI.”",
+    theyMeant:
+      "Maybe. Ask where it’s stored, how long it’s kept, and whether it trains on what you paste in.",
+  },
+]
+
 export const homepageOfferings = [
   {
     slug: "starter-kit",
     title: `The Free ${kitName}`,
-    description:
-      "The 10 tech decisions every founder faces, with checklists and plain-English explanations. In preparation; downloads are not available yet.",
+    description: `${kitHeading} ${kitPromise} In preparation; downloads are not available yet.`,
     ctaLabel: "Get the kit",
     ctaDestination: "/newsletter",
   },

@@ -12,6 +12,8 @@ const pageRoutes = new Set([
 const fixedRoutes = [
   "/",
   "/resources",
+  "/picks",
+  "/picks/breakup-pile",
   "/course",
   "/community",
   "/shop",

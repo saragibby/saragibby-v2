@@ -97,12 +97,15 @@ export default async function Resources({
       ) : (
         <section className="course-layout">
           <div className="prose">
-            <h2>The playbook library is on the workbench.</h2>
+            <h2>The library is on the workbench.</h2>
             <p>
-              Short, practical guides for the decisions founders and small
-              businesses run into most. No playbooks are published yet. Get the
-              free kit in the meantime, and you’ll hear when the first ones are
-              ready.
+              Bestie-approved picks coming soon. Short, practical guides for
+              the decisions founders and small businesses run into most are on
+              the way, too. Get the free kit in the meantime, and you’ll hear
+              when the first ones are ready.
+            </p>
+            <p>
+              Curious what earns a pick? <Link href="/picks">See The Sara Test</Link>.
             </p>
             <Link className="button" href="/newsletter">
               Get the free {kitName}
