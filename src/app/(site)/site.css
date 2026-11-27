@@ -496,6 +496,15 @@ img {
 .offerings .card > p:not(.eyebrow) {
   margin-bottom: 28px;
 }
+.offerings .card > p:has(+ .check-list) {
+  margin-bottom: 16px;
+}
+.offerings .card .check-list {
+  margin: 0 0 28px;
+}
+.offerings .featured .check-list li::before {
+  color: var(--spruce);
+}
 .featured {
   background: var(--sand);
   color: var(--ink);

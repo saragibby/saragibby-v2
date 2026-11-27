@@ -179,7 +179,7 @@ existing offering slugs and leaves offerings marked as previews. Informational
 pages are part of the application; create legal policies in `/admin` only after
 they have been reviewed.
 
-Offering copy is managed in the CMS. To apply the current defaults from
+Offering copy is managed in the CMS, except the homepage Starter Kit card, which renders from `homepageOfferings` and `kitContents` in `src/lib/site/homepage-design.ts` so it always matches `/newsletter`. To apply the current defaults from
 `src/lib/site/homepage-design.ts`, run
 `UPDATE_OFFERINGS=true npx tsx src/scripts/update-offerings.ts` with the target
 configuration. It preserves availability settings. Review existing offering

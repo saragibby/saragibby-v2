@@ -38,6 +38,8 @@ export default async function Home() {
   const sectors = homepageDesign.audiences.map((label) => ({ label }))
   const ventures = homepageDesign.ventures
   const featuredOfferings = homepageOfferings.flatMap((defaultOffer) => {
+    // The kit card is homepage copy, so it always comes from the code defaults.
+    if (defaultOffer.slug === "starter-kit") return [defaultOffer]
     const published = offerings.find(
       (offer) => text(offer.slug) === defaultOffer.slug
     )
@@ -177,6 +179,15 @@ export default async function Home() {
                 </p>
                 <h3>{text(offer.title)}</h3>
                 <p>{text(offer.description)}</p>
+                {offer.slug === "starter-kit" && (
+                  <ul className="check-list">
+                    {kitContents.map((item) => (
+                      <li key={item.label}>
+                        <KitItem label={item.label} />
+                      </li>
+                    ))}
+                  </ul>
+                )}
                 <Link
                   className="text-link"
                   href={
@@ -213,17 +224,7 @@ export default async function Home() {
             <ul className="check-list">
               {kitContents.map((item, index) => (
                 <li key={index}>
-                  {text(item.label)
-                    .split(
-                      /(A one-hour worksheet|The Sara Test|A “Safe to start” one-pager)/
-                    )
-                    .map((part, partIndex) =>
-                      partIndex % 2 === 1 ? (
-                        <strong key={partIndex}>{part}</strong>
-                      ) : (
-                        part
-                      )
-                    )}
+                  <KitItem label={item.label} />
                 </li>
               ))}
             </ul>
@@ -354,4 +355,12 @@ export default async function Home() {
       </section>
     </>
   )
+}
+
+function KitItem({ label }: { label: string }) {
+  return label
+    .split(/(A one-hour worksheet|The Sara Test|A “Safe to start” one-pager)/)
+    .map((part, index) =>
+      index % 2 === 1 ? <strong key={index}>{part}</strong> : part
+    )
 }
