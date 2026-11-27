@@ -32,3 +32,23 @@
   font-weight: 800;
   letter-spacing: -0.02em;
 }
+
+/* Breadcrumb home link: Payload sizes this box at 16px for its own glyph and
+   clips spans, so give the SG mark a slightly larger box and fill it. */
+.step-nav .step-nav__home {
+  width: 26px;
+  height: 26px;
+  flex-shrink: 0;
+}
+
+.step-nav .step-nav__home .sg-admin-icon {
+  display: grid;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  overflow: visible;
+  border-radius: 7px;
+  font-size: 11px;
+  line-height: 1;
+  text-decoration: none;
+}
