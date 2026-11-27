@@ -362,6 +362,14 @@ test("signup notices remain readable inside the sand closing band", async ({
   page,
 }) => {
   await page.goto("/")
+  // Swap the form only after React hydrates it, or React re-renders the
+  // form over the injected notice.
+  await page.waitForFunction(() => {
+    const form = document.querySelector(".closing-band .signup-form")
+    return Boolean(
+      form && Object.keys(form).some((key) => key.startsWith("__react"))
+    )
+  })
   await page.locator(".closing-band .signup-form").evaluate((form) => {
     const notice = document.createElement("p")
     notice.className = "notice small"
