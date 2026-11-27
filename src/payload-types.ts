@@ -367,7 +367,7 @@ export interface Offering {
   availability: 'preview' | 'waitlist' | 'available';
   ctaLabel?: string | null;
   ctaDestination?: string | null;
-  waitlistInterest?: ('course' | 'community' | 'shop') | null;
+  waitlistInterest?: ('course' | 'community') | null;
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
@@ -408,7 +408,7 @@ export interface Subscriber {
       )
     | null;
   businessTypeOther?: string | null;
-  interests?: ('newsletter' | 'course' | 'community' | 'shop' | 'kit')[] | null;
+  interests?: ('newsletter' | 'course' | 'community' | 'kit')[] | null;
   starterKitRequested: boolean;
   /**
    * When the Starter Kit was first requested.

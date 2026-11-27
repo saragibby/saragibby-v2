@@ -192,7 +192,7 @@ export default async function Home() {
                   className="text-link"
                   href={
                     safeHref(offer.ctaDestination) ??
-                    `/${["course", "community", "shop"].includes(text(offer.slug)) ? text(offer.slug) : "start-here"}`
+                    `/${["course", "community"].includes(text(offer.slug)) ? text(offer.slug) : "start-here"}`
                   }
                 >
                   {text(offer.ctaLabel, "Learn more")} →

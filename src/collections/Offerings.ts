@@ -37,7 +37,6 @@ export const Offerings: CollectionConfig = {
       options: [
         { label: 'Course', value: 'course' },
         { label: 'Community', value: 'community' },
-        { label: 'Shop', value: 'shop' },
       ],
     },
   ],

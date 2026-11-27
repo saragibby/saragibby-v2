@@ -61,12 +61,6 @@ const routes: Record<
     description:
       "Bring a real question about tech, AI, hiring, or vendors. Get a clear answer without judgment.",
   },
-  shop: {
-    title: "Less starting from scratch.",
-    label: "Shop · In development",
-    description:
-      "Practical templates and AI toolkits are in the works. There are no products for sale yet.",
-  },
   "build-with-me": {
     title: "Send it to your CTO bestie.",
     label: "Independent reviews",
@@ -115,8 +109,8 @@ export default async function PublicPage({ params }: Props) {
     getDocument("offerings", slug),
   ])
   const bodyApproved = Boolean(page && (!legal || page.ownerApproved === true))
-  const interest = ["course", "community", "shop"].includes(slug)
-    ? (slug as "course" | "community" | "shop")
+  const interest = ["course", "community"].includes(slug)
+    ? (slug as "course" | "community")
     : null
   return (
     <div className={`container section interior page-${slug}`}>

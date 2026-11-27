@@ -16,7 +16,7 @@ import {
   type FormNoticeKind,
 } from "@/lib/site/form-availability"
 
-type Interest = "kit" | "newsletter" | "course" | "community" | "shop"
+type Interest = "kit" | "newsletter" | "course" | "community"
 
 const FormPolicy = createContext({
   enabled: false,

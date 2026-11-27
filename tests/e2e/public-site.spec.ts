@@ -430,7 +430,6 @@ test("public routes, retirement responses, and unknown routes work", async ({
     "/picks/breakup-pile",
     "/course",
     "/community",
-    "/shop",
     "/build-with-me",
     "/newsletter",
     "/privacy",
