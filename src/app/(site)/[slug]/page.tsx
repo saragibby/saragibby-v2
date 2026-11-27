@@ -19,7 +19,7 @@ import {
   linkedInUrl,
   newsletterName,
 } from "@/lib/site/site-navigation"
-import { getDocument, getPage, preview, text } from "@/lib/site/content"
+import { getDocument, getPage, preview, record, text } from "@/lib/site/content"
 
 const routes: Record<
   string,
@@ -128,7 +128,11 @@ export default async function PublicPage({ params }: Props) {
         }
         title={text(page?.title, text(offering?.title, route.title))}
       >
-        <p>{text(offering?.description, route.description)}</p>
+        <p>
+          {legal && bodyApproved
+            ? text(record(page?.seo).description)
+            : text(offering?.description, route.description)}
+        </p>
       </PageIntro>
       {bodyApproved ? (
         <RichText value={page?.body} />
