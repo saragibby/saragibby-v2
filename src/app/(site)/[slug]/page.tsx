@@ -166,7 +166,9 @@ export default async function PublicPage({ params }: Props) {
               </p>
               <InquiryForm />
             </>
-          ) : ["start-here", "newsletter"].includes(slug) ? (
+          ) : slug === "newsletter" ? (
+            <SignupForm source="newsletter" fields="full" />
+          ) : slug === "start-here" ? (
             <SignupForm source={slug} />
           ) : (
             <Link className="button" href="/start-here">

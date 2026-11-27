@@ -515,3 +515,98 @@ test("signup surfaces server errors and permits a retry", async ({ page }) => {
   ).toBeVisible()
   expect(attempts).toBe(2)
 })
+
+test("the kit form collects optional answers and keeps consent separate", async ({
+  page,
+}) => {
+  let body: Record<string, unknown> = {}
+  await page.route("**/api/newsletter", async (route) => {
+    body = route.request().postDataJSON()
+    await route.fulfill({
+      status: 200,
+      contentType: "application/json",
+      body: JSON.stringify({
+        message: "You’re in, bestie. Check your inbox soon.",
+      }),
+    })
+  })
+  await page.goto("/newsletter")
+  const form = page.locator(".kit-form")
+  const consent = form.getByLabel(
+    "Also send me Margin Notes, my newsletter. Unsubscribe anytime."
+  )
+  await expect(consent).not.toBeChecked()
+  await expect(
+    form.getByRole("link", { name: "How I handle your info" })
+  ).toHaveAttribute("href", "/privacy")
+
+  const business = form.getByLabel(
+    "What kind of business do you run? (optional)"
+  )
+  await expect(business.locator("option")).toHaveText([
+    "Choose one",
+    "Service business",
+    "Retail or e-commerce",
+    "Agency or freelancer",
+    "Startup or tech product",
+    "Restaurant or hospitality",
+    "Nonprofit",
+    "Other",
+  ])
+  const other = form.getByLabel("Tell me a little more (optional)")
+  await expect(other).toHaveCount(0)
+
+  // Email is required and validated before anything is sent.
+  await form.getByRole("button", { name: "Send me the kit" }).click()
+  expect(
+    await form
+      .getByLabel("Email address")
+      .evaluate((input: HTMLInputElement) => input.validity.valueMissing)
+  ).toBe(true)
+  await form.getByLabel("Email address").fill("not-an-email")
+  await form.getByRole("button", { name: "Send me the kit" }).click()
+  expect(
+    await form
+      .getByLabel("Email address")
+      .evaluate((input: HTMLInputElement) => input.validity.typeMismatch)
+  ).toBe(true)
+  expect(body).toEqual({})
+
+  // Keyboard only from here.
+  await form.getByLabel("Email address").fill("reader@example.com")
+  await page.keyboard.press("Tab")
+  await expect(form.getByLabel("First name (optional)")).toBeFocused()
+  await page.keyboard.type("Ada")
+  await page.keyboard.press("Tab")
+  await expect(business).toBeFocused()
+  await business.selectOption("other")
+  await expect(other).toBeVisible()
+  await page.keyboard.press("Tab")
+  await expect(other).toBeFocused()
+  await page.keyboard.type("Bike repair co-op")
+  await page.keyboard.press("Tab")
+  await expect(consent).toBeFocused()
+  await page.keyboard.press("Enter")
+
+  await expect(form.getByRole("status")).toHaveText(
+    "You’re in, bestie. Check your inbox soon."
+  )
+  expect(body).toMatchObject({
+    email: "reader@example.com",
+    marketingConsent: false,
+    interest: "kit",
+    source: "newsletter",
+    sourcePage: "/newsletter",
+    firstName: "Ada",
+    businessType: "other",
+    businessTypeOther: "Bike repair co-op",
+    website: "",
+  })
+  await expect(other).toHaveCount(0)
+
+  const results = await new AxeBuilder({ page })
+    .include(".kit-form")
+    .withTags(["wcag2a", "wcag2aa", "wcag21aa", "wcag22aa"])
+    .analyze()
+  expect(results.violations).toEqual([])
+})

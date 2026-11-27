@@ -1,5 +1,6 @@
 import type { CollectionConfig } from 'payload'
 import { isAdmin } from '@/lib/server/access'
+import { businessTypes } from '@/lib/site/business-types'
 
 export const Subscribers: CollectionConfig = {
   slug: 'subscribers',
@@ -9,6 +10,7 @@ export const Subscribers: CollectionConfig = {
       'email',
       'state',
       'consentState',
+      'businessType',
       'starterKitDeliveryState',
       'updatedAt',
     ],
@@ -45,10 +47,43 @@ export const Subscribers: CollectionConfig = {
         { label: 'Withdrawn', value: 'withdrawn' },
       ],
     },
-    { name: 'marketingConsent', type: 'checkbox', required: true, defaultValue: false },
+    {
+      name: 'marketingConsent',
+      label: 'Newsletter consent',
+      type: 'checkbox',
+      required: true,
+      defaultValue: false,
+      admin: {
+        description:
+          'Opted in to Margin Notes. Separate from a Starter Kit request; ongoing email also needs a confirmed address.',
+      },
+    },
     { name: 'consentWordingVersion', type: 'text', maxLength: 40 },
-    { name: 'consentTimestamp', type: 'date' },
+    {
+      name: 'consentTimestamp',
+      type: 'date',
+      admin: { description: 'When newsletter consent was given.' },
+    },
     { name: 'source', type: 'text', required: true, maxLength: 50 },
+    {
+      name: 'sourcePage',
+      type: 'text',
+      maxLength: 200,
+      admin: { description: 'The page the signup form was on, e.g. /newsletter.' },
+    },
+    { name: 'firstName', type: 'text', maxLength: 80 },
+    {
+      name: 'businessType',
+      type: 'select',
+      options: businessTypes.map(({ label, value }) => ({ label, value })),
+    },
+    {
+      name: 'businessTypeOther',
+      label: 'Business type (other)',
+      type: 'text',
+      maxLength: 100,
+      admin: { condition: (data) => data?.businessType === 'other' },
+    },
     {
       name: 'interests',
       type: 'select',
@@ -62,6 +97,11 @@ export const Subscribers: CollectionConfig = {
       ],
     },
     { name: 'starterKitRequested', type: 'checkbox', required: true, defaultValue: false },
+    {
+      name: 'starterKitRequestedAt',
+      type: 'date',
+      admin: { description: 'When the Starter Kit was first requested.' },
+    },
     {
       name: 'starterKitDeliveryState',
       type: 'select',

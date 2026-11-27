@@ -19,6 +19,8 @@ describe.skipIf(!databaseURL)('isolated Postgres backend integration', () => {
   const email = `backend-${runID}@example.test`
   const rateKey = rateLimitKey('integration', runID, signingSecret)
   let subscriberId: number
+  let profileSubscriberId: number | undefined
+  const profileEmail = `kit-profile-${runID}@example.test`
   let inquiryId: number | undefined
   let privacyId: number | undefined
 
@@ -60,6 +62,13 @@ describe.skipIf(!databaseURL)('isolated Postgres backend integration', () => {
         `DELETE FROM payload_jobs WHERE input->>'subscriberId' = $1 OR input->>'inquiryId' = $2`,
         [String(subscriberId), String(inquiryId)],
       )
+      if (profileSubscriberId) {
+        await payload.db.pool.query(
+          `DELETE FROM payload_jobs WHERE input->>'subscriberId' = $1`,
+          [String(profileSubscriberId)],
+        )
+        await payload.delete({ collection: 'subscribers', id: profileSubscriberId, overrideAccess: true })
+      }
       if (subscriberId) {
         await payload.delete({
           collection: 'subscribers',
@@ -237,6 +246,79 @@ describe.skipIf(!databaseURL)('isolated Postgres backend integration', () => {
       !Array.isArray(job.input) &&
       job.input.subscriberId === String(subscriberId)
     ))).toBe(true)
+  })
+
+  it('stores kit form answers and newsletter consent separately without overwriting them', async () => {
+    const { POST } = await import('../../src/app/api/newsletter/route')
+    const request = (data: object) =>
+      new Request('http://localhost:3000/api/newsletter', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'x-real-ip': `${runID}-kit-form` },
+        body: JSON.stringify(data),
+      })
+    const before = Date.now()
+    const response = await POST(request({
+      email: profileEmail.toUpperCase(),
+      marketingConsent: true,
+      interest: 'kit',
+      source: 'newsletter',
+      sourcePage: '/newsletter',
+      firstName: ' Ada ',
+      businessType: 'other',
+      businessTypeOther: 'Bike repair co-op',
+      website: '',
+    }))
+    expect(response.status).toBe(200)
+    expect(await response.json()).toEqual({ message: 'You’re in, bestie. Check your inbox soon.' })
+
+    const repeat = await POST(request({
+      email: profileEmail,
+      marketingConsent: false,
+      interest: 'kit',
+      source: 'home-kit',
+      sourcePage: '/',
+      firstName: 'Someone else',
+      businessType: 'nonprofit',
+    }))
+    expect(repeat.status).toBe(200)
+
+    const found = await payload.find({
+      collection: 'subscribers',
+      where: { email: { equals: profileEmail } },
+      overrideAccess: true,
+    })
+    expect(found.totalDocs).toBe(1)
+    const subscriber = found.docs[0]
+    profileSubscriberId = subscriber.id
+    expect(subscriber).toMatchObject({
+      firstName: 'Ada',
+      businessType: 'other',
+      businessTypeOther: 'Bike repair co-op',
+      source: 'newsletter',
+      sourcePage: '/newsletter',
+      starterKitRequested: true,
+      marketingConsent: true,
+      consentState: 'pending',
+      state: 'pending',
+    })
+    expect(Date.parse(subscriber.consentTimestamp ?? '')).toBeGreaterThanOrEqual(before - 1000)
+    expect(Date.parse(subscriber.starterKitRequestedAt ?? '')).toBeGreaterThanOrEqual(before - 1000)
+  })
+
+  it('rejects an unknown business type', async () => {
+    const { POST } = await import('../../src/app/api/newsletter/route')
+    const response = await POST(new Request('http://localhost:3000/api/newsletter', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'x-real-ip': `${runID}-kit-invalid` },
+      body: JSON.stringify({
+        email: `invalid-${runID}@example.test`,
+        marketingConsent: false,
+        interest: 'kit',
+        source: 'newsletter',
+        businessType: 'casino',
+      }),
+    }))
+    expect(response.status).toBe(400)
   })
 
   it('denies anonymous personal data and public user registration', async () => {

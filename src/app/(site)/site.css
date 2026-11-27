@@ -903,6 +903,25 @@ textarea::placeholder {
 .inquiry-form .button {
   justify-self: start;
 }
+.kit-form {
+  display: grid;
+  gap: 8px;
+  max-width: 560px;
+}
+.kit-form input:not([type="checkbox"]),
+.kit-form select {
+  margin-bottom: 16px;
+}
+.kit-form .consent {
+  margin: 0 0 20px;
+  font-size: 0.8rem;
+}
+.kit-form .button {
+  justify-self: start;
+}
+.kit-form .form-fineprint {
+  margin: 8px 0 0;
+}
 .notice {
   border-left: 3px solid var(--sand);
   background: var(--surface);

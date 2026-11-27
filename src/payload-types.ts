@@ -326,12 +326,39 @@ export interface Subscriber {
   email: string;
   state: 'pending' | 'confirmed' | 'unsubscribed';
   consentState: 'pending' | 'consented' | 'not-consented' | 'withdrawn';
+  /**
+   * Opted in to Margin Notes. Separate from a Starter Kit request; ongoing email also needs a confirmed address.
+   */
   marketingConsent: boolean;
   consentWordingVersion?: string | null;
+  /**
+   * When newsletter consent was given.
+   */
   consentTimestamp?: string | null;
   source: string;
+  /**
+   * The page the signup form was on, e.g. /newsletter.
+   */
+  sourcePage?: string | null;
+  firstName?: string | null;
+  businessType?:
+    | (
+        | 'service'
+        | 'retail-ecommerce'
+        | 'agency-freelancer'
+        | 'startup-tech'
+        | 'restaurant-hospitality'
+        | 'nonprofit'
+        | 'other'
+      )
+    | null;
+  businessTypeOther?: string | null;
   interests?: ('newsletter' | 'course' | 'community' | 'shop' | 'kit')[] | null;
   starterKitRequested: boolean;
+  /**
+   * When the Starter Kit was first requested.
+   */
+  starterKitRequestedAt?: string | null;
   starterKitDeliveryState: 'not-requested' | 'pending' | 'queued' | 'delivered' | 'failed';
   confirmationSentAt?: string | null;
   confirmedAt?: string | null;
@@ -785,8 +812,13 @@ export interface SubscribersSelect<T extends boolean = true> {
   consentWordingVersion?: T;
   consentTimestamp?: T;
   source?: T;
+  sourcePage?: T;
+  firstName?: T;
+  businessType?: T;
+  businessTypeOther?: T;
   interests?: T;
   starterKitRequested?: T;
+  starterKitRequestedAt?: T;
   starterKitDeliveryState?: T;
   confirmationSentAt?: T;
   confirmedAt?: T;

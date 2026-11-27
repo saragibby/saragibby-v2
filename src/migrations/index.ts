@@ -4,6 +4,7 @@ import * as migration_20261027_124613_align_inquiry_contract from './20261027_12
 import * as migration_20261027_133609_page_owner_approval from './20261027_133609_page_owner_approval';
 import * as migration_20261027_134004_full_homepage_editor from './20261027_134004_full_homepage_editor';
 import * as migration_20261122_173000_remove_site_content_globals from './20261122_173000_remove_site_content_globals';
+import * as migration_20261127_120000_kit_signup_fields from './20261127_120000_kit_signup_fields';
 
 export const migrations = [
   {
@@ -35,5 +36,10 @@ export const migrations = [
     up: migration_20261122_173000_remove_site_content_globals.up,
     down: migration_20261122_173000_remove_site_content_globals.down,
     name: '20261122_173000_remove_site_content_globals'
+  },
+  {
+    up: migration_20261127_120000_kit_signup_fields.up,
+    down: migration_20261127_120000_kit_signup_fields.down,
+    name: '20261127_120000_kit_signup_fields'
   },
 ];
