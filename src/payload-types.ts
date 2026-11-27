@@ -130,6 +130,7 @@ export interface Config {
       'queue-newsletter': TaskQueueNewsletter;
       'send-newsletter-recipient': TaskSendNewsletterRecipient;
       'prune-rate-limits': TaskPruneRateLimits;
+      'enforce-retention': TaskEnforceRetention;
       inline: {
         input: unknown;
         output: unknown;
@@ -576,7 +577,8 @@ export interface PayloadJob {
           | 'notify-inquiry'
           | 'queue-newsletter'
           | 'send-newsletter-recipient'
-          | 'prune-rate-limits';
+          | 'prune-rate-limits'
+          | 'enforce-retention';
         taskID: string;
         input?:
           | {
@@ -618,6 +620,7 @@ export interface PayloadJob {
         | 'queue-newsletter'
         | 'send-newsletter-recipient'
         | 'prune-rate-limits'
+        | 'enforce-retention'
       )
     | null;
   queue?: string | null;
@@ -1163,6 +1166,14 @@ export interface TaskSendNewsletterRecipient {
  * via the `definition` "TaskPrune-rate-limits".
  */
 export interface TaskPruneRateLimits {
+  input?: unknown;
+  output?: unknown;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TaskEnforce-retention".
+ */
+export interface TaskEnforceRetention {
   input?: unknown;
   output?: unknown;
 }

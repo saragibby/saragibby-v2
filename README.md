@@ -204,6 +204,11 @@ copy first; this explicit update does not deploy code.
 Forms must persist submissions before acknowledging them and queue delivery durably. A successful form response is not proof of inbox delivery.
 
 - Keep lead-magnet requests separate from consent to ongoing marketing.
+- The worker's daily `enforce-retention` job (03:41 UTC) applies the privacy policy's
+  retention periods from `src/lib/server/retention.ts`. It deletes signups never
+  confirmed after 30 days, subscriber records 30 days after unsubscribing (the
+  suppression entry stays), and inquiries after 2 years without activity. Change the
+  privacy policy first, then those numbers.
 - The `/newsletter` kit form also stores optional first name and business type,
   the page it was sent from, and when the kit was requested. Newsletter consent
   stays in `marketingConsent` with its own timestamp. Repeat signups only fill
