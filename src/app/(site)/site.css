@@ -1629,3 +1629,47 @@ textarea::placeholder {
     grid-template-columns: 1fr;
   }
 }
+.legal-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) minmax(260px, 0.8fr);
+  gap: 72px;
+  align-items: start;
+}
+.legal-note {
+  margin-bottom: 24px;
+}
+.legal-sheet {
+  transform: rotate(1.5deg);
+  position: sticky;
+  top: 40px;
+}
+.legal-sheet a {
+  color: var(--ink);
+  font-weight: 700;
+}
+.legal-sheet [aria-current="page"] {
+  color: #295e55;
+  font-weight: 800;
+}
+.legal-sheet .lesson-box.checked {
+  background: #295e55;
+  border-color: #295e55;
+}
+.legal-contact {
+  margin-top: 20px;
+  margin-bottom: 0;
+}
+.legal-contact a {
+  color: #295e55;
+  font-weight: 700;
+}
+@media (max-width: 760px) {
+  .legal-layout {
+    grid-template-columns: 1fr;
+    gap: 48px;
+  }
+  .legal-sheet {
+    position: static;
+    transform: rotate(-1deg);
+  }
+}
