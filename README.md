@@ -190,6 +190,10 @@ copy first; this explicit update does not deploy code.
 Forms must persist submissions before acknowledging them and queue delivery durably. A successful form response is not proof of inbox delivery.
 
 - Keep lead-magnet requests separate from consent to ongoing marketing.
+- The `/newsletter` kit form also stores optional first name and business type,
+  the page it was sent from, and when the kit was requested. Newsletter consent
+  stays in `marketingConsent` with its own timestamp. Repeat signups only fill
+  empty profile fields; they never overwrite earlier answers.
 - Require confirmation before ongoing newsletter or waitlist sends.
 - Enforce suppression for unsubscribe, hard bounce, and complaint events.
 - Never send to an entire subscriber collection without rechecking consent and suppression at send time.

@@ -25,6 +25,26 @@ export const dynamic = 'force-dynamic'
 const CONSENT_WORDING_VERSION = '2026-10-27'
 const GENERIC_MESSAGE =
   'Thanks. If a confirmation is needed, check your inbox for the next step.'
+// Shown for every kit request, whatever happened, so the response never
+// reveals whether an address is already subscribed or suppressed.
+const KIT_MESSAGE = 'You’re in, bestie. Check your inbox soon.'
+
+function successMessage(input: SignupInput) {
+  return input.starterKitRequested ? KIT_MESSAGE : GENERIC_MESSAGE
+}
+
+// Profile answers only fill empty fields, so an unauthenticated request
+// cannot overwrite what someone already told us.
+function profileUpdates(subscriber: Subscriber, input: SignupInput) {
+  const data: Partial<Subscriber> = {}
+  if (input.firstName && !subscriber.firstName) data.firstName = input.firstName
+  if (input.businessType && !subscriber.businessType) {
+    data.businessType = input.businessType
+    if (input.businessTypeOther) data.businessTypeOther = input.businessTypeOther
+  }
+  if (input.sourcePage && !subscriber.sourcePage) data.sourcePage = input.sourcePage
+  return data
+}
 
 function selectedInterests(input: SignupInput): SignupInterest[] {
   const interests: SignupInterest[] = []
@@ -70,7 +90,7 @@ async function updateExistingSubscriber(
   const confirmationResendDue =
     subscriber.state === 'pending' &&
     isConfirmationResendDue(subscriber.confirmationSentAt)
-  const data: Partial<Subscriber> = {}
+  const data: Partial<Subscriber> = profileUpdates(subscriber, input)
 
   if (input.marketingConsent && !subscriber.marketingConsent) {
     data.marketingConsent = true
@@ -89,6 +109,7 @@ async function updateExistingSubscriber(
   }
   if (input.starterKitRequested && !subscriber.starterKitRequested) {
     data.starterKitRequested = true
+    data.starterKitRequestedAt = new Date().toISOString()
     data.starterKitDeliveryState =
       subscriber.state === 'confirmed' ? 'queued' : 'pending'
   }
@@ -166,12 +187,12 @@ export async function POST(request: Request) {
     }
 
     if (!input.marketingConsent && !input.starterKitRequested) {
-      return NextResponse.json({ message: GENERIC_MESSAGE })
+      return NextResponse.json({ message: successMessage(input) })
     }
 
     const suppressions = await isSubscriberSuppressed(payload, input.email)
     if (suppressions.docs.length > 0) {
-      return NextResponse.json({ message: GENERIC_MESSAGE })
+      return NextResponse.json({ message: successMessage(input) })
     }
 
     const existing = await payload.find({
@@ -192,7 +213,7 @@ export async function POST(request: Request) {
         input,
       )
       if (update.unsubscribed) {
-        return NextResponse.json({ message: GENERIC_MESSAGE })
+        return NextResponse.json({ message: successMessage(input) })
       }
       subscriber = update.subscriber
       shouldQueueKit = update.shouldQueueKit
@@ -214,8 +235,15 @@ export async function POST(request: Request) {
                 }
               : {}),
             source: input.source,
+            sourcePage: input.sourcePage,
+            firstName: input.firstName,
+            businessType: input.businessType,
+            businessTypeOther: input.businessTypeOther,
             interests,
             starterKitRequested: input.starterKitRequested,
+            ...(input.starterKitRequested
+              ? { starterKitRequestedAt: new Date().toISOString() }
+              : {}),
             starterKitDeliveryState: input.starterKitRequested
               ? 'pending'
               : 'not-requested',
@@ -239,7 +267,7 @@ export async function POST(request: Request) {
           input,
         )
         if (update.unsubscribed) {
-          return NextResponse.json({ message: GENERIC_MESSAGE })
+          return NextResponse.json({ message: successMessage(input) })
         }
         subscriber = update.subscriber
         shouldQueueConfirmation = update.shouldQueueConfirmation
@@ -292,7 +320,7 @@ export async function POST(request: Request) {
       }
     }
 
-    return NextResponse.json({ message: GENERIC_MESSAGE })
+    return NextResponse.json({ message: successMessage(input) })
   } catch (error) {
     if (error instanceof ZodError) {
       return NextResponse.json(

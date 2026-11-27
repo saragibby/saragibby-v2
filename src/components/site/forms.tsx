@@ -8,7 +8,8 @@ import {
   type FormEvent,
 } from "react"
 import Link from "next/link"
-import { contactEmail } from "@/lib/site/site-navigation"
+import { contactEmail, newsletterName } from "@/lib/site/site-navigation"
+import { businessTypes } from "@/lib/site/business-types"
 import {
   closedFormNotice,
   formNotices,
@@ -74,16 +75,21 @@ export function SignupForm({
   source,
   interest = "kit",
   button = "Send me the kit",
+  fields = "compact",
 }: {
   source: string
   interest?: Interest
   button?: string
+  /** "full" adds first name and business type for the kit page. */
+  fields?: "compact" | "full"
 }) {
   const id = useId()
   const [pending, setPending] = useState(false)
   const [result, setResult] = useState("")
   const [error, setError] = useState("")
+  const [businessType, setBusinessType] = useState("")
   const { enabled, kitReady, deliveryEnabled } = useContext(FormPolicy)
+  const full = fields === "full"
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
     const form = event.currentTarget
@@ -98,10 +104,19 @@ export function SignupForm({
           marketingConsent: data.get("marketingConsent") === "on",
           interest,
           source,
+          sourcePage: window.location.pathname,
+          ...(full
+            ? {
+                firstName: data.get("firstName") ?? undefined,
+                businessType: data.get("businessType") ?? undefined,
+                businessTypeOther: data.get("businessTypeOther") ?? undefined,
+              }
+            : {}),
           website: data.get("website"),
         })
       )
       form.reset()
+      setBusinessType("")
     } catch (error) {
       setError(
         error instanceof Error
@@ -117,6 +132,109 @@ export function SignupForm({
     interest === "kit" ? "kit" : "signup"
   )
   if (notice) return <FormNotice kind={notice} />
+  const consentText =
+    interest === "kit"
+      ? `Also send me ${newsletterName}, my newsletter. Unsubscribe anytime.`
+      : "I agree to receive email about this interest and occasional updates. Unsubscribe anytime."
+  const honeypot = (
+    <div className="honeypot" aria-hidden="true">
+      <label htmlFor={`${id}-website`}>Leave this field empty</label>
+      <input
+        id={`${id}-website`}
+        name="website"
+        tabIndex={-1}
+        autoComplete="off"
+      />
+    </div>
+  )
+  const status = (
+    <>
+      <p className="form-message" role="status">
+        {result}
+      </p>
+      {error && (
+        <p className="form-error" role="alert">
+          {error}
+        </p>
+      )}
+    </>
+  )
+  if (full)
+    return (
+      <form
+        className="signup-form kit-form"
+        onSubmit={submit}
+        aria-busy={pending}
+      >
+        <label htmlFor={`${id}-email`}>Email address</label>
+        <input
+          id={`${id}-email`}
+          name="email"
+          type="email"
+          autoComplete="email"
+          placeholder="you@example.com"
+          required
+          maxLength={254}
+          disabled={pending}
+        />
+        <label htmlFor={`${id}-first-name`}>First name (optional)</label>
+        <input
+          id={`${id}-first-name`}
+          name="firstName"
+          autoComplete="given-name"
+          maxLength={80}
+          disabled={pending}
+        />
+        <label htmlFor={`${id}-business`}>
+          What kind of business do you run? (optional)
+        </label>
+        <select
+          id={`${id}-business`}
+          name="businessType"
+          value={businessType}
+          onChange={(event) => setBusinessType(event.target.value)}
+          disabled={pending}
+        >
+          <option value="">Choose one</option>
+          {businessTypes.map(({ label, value }) => (
+            <option key={value} value={value}>
+              {label}
+            </option>
+          ))}
+        </select>
+        {businessType === "other" && (
+          <>
+            <label htmlFor={`${id}-business-other`}>
+              Tell me a little more (optional)
+            </label>
+            <input
+              id={`${id}-business-other`}
+              name="businessTypeOther"
+              maxLength={100}
+              disabled={pending}
+            />
+          </>
+        )}
+        {honeypot}
+        <label className="consent" htmlFor={`${id}-consent`}>
+          <input
+            id={`${id}-consent`}
+            type="checkbox"
+            name="marketingConsent"
+            disabled={pending}
+          />
+          <span>{consentText}</span>
+        </label>
+        <button className="button" disabled={pending}>
+          {pending ? "Sending…" : button}
+        </button>
+        <p className="small muted form-fineprint">
+          Asking for the kit never signs you up for the newsletter.{" "}
+          <Link href="/privacy">How I handle your info</Link>.
+        </p>
+        {status}
+      </form>
+    )
   return (
     <form className="signup-form" onSubmit={submit} aria-busy={pending}>
       <label htmlFor={`${id}-email`}>Email address</label>
@@ -135,15 +253,7 @@ export function SignupForm({
           {pending ? "Sending…" : button}
         </button>
       </div>
-      <div className="honeypot" aria-hidden="true">
-        <label htmlFor={`${id}-website`}>Leave this field empty</label>
-        <input
-          id={`${id}-website`}
-          name="website"
-          tabIndex={-1}
-          autoComplete="off"
-        />
-      </div>
+      {honeypot}
       <label className="consent" htmlFor={`${id}-consent`}>
         <input
           id={`${id}-consent`}
@@ -153,20 +263,10 @@ export function SignupForm({
           disabled={pending}
         />
         <span>
-          {interest === "kit"
-            ? "Also send me the newsletter and occasional product updates (optional)."
-            : "I agree to receive email about this interest and occasional updates."}{" "}
-          Unsubscribe anytime. <Link href="/privacy">Privacy details</Link>.
+          {consentText} <Link href="/privacy">Privacy details</Link>.
         </span>
       </label>
-      <p className="form-message" role="status">
-        {result}
-      </p>
-      {error && (
-        <p className="form-error" role="alert">
-          {error}
-        </p>
-      )}
+      {status}
     </form>
   )
 }

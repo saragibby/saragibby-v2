@@ -1,4 +1,5 @@
 import { z } from 'zod'
+import { businessTypeValues } from '@/lib/site/business-types'
 
 const interestSchema = z.enum([
   'newsletter',
@@ -15,17 +16,34 @@ const sourceSchema = z
   .max(50)
   .regex(/^[a-zA-Z0-9_-]+$/)
 
+// Optional form fields arrive as "" when left empty.
+function optional<T extends z.ZodType>(schema: T) {
+  return z.preprocess(
+    (value) => (typeof value === 'string' && !value.trim() ? undefined : value),
+    schema.optional(),
+  )
+}
+
 export const signupSchema = z
   .object({
     email: z.string().trim().email().max(254),
     marketingConsent: z.boolean(),
     interest: interestSchema.optional(),
     source: sourceSchema,
+    sourcePage: optional(
+      z.string().trim().max(200).regex(/^\/[a-zA-Z0-9/_-]*$/),
+    ),
+    firstName: optional(z.string().trim().max(80)),
+    businessType: optional(z.enum(businessTypeValues)),
+    businessTypeOther: optional(z.string().trim().max(100)),
     website: z.string().max(200).optional(),
   })
   .strict()
-  .transform((value) => ({
+  .transform(({ businessTypeOther, ...value }) => ({
     ...value,
+    ...(value.businessType === 'other' && businessTypeOther
+      ? { businessTypeOther }
+      : {}),
     email: value.email.toLowerCase(),
     starterKitRequested: value.source === 'kit' || value.interest === 'kit',
   }))
