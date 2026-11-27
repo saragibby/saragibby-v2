@@ -5,7 +5,6 @@ const interestSchema = z.enum([
   'newsletter',
   'course',
   'community',
-  'shop',
   'kit',
 ])
 

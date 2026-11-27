@@ -92,7 +92,6 @@ export const Subscribers: CollectionConfig = {
         { label: 'Newsletter', value: 'newsletter' },
         { label: 'Course', value: 'course' },
         { label: 'Community', value: 'community' },
-        { label: 'Shop', value: 'shop' },
         { label: 'Starter Kit', value: 'kit' },
       ],
     },

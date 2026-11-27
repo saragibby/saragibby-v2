@@ -21,7 +21,6 @@ const fixedRoutes = [
   "/picks/breakup-pile",
   "/course",
   "/community",
-  "/shop",
   "/newsletter",
   "/start-here",
   "/about",

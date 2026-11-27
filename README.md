@@ -11,7 +11,7 @@ The public site and owned content/subscriber platform for Sara Gibby: clear answ
 - A **Heroku worker** processes email outside Vercel request lifetimes. SMTP supplies delivery only, not audience management.
 - Legacy Gatsby sources, blog posts, recipe schemas, and media are preserved in [legacy](./legacy), excluded from the new application and deployment uploads.
 
-Paid checkout, customer accounts, course progress, and community membership are not part of this release. Course, community, and shop routes collect interest, not payment.
+Paid checkout, customer accounts, course progress, and community membership are not part of this release. Course and community routes collect interest, not payment.
 
 ## Local setup
 
