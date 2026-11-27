@@ -8,7 +8,12 @@ import {
   type FormEvent,
 } from "react"
 import Link from "next/link"
-import { kitName } from "@/lib/site/site-navigation"
+import { contactEmail } from "@/lib/site/site-navigation"
+import {
+  closedFormNotice,
+  formNotices,
+  type FormNoticeKind,
+} from "@/lib/site/form-availability"
 
 type Interest = "kit" | "newsletter" | "course" | "community" | "shop"
 
@@ -107,25 +112,11 @@ export function SignupForm({
       setPending(false)
     }
   }
-  if (!deliveryEnabled)
-    return (
-      <p className="notice small">
-        Almost ready. I’m still testing the pipes.
-      </p>
-    )
-  if (!enabled)
-    return (
-      <p className="notice small">
-        Signup is not open yet. Privacy information is awaiting owner approval.
-      </p>
-    )
-  if (interest === "kit" && !kitReady)
-    return (
-      <p className="notice small">
-        The free {kitName} is not released yet. Please check back for
-        availability.
-      </p>
-    )
+  const notice = closedFormNotice(
+    { enabled, kitReady, deliveryEnabled },
+    interest === "kit" ? "kit" : "signup"
+  )
+  if (notice) return <FormNotice kind={notice} />
   return (
     <form className="signup-form" onSubmit={submit} aria-busy={pending}>
       <label htmlFor={`${id}-email`}>Email address</label>
@@ -185,7 +176,7 @@ export function InquiryForm() {
   const [pending, setPending] = useState(false)
   const [message, setMessage] = useState("")
   const [error, setError] = useState("")
-  const { enabled, deliveryEnabled } = useContext(FormPolicy)
+  const { enabled, kitReady, deliveryEnabled } = useContext(FormPolicy)
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
     const form = event.currentTarget
@@ -206,18 +197,11 @@ export function InquiryForm() {
       setPending(false)
     }
   }
-  if (!deliveryEnabled)
-    return (
-      <p className="notice">
-        Online inquiries are not open yet. Email delivery is being connected.
-      </p>
-    )
-  if (!enabled)
-    return (
-      <p className="notice">
-        Inquiries will open once the privacy information is approved.
-      </p>
-    )
+  const notice = closedFormNotice(
+    { enabled, kitReady, deliveryEnabled },
+    "inquiry"
+  )
+  if (notice) return <FormNotice kind={notice} />
   return (
     <form className="inquiry-form" onSubmit={submit} aria-busy={pending}>
       <label htmlFor={`${id}-name`}>Your name</label>
@@ -275,6 +259,21 @@ export function InquiryForm() {
       )}
     </form>
   )
+}
+
+/** The single place a closed form's notice is rendered. */
+export function FormNotice({ kind }: { kind: FormNoticeKind }) {
+  if (kind === "inquiry") {
+    const [before, after] = formNotices.inquiry.split(contactEmail)
+    return (
+      <p className="notice">
+        {before}
+        <a href={`mailto:${contactEmail}`}>{contactEmail}</a>
+        {after}
+      </p>
+    )
+  }
+  return <p className="notice small">{formNotices[kind]}</p>
 }
 
 export function TokenAction({

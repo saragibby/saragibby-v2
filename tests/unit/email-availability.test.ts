@@ -3,6 +3,7 @@ import { isEmailDeliveryEnabled } from '../../src/lib/email-availability'
 import { getEmailEnvironment, getServerEnvironment } from '../../src/lib/server/env'
 import { POST as signup } from '../../src/app/api/newsletter/route'
 import { POST as inquiry } from '../../src/app/api/inquiry/route'
+import { formNotices } from '../../src/lib/site/form-availability'
 
 afterEach(() => vi.unstubAllEnvs())
 
@@ -36,13 +37,16 @@ describe('content-only launch', () => {
     vi.stubEnv('EMAIL_DELIVERY_ENABLED', 'false')
     vi.stubEnv('DATABASE_URL', undefined)
     vi.stubEnv('PAYLOAD_SECRET', undefined)
-    for (const handler of [signup, inquiry]) {
+    for (const [handler, notice] of [
+      [signup, formNotices.signup],
+      [inquiry, formNotices.inquiry],
+    ] as const) {
       const response = await handler(new Request('https://example.com/api', {
         method: 'POST',
         body: '{}',
       }))
       expect(response.status).toBe(503)
-      expect(await response.json()).toHaveProperty('error', expect.stringContaining('Email delivery'))
+      expect(await response.json()).toHaveProperty('error', notice)
     }
   })
 })

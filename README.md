@@ -170,6 +170,8 @@ For a content-only production launch, set `EMAIL_DELIVERY_ENABLED=false` on both
 This keeps the CMS and published site live while replacing signup/inquiry forms with
 availability notices and returning HTTP 503 from their APIs before storing submissions.
 SMTP sends are also blocked, including admin password resets. Keep the worker stopped.
+The notices shown in place of the forms, and the matching API errors, all come from
+`src/lib/site/form-availability.ts`.
 After configuring and testing delivery and approving privacy information, set this flag
 to `true`, redeploy, and start the worker. Never enable sends merely to complete a build.
 

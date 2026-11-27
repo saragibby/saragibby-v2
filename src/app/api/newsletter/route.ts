@@ -17,6 +17,7 @@ import type { Payload } from 'payload'
 import { ZodError } from 'zod'
 import type { Subscriber } from '@/payload-types'
 import { isEmailDeliveryEnabled } from '@/lib/email-availability'
+import { formNotices } from '@/lib/site/form-availability'
 
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
@@ -118,7 +119,7 @@ async function updateExistingSubscriber(
 export async function POST(request: Request) {
   if (!isEmailDeliveryEnabled()) {
     return NextResponse.json(
-      { error: 'Signup is not open yet. Email delivery is being connected.' },
+      { error: formNotices.signup },
       { status: 503 },
     )
   }
@@ -149,7 +150,7 @@ export async function POST(request: Request) {
     const env = getServerEnvironment()
     const payload = await getServerPayload()
     if (!(await hasApprovedPrivacyPolicy(payload))) {
-      return NextResponse.json({ error: 'Signup is unavailable until the privacy policy is approved.' }, { status: 503 })
+      return NextResponse.json({ error: formNotices.signup }, { status: 503 })
     }
     const remoteKey = rateLimitKey('signup-ip', clientAddress(request), env.PAYLOAD_SECRET)
     const emailKey = rateLimitKey('signup-email', input.email, env.PAYLOAD_SECRET)

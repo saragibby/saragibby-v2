@@ -8,5 +8,5 @@ export default defineConfig({
       "@payload-config": fileURLToPath(new URL("./src/payload.config.ts", import.meta.url)),
     },
   },
-  test: { include: ["src/**/*.test.ts", "tests/unit/**/*.test.ts"], environment: "node" },
+  test: { include: ["src/**/*.test.ts", "tests/unit/**/*.test.{ts,tsx}"], environment: "node" },
 })
