@@ -1672,4 +1672,7 @@ textarea::placeholder {
     position: static;
     transform: rotate(-1deg);
   }
+  .legal-sheet .wide-break {
+    display: none;
+  }
 }
