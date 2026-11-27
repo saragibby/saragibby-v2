@@ -228,7 +228,10 @@ function LegalSheet({ current }: { current: string }) {
       <p className="small legal-contact">
         Questions? Email <a href={`mailto:${contactEmail}`}>{contactEmail}</a>.
       </p>
-      <p className="handwriting">no question too small. even about this.</p>
+      <p className="handwriting">
+        no question too small. <br className="wide-break" />
+        even about this.
+      </p>
     </aside>
   )
 }
