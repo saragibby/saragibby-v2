@@ -1,6 +1,11 @@
 import type { MetadataRoute } from "next"
 import { getSiteURL } from "@/lib/site-url"
-import { getSitemapDocuments, preview, text } from "@/lib/site/content"
+import {
+  getPublishedPicks,
+  getSitemapDocuments,
+  preview,
+  text,
+} from "@/lib/site/content"
 
 export const dynamic = "force-dynamic"
 
@@ -32,9 +37,10 @@ function modified(value: unknown): Date | undefined {
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   if (preview) return []
   const origin = getSiteURL()
-  const [resources, pages] = await Promise.all([
+  const [resources, pages, picks] = await Promise.all([
     getSitemapDocuments("resources"),
     getSitemapDocuments("pages"),
+    getPublishedPicks(),
   ])
   const entries: MetadataRoute.Sitemap = fixedRoutes.map((path) => ({
     url: new URL(path, origin).href,
@@ -54,6 +60,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       url: new URL(`/resources/${slug}`, origin).href,
       lastModified:
         modified(resource.updatedAt) ?? modified(resource.publishedAt),
+    })
+  }
+  for (const pick of picks) {
+    entries.push({
+      url: new URL(`/picks/${pick.slug}`, origin).href,
+      lastModified: modified(pick.lastChecked),
     })
   }
   return entries

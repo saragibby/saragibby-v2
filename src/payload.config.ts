@@ -11,6 +11,7 @@ import { NewsletterCampaigns } from './collections/NewsletterCampaigns'
 import { NewsletterDeliveries } from './collections/NewsletterDeliveries'
 import { Offerings } from './collections/Offerings'
 import { Pages } from './collections/Pages'
+import { Picks } from './collections/Picks'
 import { Resources } from './collections/Resources'
 import { StarterKitAssets } from './collections/StarterKitAssets'
 import { Subscribers } from './collections/Subscribers'
@@ -112,6 +113,7 @@ export default buildConfig({
     StarterKitAssets,
     Pages,
     Resources,
+    Picks,
     Offerings,
     Subscribers,
     Suppressions,

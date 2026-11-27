@@ -71,6 +71,7 @@
     "worker": "tsx src/worker.ts",
     "bootstrap:admin": "tsx src/scripts/bootstrap-admin.ts",
     "reset:admin-password": "tsx src/scripts/reset-admin-password.ts",
-    "publish:launch-content": "tsx src/scripts/publish-launch-content.ts"
+    "publish:launch-content": "tsx src/scripts/publish-launch-content.ts",
+    "seed:picks": "tsx src/scripts/seed-picks.ts"
   }
 }

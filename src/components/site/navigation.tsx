@@ -8,7 +8,9 @@ import {
   siteNavigation,
 } from "@/lib/site/site-navigation"
 
-export function Navigation() {
+const picksLink = { label: "Picks", href: "/picks" }
+
+export function Navigation({ picksLive = false }: { picksLive?: boolean }) {
   const [open, setOpen] = useState(false)
   const [soonOpen, setSoonOpen] = useState(false)
   const toggle = useRef<HTMLButtonElement>(null)
@@ -64,11 +66,13 @@ export function Navigation() {
           <Link className="button" href="/newsletter" onClick={close}>
             {kitLabel}
           </Link>
-          {siteNavigation.map(({ label, href }) => (
-            <Link key={href} href={href} onClick={close}>
-              {label}
-            </Link>
-          ))}
+          {(picksLive ? [...siteNavigation, picksLink] : siteNavigation).map(
+            ({ label, href }) => (
+              <Link key={href} href={href} onClick={close}>
+                {label}
+              </Link>
+            )
+          )}
           <div
             ref={soonGroup}
             className="nav-group"
@@ -92,7 +96,10 @@ export function Navigation() {
               className="nav-group-menu"
               hidden={!soonOpen}
             >
-              {comingSoonNavigation.map(({ label, href }) => (
+              {(picksLive
+                ? comingSoonNavigation
+                : [...comingSoonNavigation, picksLink]
+              ).map(({ label, href }) => (
                 <Link key={href} href={href} onClick={close}>
                   {label}
                 </Link>

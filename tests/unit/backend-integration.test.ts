@@ -321,6 +321,41 @@ describe.skipIf(!databaseURL)('isolated Postgres backend integration', () => {
     expect(response.status).toBe(400)
   })
 
+  it('hides unpublished picks and enforces the pick rules', async () => {
+    const { samplePicks } = await import('../../src/lib/site/sample-picks')
+    const slug = `integration-pick-${runID}`
+    const pick = await payload.create({
+      collection: 'picks',
+      data: { ...samplePicks[0], slug, published: false },
+      overrideAccess: true,
+    })
+    try {
+      const anonymous = () =>
+        payload.find({ collection: 'picks', where: { slug: { equals: slug } }, overrideAccess: false })
+      expect((await anonymous()).totalDocs).toBe(0)
+      await payload.update({ collection: 'picks', id: pick.id, data: { published: true }, overrideAccess: true })
+      expect((await anonymous()).totalDocs).toBe(1)
+
+      await expect(payload.update({
+        collection: 'picks', id: pick.id, data: { url: 'https://example.com/?ref=sara' }, overrideAccess: true,
+      })).rejects.toThrow()
+      await expect(payload.update({
+        collection: 'picks', id: pick.id, data: { status: 'breakup', breakupNote: '' }, overrideAccess: true,
+      })).rejects.toThrow()
+      await expect(payload.update({
+        collection: 'picks', id: pick.id, data: { saraTest: { ...samplePicks[0].saraTest, canIBreakUp: '' } }, overrideAccess: true,
+      })).rejects.toThrow()
+      await expect(payload.create({
+        collection: 'picks', data: { ...samplePicks[0], slug: 'breakup-pile' }, overrideAccess: true,
+      })).rejects.toThrow()
+      await expect(payload.create({
+        collection: 'picks', data: { ...samplePicks[0], slug: `${slug}-anon` }, overrideAccess: false,
+      })).rejects.toThrow()
+    } finally {
+      await payload.delete({ collection: 'picks', id: pick.id, overrideAccess: true })
+    }
+  })
+
   it('denies anonymous personal data and public user registration', async () => {
     await expect(
       payload.findGlobal({ slug: 'payload-jobs-stats', overrideAccess: false }),

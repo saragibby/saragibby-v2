@@ -1,5 +1,7 @@
 import "server-only"
 import { cache } from "react"
+import type { PickData } from "./picks"
+import { samplePicks } from "./sample-picks"
 
 export type RecordValue = Record<string, unknown>
 export function record(value: unknown): RecordValue {
@@ -100,6 +102,52 @@ export async function getSitemapDocuments(collection: "resources" | "pages") {
     page += 1
   }
   return documents
+}
+
+// Picks use a `published` checkbox rather than drafts. Visitors can only
+// read published picks (see collections/Picks.ts); the filter is repeated
+// here so these loaders never depend on that alone. SITE_PREVIEW has no
+// database, so it shows the sample picks instead.
+export async function getPublishedPicks(): Promise<PickData[]> {
+  if (preview) return samplePicks
+  const payload = await cms()
+  const result = await payload.find({
+    collection: "picks",
+    overrideAccess: false,
+    where: { published: { equals: true } },
+    sort: "-lastChecked",
+    limit: 200,
+    depth: 0,
+  })
+  return result.docs
+}
+
+export const getPublishedPick = cache(async function getPublishedPick(
+  slug: string
+): Promise<PickData | undefined> {
+  if (preview) return samplePicks.find((pick) => pick.slug === slug)
+  const payload = await cms()
+  const result = await payload.find({
+    collection: "picks",
+    overrideAccess: false,
+    where: {
+      and: [{ published: { equals: true } }, { slug: { equals: slug } }],
+    },
+    limit: 1,
+    depth: 0,
+  })
+  return result.docs[0]
+})
+
+export async function hasPublishedPicks(): Promise<boolean> {
+  if (preview) return samplePicks.length > 0
+  const payload = await cms()
+  const { totalDocs } = await payload.count({
+    collection: "picks",
+    overrideAccess: false,
+    where: { published: { equals: true } },
+  })
+  return totalDocs > 0
 }
 
 export function safeHref(value: unknown): string | undefined {

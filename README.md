@@ -140,6 +140,20 @@ Use `/admin` for legal policies, resources, offerings, Starter Kit settings, med
 - Keep necessary information in body text, not handwritten decoration.
 - Verify public pages after publishing; draft previews must not appear in public listings or sitemaps.
 
+### Picks
+
+Picks are tools that have been through The Sara Test. Manage them in `/admin` under
+**Picks**. Only picks with **Published** checked appear on `/picks`, their
+`/picks/<slug>` pages, the sitemap, and the nav; the nav says "Picks (soon)" until at
+least one is published. Links must be the plain product URL, with no `?` query
+(that is where affiliate and tracking codes live). A pick in the Breakup Pile needs a
+breakup note, and all six Sara Test answers are required before publishing. Picks
+whose last check is more than 90 days old show "Due for a re-check".
+
+`SEED_PICKS=true npm run seed:picks` adds two made-up sample picks, unpublished, for
+previewing in a connected environment. `SITE_PREVIEW` shows the same samples. They
+are not recommendations; never publish them.
+
 ### Positioning and voice
 
 The promise is **clear answers for your biggest tech decisions**. Sara provides independent, honest CTO-level guidance to non-technical founders, small business owners, startup teams, and solo founders. Help readers decide, understand, or avoid a costly mistake. You do not need to be technical to make great tech decisions.
