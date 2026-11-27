@@ -134,17 +134,27 @@ export default async function PublicPage({ params }: Props) {
             : text(offering?.description, route.description)}
         </p>
       </PageIntro>
-      {bodyApproved ? (
+      {legal ? (
+        <section className="legal-layout">
+          <div>
+            <p className="handwriting legal-note">{legalNotes[slug]}</p>
+            {bodyApproved ? (
+              <RichText value={page?.body} />
+            ) : (
+              <div className="notice">
+                <h2>Not yet published</h2>
+                <p>
+                  This page is awaiting owner review and approval. This is a
+                  draft notice, not legal policy. Public launch and collection
+                  of personal information require the approved policy.
+                </p>
+              </div>
+            )}
+          </div>
+          <LegalSheet current={slug} />
+        </section>
+      ) : bodyApproved ? (
         <RichText value={page?.body} />
-      ) : legal ? (
-        <div className="notice">
-          <h2>Not yet published</h2>
-          <p>
-            This page is awaiting owner review and approval. This is a draft
-            notice, not legal policy. Public launch and collection of personal
-            information require the approved policy.
-          </p>
-        </div>
       ) : (
         <DraftContent slug={slug} />
       )}
@@ -182,6 +192,44 @@ export default async function PublicPage({ params }: Props) {
         </div>
       )}
     </div>
+  )
+}
+
+const legalNotes: Record<string, string> = {
+  privacy: "plain english wherever I can manage it.",
+  terms: "the boring part. still worth a read.",
+  disclaimer: "the fine print, kept as short as I can.",
+}
+
+const legalPages = [
+  ["Privacy", "/privacy"],
+  ["Terms", "/terms"],
+  ["Disclaimer", "/disclaimer"],
+] as const
+
+function LegalSheet({ current }: { current: string }) {
+  return (
+    <aside className="worksheet legal-sheet">
+      <p className="eyebrow">The fine print</p>
+      <h3>All three pages</h3>
+      {legalPages.map(([label, href]) => (
+        <div className="worksheet-row" key={href}>
+          {href === `/${current}` ? (
+            <span aria-current="page">{label}</span>
+          ) : (
+            <Link href={href}>{label}</Link>
+          )}
+          <span
+            className={`lesson-box${href === `/${current}` ? " checked" : ""}`}
+            aria-hidden="true"
+          />
+        </div>
+      ))}
+      <p className="small legal-contact">
+        Questions? Email <a href={`mailto:${contactEmail}`}>{contactEmail}</a>.
+      </p>
+      <p className="handwriting">no question too small. even about this.</p>
+    </aside>
   )
 }
 
