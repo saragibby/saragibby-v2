@@ -327,7 +327,11 @@ test("bestie voice appears on the interior pages it belongs to", async ({
 })
 
 test("picks pages pass automated WCAG checks", async ({ page }) => {
-  for (const route of ["/picks", "/picks/breakup-pile"]) {
+  for (const route of [
+    "/picks",
+    "/picks/breakup-pile",
+    "/picks/sample-inbox-tidy",
+  ]) {
     await page.goto(route)
     const results = await new AxeBuilder({ page })
       .withTags(["wcag2a", "wcag2aa", "wcag21aa", "wcag22aa"])
@@ -617,4 +621,65 @@ test("the kit form collects optional answers and keeps consent separate", async 
     .withTags(["wcag2a", "wcag2aa", "wcag21aa", "wcag22aa"])
     .analyze()
   expect(results.violations).toEqual([])
+})
+
+test("picks show badges, filters, details, and the Breakup Pile", async ({
+  page,
+}) => {
+  // SITE_PREVIEW has no database, so it shows the two sample picks.
+  await page.goto("/picks")
+  await expect(page.locator(".site-footer")).toContainText("Picks")
+  await expect(page.locator(".site-footer")).not.toContainText("Picks (soon)")
+  const card = page.locator(".pick-card", { hasText: "Sample: Inbox Tidy" })
+  await expect(card.locator(".pick-badge")).toHaveText(
+    "Bestie-approved · last checked Nov 2026"
+  )
+  await expect(card.locator(".pick-note")).toHaveText("i’d start here")
+  await expect(card.locator(".pick-note")).toHaveCSS(
+    "font-family",
+    /Caveat|caveat/
+  )
+  await expect(
+    page.locator(".pick-card", { hasText: "Forever Notes" })
+  ).toHaveCount(0)
+
+  await page.getByRole("link", { name: "Breakup Pile", exact: true }).click()
+  await expect(page).toHaveURL(/status=breakup/)
+  await expect(page.locator(".pick-card")).toHaveText([/Forever Notes/])
+  await page.getByRole("link", { name: "Grow without the hype" }).click()
+  await expect(page).toHaveURL(/pillar=grow/)
+  await expect(page.locator(".pick-card")).toHaveCount(0)
+  await expect(page.getByText("No picks match those filters.")).toBeVisible()
+
+  await page.goto("/picks")
+  await page.getByRole("link", { name: "Sample: Inbox Tidy" }).click()
+  await expect(page).toHaveURL("/picks/sample-inbox-tidy")
+  await expect(page.locator(".pick-answers li")).toHaveCount(6)
+  await expect(page.locator(".pick-answers")).toContainText(
+    "Yes. One click to export"
+  )
+  const website = page.getByRole("link", { name: "example.com" })
+  await expect(website).toHaveAttribute(
+    "href",
+    "https://example.com/inbox-tidy"
+  )
+
+  await page.goto("/picks/breakup-pile")
+  await expect(page.locator(".page-intro")).toContainText(
+    "As your bestie, I can’t let you stay with these."
+  )
+  const retired = page.locator(".pick-card")
+  await expect(retired.locator(".pick-badge")).toHaveText(
+    "Breakup Pile · last checked Jul 2026"
+  )
+  await expect(retired.locator(".pick-recheck")).toHaveText(
+    "Due for a re-check"
+  )
+  await expect(retired).toContainText("Why we broke up: Exports went away")
+  const letter = page.locator(".breakup-letter-body")
+  await expect(letter).toBeHidden()
+  await page.getByText("Read the breakup letter").click()
+  await expect(letter).toContainText("I’m keeping the free trial hoodie.")
+
+  expect((await page.goto("/picks/not-a-real-pick"))?.status()).toBe(404)
 })

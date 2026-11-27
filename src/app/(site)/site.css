@@ -1478,8 +1478,90 @@ textarea::placeholder {
 .pick-card h2 {
   font-size: 1.5rem;
 }
+.pick-card h2 a {
+  color: inherit;
+  text-decoration: none;
+}
+.pick-card h2 a:hover,
+.pick-card h2 a:focus-visible {
+  text-decoration: underline;
+}
+.back-link {
+  display: inline-block;
+  margin-bottom: 28px;
+}
+.pick-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+  margin-bottom: 16px;
+}
+.pick-meta .pick-badge {
+  margin-bottom: 0;
+}
+.pick-recheck {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-style: italic;
+}
+.pick-note.handwriting {
+  margin: 0 0 8px;
+  font-size: 26px;
+}
+.pick-breakup {
+  margin-top: auto;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+}
+.pick-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px 48px;
+  margin-bottom: 40px;
+}
+.pick-filter .eyebrow {
+  margin-bottom: 10px;
+}
+.pick-filter ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.pick-filter a {
+  display: inline-block;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 6px 14px;
+  color: var(--bone);
+  font-size: 0.85rem;
+  text-decoration: none;
+}
+.pick-filter a:hover {
+  border-color: var(--spruce-light);
+}
+.pick-filter a[aria-current] {
+  border-color: var(--spruce-light);
+  background: var(--spruce);
+  color: #fff;
+  font-weight: 700;
+}
+.pick-grid .card {
+  display: flex;
+  flex-direction: column;
+}
 .sara-test {
   margin-top: 72px;
+}
+.pick-rules {
+  max-width: 760px;
+}
+.sara-test-title {
+  margin-top: 40px;
 }
 .sara-test ol {
   margin-block: 32px;
@@ -1487,7 +1569,63 @@ textarea::placeholder {
   list-style: none;
   counter-reset: sara-test;
 }
-.sara-test li h3::before {
+.sara-test li :is(h3, h4)::before {
   counter-increment: sara-test;
   content: counter(sara-test) ". ";
+}
+.pick-summary {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+  gap: 32px;
+  align-items: start;
+}
+.pick-verdict .lead {
+  color: var(--ink);
+  max-width: none;
+}
+.pick-facts {
+  margin: 0;
+}
+.pick-facts div + div {
+  margin-top: 20px;
+}
+.pick-facts dt {
+  font-family: var(--font-mono), monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--spruce-light);
+}
+.pick-facts dd {
+  margin: 4px 0 0;
+}
+.pick-answers p {
+  margin-bottom: 0;
+}
+.breakup-letter {
+  margin-top: 72px;
+  max-width: 520px;
+}
+.breakup-letter summary {
+  width: fit-content;
+  cursor: pointer;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+.breakup-letter-body {
+  margin-top: 16px;
+  padding: 24px 28px;
+  border-radius: 2px 2px 12px;
+  background: var(--bone);
+  color: var(--ink);
+  transform: rotate(-1deg);
+}
+.breakup-letter-body .handwriting {
+  color: var(--rose);
+  margin-bottom: 0;
+}
+@media (max-width: 760px) {
+  .pick-summary {
+    grid-template-columns: 1fr;
+  }
 }

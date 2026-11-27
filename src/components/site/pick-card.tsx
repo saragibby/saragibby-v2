@@ -1,26 +1,58 @@
-import { lastCheckedLabel, pickStatusLabels, type Pick } from "@/lib/site/picks"
+import Link from "next/link"
+import {
+  isDueForRecheck,
+  lastCheckedLabel,
+  pillarLabel,
+  statusLabel,
+  type PickData,
+} from "@/lib/site/picks"
 
-export function PickCard({ pick }: { pick: Pick }) {
+/** "Bestie-approved · last checked Nov 2026", plus Changed and Breakup Pile. */
+export function PickBadge({
+  status,
+  lastChecked,
+}: Pick<PickData, "status" | "lastChecked">) {
+  return (
+    <p className={`pick-badge is-${status}`}>
+      {statusLabel(status)} · last checked{" "}
+      <time dateTime={lastChecked.slice(0, 10)}>
+        {lastCheckedLabel(lastChecked)}
+      </time>
+    </p>
+  )
+}
+
+/** A quiet note once a pick's last check is more than 90 days old. */
+export function RecheckLabel({ lastChecked }: { lastChecked: string }) {
+  return isDueForRecheck(lastChecked) ? (
+    <p className="pick-recheck">Due for a re-check</p>
+  ) : null
+}
+
+export function PickCard({
+  pick,
+  showBreakupNote = false,
+}: {
+  pick: PickData
+  showBreakupNote?: boolean
+}) {
   return (
     <article className="card pick-card">
-      <p className={`pick-badge is-${pick.status}`}>
-        {pickStatusLabels[pick.status]}, last checked{" "}
-        <time dateTime={pick.lastChecked}>
-          {lastCheckedLabel(pick.lastChecked)}
-        </time>
-      </p>
+      <p className="eyebrow">{pillarLabel(pick.pillar)}</p>
       <h2>
-        <a href={pick.url}>{pick.name}</a>
+        <Link href={`/picks/${pick.slug}`}>{pick.name}</Link>
       </h2>
-      <p className="muted">{pick.summary}</p>
-      {pick.status === "changed" && (
-        <p>
-          <strong>What changed:</strong> {pick.whatChanged}
-        </p>
+      <div className="pick-meta">
+        <PickBadge status={pick.status} lastChecked={pick.lastChecked} />
+        <RecheckLabel lastChecked={pick.lastChecked} />
+      </div>
+      {pick.marginNote && (
+        <p className="handwriting pick-note">{pick.marginNote}</p>
       )}
-      {pick.status === "breakup" && (
-        <p>
-          <strong>Why we broke up:</strong> {pick.whyWeBrokeUp}
+      <p className="muted">{pick.verdict}</p>
+      {showBreakupNote && pick.breakupNote && (
+        <p className="pick-breakup">
+          <strong>Why we broke up:</strong> {pick.breakupNote}
         </p>
       )}
     </article>

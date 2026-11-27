@@ -1,6 +1,11 @@
 import Link from "next/link"
 import { configured, preview, safeHref } from "@/lib/site/content"
-import { bestieSignOff, kitLabel, siteSocialLinks } from "@/lib/site/site-navigation"
+import {
+  bestieSignOff,
+  kitLabel,
+  picksNavLabel,
+  siteSocialLinks,
+} from "@/lib/site/site-navigation"
 
 export function StatusBanner() {
   if (preview)
@@ -19,7 +24,7 @@ export function StatusBanner() {
   return null
 }
 
-export function Footer() {
+export function Footer({ picksLive = false }: { picksLive?: boolean }) {
   const groups = [
     {
       title: "Get help",
@@ -33,7 +38,7 @@ export function Footer() {
       title: "Learn",
       links: [
         ["Playbooks", "/resources"],
-        ["Picks (soon)", "/picks"],
+        [picksNavLabel(picksLive), "/picks"],
         ["Course (soon)", "/course"],
         ["About", "/about"],
         ["Now", "/now"],

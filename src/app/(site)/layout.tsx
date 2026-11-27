@@ -7,6 +7,7 @@ import {
   configured,
   getGlobal,
   getPage,
+  hasPublishedPicks,
   preview,
   text,
 } from "@/lib/site/content"
@@ -54,9 +55,15 @@ export default async function SiteLayout({
 }: {
   children: React.ReactNode
 }) {
-  const [privacy, kit] = await Promise.all([
+  const [privacy, kit, picksLive] = await Promise.all([
     getPage("privacy"),
     getGlobal("starterKit"),
+    // The nav falls back to "Picks (soon)" rather than taking the whole site
+    // down if picks can't be read (for example, before the migration runs).
+    hasPublishedPicks().catch((error: unknown) => {
+      console.error("Published picks could not be counted.", error)
+      return false
+    }),
   ])
   return (
     <html
@@ -68,7 +75,7 @@ export default async function SiteLayout({
           Skip to content
         </a>
         <StatusBanner />
-        <Navigation />
+        <Navigation picksLive={picksLive} />
         <FormPolicyProvider
           deliveryEnabled={isEmailDeliveryEnabled()}
           enabled={preview || privacy?.ownerApproved === true}
@@ -76,7 +83,7 @@ export default async function SiteLayout({
         >
           <main id="main">{children}</main>
         </FormPolicyProvider>
-        <Footer />
+        <Footer picksLive={picksLive} />
         <RetireOfflineWorker />
       </body>
     </html>

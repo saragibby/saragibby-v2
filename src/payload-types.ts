@@ -72,6 +72,7 @@ export interface Config {
     'starter-kit-assets': StarterKitAsset;
     pages: Page;
     resources: Resource;
+    picks: ToolPick;
     offerings: Offering;
     subscribers: Subscriber;
     suppressions: Suppression;
@@ -91,6 +92,7 @@ export interface Config {
     'starter-kit-assets': StarterKitAssetsSelect<false> | StarterKitAssetsSelect<true>;
     pages: PagesSelect<false> | PagesSelect<true>;
     resources: ResourcesSelect<false> | ResourcesSelect<true>;
+    picks: PicksSelect<false> | PicksSelect<true>;
     offerings: OfferingsSelect<false> | OfferingsSelect<true>;
     subscribers: SubscribersSelect<false> | SubscribersSelect<true>;
     suppressions: SuppressionsSelect<false> | SuppressionsSelect<true>;
@@ -299,6 +301,58 @@ export interface Resource {
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
+}
+/**
+ * Tools that have been through The Sara Test. Only published picks appear on the site.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "picks".
+ */
+export interface ToolPick {
+  id: number;
+  /**
+   * Unpublished picks are hidden from the site, nav, and sitemap.
+   */
+  published: boolean;
+  name: string;
+  /**
+   * The page address: /picks/<slug>. Lowercase words and dashes.
+   */
+  slug: string;
+  /**
+   * The plain product link. No affiliate or tracking parameters.
+   */
+  url: string;
+  pillar: 'time-back' | 'grow' | 'dont-get-burned';
+  status: 'approved' | 'changed' | 'breakup';
+  lastChecked: string;
+  /**
+   * One or two sentences. Lead with the recommendation.
+   */
+  verdict: string;
+  /**
+   * Short and lowercase, shown in handwriting. For example: "i’d start here".
+   */
+  marginNote?: string | null;
+  whoItsFor?: string | null;
+  realCost?: string | null;
+  /**
+   * Short, plain answers. All six are needed before publishing.
+   */
+  saraTest?: {
+    whereDoesMyStuffGo?: string | null;
+    whoElseCanGetIn?: string | null;
+    playsNice?: string | null;
+    costNextYear?: string | null;
+    canIBreakUp?: string | null;
+    whenItsWrong?: string | null;
+  };
+  /**
+   * Why this pick moved to the Breakup Pile.
+   */
+  breakupNote?: string | null;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -613,6 +667,10 @@ export interface PayloadLockedDocument {
         value: number | Resource;
       } | null)
     | ({
+        relationTo: 'picks';
+        value: number | ToolPick;
+      } | null)
+    | ({
         relationTo: 'offerings';
         value: number | Offering;
       } | null)
@@ -783,6 +841,36 @@ export interface ResourcesSelect<T extends boolean = true> {
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "picks_select".
+ */
+export interface PicksSelect<T extends boolean = true> {
+  published?: T;
+  name?: T;
+  slug?: T;
+  url?: T;
+  pillar?: T;
+  status?: T;
+  lastChecked?: T;
+  verdict?: T;
+  marginNote?: T;
+  whoItsFor?: T;
+  realCost?: T;
+  saraTest?:
+    | T
+    | {
+        whereDoesMyStuffGo?: T;
+        whoElseCanGetIn?: T;
+        playsNice?: T;
+        costNextYear?: T;
+        canIBreakUp?: T;
+        whenItsWrong?: T;
+      };
+  breakupNote?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

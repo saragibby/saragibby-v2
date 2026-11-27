@@ -23,6 +23,11 @@ export const siteNavigation = [
   { label: "About", href: "/about" },
 ]
 
+/** "Picks" once at least one pick is published, "Picks (soon)" until then. */
+export function picksNavLabel(picksLive: boolean) {
+  return picksLive ? "Picks" : "Picks (soon)"
+}
+
 export const comingSoonNavigation = [
   { label: "Course", href: "/course" },
   { label: "Ask Sara", href: "/community" },
