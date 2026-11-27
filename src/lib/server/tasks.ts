@@ -6,6 +6,7 @@ import { getContactEmail, getTokenEnvironment } from './env'
 import { signEmailToken } from './tokens'
 import { isUniqueConstraintError } from './errors'
 import type { Subscriber } from '@/payload-types'
+import { enforceRetention, type RetentionResult } from './retention'
 
 type TaskIO<I extends object, O extends object> = {
   input: I
@@ -24,6 +25,7 @@ type SendNewsletterRecipientTask = TaskIO<
   { sent: boolean; skipped?: boolean }
 >
 type PruneRateLimitsTask = TaskIO<Record<string, never>, { deleted: number }>
+type EnforceRetentionTask = TaskIO<Record<string, never>, RetentionResult>
 type PayloadTaskConfig =
   | TaskConfig<SendConfirmationTask>
   | TaskConfig<SendKitTask>
@@ -31,6 +33,7 @@ type PayloadTaskConfig =
   | TaskConfig<QueueNewsletterTask>
   | TaskConfig<SendNewsletterRecipientTask>
   | TaskConfig<PruneRateLimitsTask>
+  | TaskConfig<EnforceRetentionTask>
 
 function lexicalHTML(data: unknown): Promise<string> {
   if (!data || typeof data !== 'object') {
@@ -584,6 +587,15 @@ export function createPayloadTasks(): PayloadTaskConfig[] {
     },
   }
 
+  // Deletes what the privacy policy says is deleted: unconfirmed signups,
+  // unsubscribed records, and old inquiries (see ./retention).
+  const enforceRetentionTask: TaskConfig<EnforceRetentionTask> = {
+    slug: 'enforce-retention',
+    label: 'Delete data past its retention period',
+    schedule: [{ cron: '41 3 * * *', queue: 'maintenance' }],
+    handler: async ({ req }) => ({ output: await enforceRetention(req.payload) }),
+  }
+
   return [
     sendConfirmation,
     sendKit,
@@ -591,5 +603,6 @@ export function createPayloadTasks(): PayloadTaskConfig[] {
     queueNewsletter,
     sendNewsletterRecipient,
     pruneRateLimits,
+    enforceRetentionTask,
   ]
 }

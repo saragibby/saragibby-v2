@@ -1,5 +1,6 @@
 import { randomBytes, randomUUID } from 'node:crypto'
 import { createLocalReq, type Payload } from 'payload'
+import type { NewsletterCampaign, Subscriber } from '../../src/payload-types'
 import { afterAll, beforeAll, describe, expect, it, vi } from 'vitest'
 import { consumeRateLimit, rateLimitKey } from '../../src/lib/server/rate-limit'
 import { signEmailToken } from '../../src/lib/server/tokens'
@@ -353,6 +354,110 @@ describe.skipIf(!databaseURL)('isolated Postgres backend integration', () => {
       })).rejects.toThrow()
     } finally {
       await payload.delete({ collection: 'picks', id: pick.id, overrideAccess: true })
+    }
+  })
+
+  it('deletes data past the privacy policy retention periods and keeps the rest', async () => {
+    const { enforceRetention } = await import('../../src/lib/server/retention')
+    const tag = `retention-${runID}`
+    const at = (days: number) => new Date(Date.now() - days * 86_400_000).toISOString()
+    const body: NewsletterCampaign['body'] = { root: { type: 'root', version: 1, children: [
+      { type: 'paragraph', version: 1, children: [
+        { type: 'text', version: 1, text: 'Retention test campaign.', format: 0, detail: 0, mode: 'normal', style: '' },
+      ], direction: null, format: '', indent: 0, textFormat: 0, textStyle: '' },
+    ], direction: null, format: '', indent: 0 } }
+    const make = (name: string, data: Partial<Subscriber>) =>
+      payload.create({
+        collection: 'subscribers',
+        data: { email: `${name}-${tag}@example.test`, source: 'test', ...data } as Subscriber,
+        overrideAccess: true,
+      })
+    const age = (table: string, id: number, days: number) =>
+      payload.db.pool.query(`UPDATE ${table} SET updated_at = $1, created_at = $1 WHERE id = $2`, [at(days), id])
+
+    try {
+      const staleUnconfirmed = await make('stale-unconfirmed', { state: 'pending' })
+      await make('fresh-unconfirmed', { state: 'pending' })
+      const kitDelivered = await make('kit-delivered', {
+        state: 'pending', starterKitRequested: true, starterKitDeliveryState: 'delivered',
+      })
+      const confirmed = await make('confirmed', { state: 'confirmed', confirmedAt: at(400) })
+      const longGone = await make('long-gone', { state: 'unsubscribed', unsubscribedAt: at(40) })
+      const stillSending = await make('still-sending', { state: 'unsubscribed', unsubscribedAt: at(40) })
+      await make('recently-gone', { state: 'unsubscribed', unsubscribedAt: at(5) })
+      for (const subscriber of [staleUnconfirmed, kitDelivered, confirmed]) await age('subscribers', subscriber.id, 40)
+
+      const job = await payload.jobs.queue({
+        task: 'send-confirmation', input: { subscriberId: String(staleUnconfirmed.id) }, queue: tag,
+      })
+      const [sent, sending] = await Promise.all((['sent', 'sending'] as const).map((status) =>
+        payload.create({
+          collection: 'newsletter-campaigns',
+          data: { subject: `${tag} ${status}`, body, status, queueingComplete: false, queuedRecipientCount: 0 },
+          overrideAccess: true,
+        })))
+      for (const [campaign, subscriber] of [[sent, longGone], [sending, stillSending]] as const) {
+        await payload.create({
+          collection: 'newsletter-deliveries',
+          data: { deliveryKey: `${campaign.id}:${subscriber.id}`, campaign: campaign.id, subscriber: subscriber.id, status: 'sent' },
+          overrideAccess: true,
+        })
+      }
+      const oldInquiry = await payload.create({
+        collection: 'inquiries',
+        data: { name: 'Old', email: `old-${tag}@example.test`, message: 'An inquiry from long ago, for retention.', status: 'new', notificationState: 'sent' },
+        overrideAccess: true,
+      })
+      const newInquiry = await payload.create({
+        collection: 'inquiries',
+        data: { name: 'New', email: `new-${tag}@example.test`, message: 'A recent inquiry that must be kept around.', status: 'new', notificationState: 'sent' },
+        overrideAccess: true,
+      })
+      await age('inquiries', oldInquiry.id, 731)
+
+      const result = await enforceRetention(payload)
+      // The job runs across the whole database, so other records may count too.
+      expect(result.unconfirmedDeleted).toBeGreaterThanOrEqual(1)
+      expect(result.unsubscribedDeleted).toBeGreaterThanOrEqual(1)
+      expect(result.inquiriesDeleted).toBeGreaterThanOrEqual(1)
+      expect(result.skippedWhileSending).toBeGreaterThanOrEqual(1)
+
+      const remaining = await payload.find({
+        collection: 'subscribers', where: { email: { like: tag } }, limit: 20, overrideAccess: true,
+      })
+      expect(remaining.docs.map((doc) => doc.email.split('-retention')[0]).sort()).toEqual(
+        ['confirmed', 'fresh-unconfirmed', 'kit-delivered', 'recently-gone', 'still-sending'],
+      )
+      const suppression = await payload.find({
+        collection: 'suppressions', where: { email: { equals: `long-gone-${tag}@example.test` } }, overrideAccess: true,
+      })
+      expect(suppression.docs[0]).toMatchObject({ reason: 'unsubscribe', source: 'retention' })
+      expect((await payload.count({
+        collection: 'newsletter-deliveries', where: { deliveryKey: { equals: `${sent.id}:${longGone.id}` } }, overrideAccess: true,
+      })).totalDocs).toBe(0)
+      expect((await payload.count({
+        collection: 'payload-jobs', where: { id: { equals: job.id } }, overrideAccess: true,
+      })).totalDocs).toBe(0)
+      const inquiries = await payload.find({
+        collection: 'inquiries', where: { email: { like: tag } }, overrideAccess: true,
+      })
+      expect(inquiries.docs.map((doc) => doc.id)).toEqual([newInquiry.id])
+
+      // A second run has nothing left to do.
+      expect(await enforceRetention(payload)).toMatchObject({ unconfirmedDeleted: 0, unsubscribedDeleted: 0, inquiriesDeleted: 0 })
+      expect((await payload.count({
+        collection: 'subscribers', where: { email: { like: tag } }, overrideAccess: true,
+      })).totalDocs).toBe(5)
+    } finally {
+      const campaigns = await payload.find({ collection: 'newsletter-campaigns', where: { subject: { like: tag } }, overrideAccess: true })
+      for (const campaign of campaigns.docs) {
+        await payload.delete({ collection: 'newsletter-deliveries', where: { campaign: { equals: campaign.id } }, overrideAccess: true })
+      }
+      await payload.delete({ collection: 'newsletter-campaigns', where: { subject: { like: tag } }, overrideAccess: true })
+      await payload.delete({ collection: 'subscribers', where: { email: { like: tag } }, overrideAccess: true })
+      await payload.delete({ collection: 'suppressions', where: { email: { like: tag } }, overrideAccess: true })
+      await payload.delete({ collection: 'inquiries', where: { email: { like: tag } }, overrideAccess: true })
+      await payload.db.pool.query(`DELETE FROM payload_jobs WHERE queue = $1`, [tag])
     }
   })
 
