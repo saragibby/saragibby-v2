@@ -59,9 +59,9 @@ export const homepageDesign = {
   kitPromise,
   kitDescription: `The free ${kitName} is being prepared. ${kitPromise}`,
   kitContents: [
-    "A one-hour worksheet that ends with your one-page AI plan: one task, the tool, the data rules, and how you’ll measure it",
-    "The Sara Test, so you can judge any tool yourself",
-    "A “Safe to start” one-pager: what never to paste into AI, which settings to turn off, and how to tell a tool is trustworthy",
+    "A one-hour worksheet that ends with your one-page AI plan",
+    "The Sara Test, so you can judge any AI tool yourself",
+    "A “Safe to start” one-pager: what never to paste into AI, which settings to turn off, how to spot a trustworthy tool",
   ],
   storyHeading: "Serious about tech. Not so serious about everything else.",
   audiences: [
@@ -155,7 +155,7 @@ export const homepageOfferings = [
   {
     slug: "starter-kit",
     title: `The Free ${kitName}`,
-    description: `${kitHeading} ${kitPromise} In preparation; downloads are not available yet.`,
+    description: kitPromise,
     ctaLabel: "Get the kit",
     ctaDestination: "/newsletter",
   },

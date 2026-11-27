@@ -119,6 +119,32 @@ test("starter kit uses faint graph paper and a readable post-it checklist", asyn
   ])
 })
 
+test("homepage kit card matches the kit on /newsletter", async ({ page }) => {
+  const kitItems = [
+    "A one-hour worksheet that ends with your one-page AI plan",
+    "The Sara Test, so you can judge any AI tool yourself",
+    "A “Safe to start” one-pager: what never to paste into AI, which settings to turn off, how to spot a trustworthy tool",
+  ]
+  await page.goto("/")
+  const card = page.locator(".offerings .card.featured")
+  await expect(card.locator("h3")).toHaveText("The Free CTO Starter Kit")
+  await expect(card.locator("h3 + p")).toHaveText(
+    "One hour, one busywork task, one plan you can actually use."
+  )
+  await expect(card.locator(".check-list li")).toHaveText(kitItems)
+  await expect(card.getByRole("link", { name: /Get the kit/ })).toHaveAttribute(
+    "href",
+    "/newsletter"
+  )
+  await expect(page.locator("body")).not.toContainText(/10 tech decisions/i)
+
+  await page.goto("/newsletter")
+  await expect(
+    page.locator(".page-newsletter .check-list").first().locator("li")
+  ).toHaveText(kitItems)
+  await expect(page.locator("body")).not.toContainText(/10 tech decisions/i)
+})
+
 test("homepage passes automated WCAG checks", async ({ page }) => {
   await page.goto("/")
   const results = await new AxeBuilder({ page })
@@ -313,7 +339,9 @@ test("picks pages pass automated WCAG checks", async ({ page }) => {
 test("bio and footer do not display signature artwork", async ({ page }) => {
   await page.goto("/")
   await expect(page.locator(".bio-signature, .footer-signature")).toHaveCount(0)
-  await expect(page.getByRole("img", { name: "Sara’s signature" })).toHaveCount(0)
+  await expect(page.getByRole("img", { name: "Sara’s signature" })).toHaveCount(
+    0
+  )
 })
 
 test("closing signup is an inset rounded card", async ({ page }) => {
