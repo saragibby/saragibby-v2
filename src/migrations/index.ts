@@ -8,6 +8,7 @@ import * as migration_20261127_120000_kit_signup_fields from './20261127_120000_
 import * as migration_20261127_130000_picks from './20261127_130000_picks';
 import * as migration_20261127_180000_enforce_retention_task from './20261127_180000_enforce_retention_task';
 import * as migration_20261127_210000_remove_shop_interest from './20261127_210000_remove_shop_interest';
+import * as migration_20261127_220000_learn_toolkit_resources from './20261127_220000_learn_toolkit_resources';
 
 export const migrations = [
   {
@@ -59,5 +60,10 @@ export const migrations = [
     up: migration_20261127_210000_remove_shop_interest.up,
     down: migration_20261127_210000_remove_shop_interest.down,
     name: '20261127_210000_remove_shop_interest'
+  },
+  {
+    up: migration_20261127_220000_learn_toolkit_resources.up,
+    down: migration_20261127_220000_learn_toolkit_resources.down,
+    name: '20261127_220000_learn_toolkit_resources'
   },
 ];

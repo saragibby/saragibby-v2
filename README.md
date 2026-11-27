@@ -6,7 +6,7 @@ The public site and owned content/subscriber platform for Sara Gibby: clear answ
 
 - **Next.js + TypeScript** serve the site and API on Vercel.
 - **Payload** runs the private editor at `/admin` in the same application. Content is not managed in an external CMS.
-- **Supabase Postgres** stores legal policies, articles/resources, offerings, Starter Kit settings, admin users, consent, subscribers, inquiries, and durable email work. The homepage, navigation, and ordinary informational copy live in the application.
+- **Supabase Postgres** stores legal policies, Learn and Toolkit resources, picks, offerings, Starter Kit settings, admin users, consent, subscribers, inquiries, and durable email work. The homepage, navigation, and ordinary informational copy live in the application.
 - **Supabase Storage** supplies S3-compatible persistent media storage.
 - A **Heroku worker** processes email outside Vercel request lifetimes. SMTP supplies delivery only, not audience management.
 - Legacy Gatsby sources, blog posts, recipe schemas, and media are preserved in [legacy](./legacy), excluded from the new application and deployment uploads.
@@ -168,9 +168,9 @@ Keep the layout calm and direct: a 1200px content width, 24px side gutters, gene
 
 ### Homepage content
 
-The homepage leads with the tech-decision promise, then shows who needs a senior second opinion, translates common jargon, and offers four ways to get help: the free CTO Starter Kit, playbooks and a course, Ask Sara, and async reviews. The worksheet section uses the graph-paper treatment. Follow with Sara's experience and ventures, real questions with straight answers, and one clear next step. Keep planned materials labeled as planned until the owner approves the actual kit and delivery.
+The homepage leads with the tech-decision promise, then shows who needs a senior second opinion, translates common jargon, and shows how it works in four steps: Learn it (/learn), Use it (/toolkit), Pick it (/picks), and Ask it (Ask Sara), with one line pointing to Work with Sara for anything bigger. The worksheet section uses the graph-paper treatment. Follow with Sara's experience and ventures, real questions with straight answers, and one clear next step. Keep planned materials labeled as planned until the owner approves the actual kit and delivery.
 
-The same copy and visual rules apply to Ask Sara, courses, playbooks, reviews, the Margin Notes newsletter, social posts, and video. A publishable piece should help someone make a tech decision, put the recommendation early, make sense to a non-technical founder, and offer one clear next step.
+The same copy and visual rules apply to Ask Sara, courses, Learn guides, Toolkit items, Work with Sara, the Margin Notes newsletter, social posts, and video. A publishable piece should help someone make a tech decision, put the recommendation early, make sense to a non-technical founder, and offer one clear next step.
 
 The portrait in the initial design is cropped from the owner-supplied homepage PDF. Replace it with the original high-resolution image before launch if available.
 
@@ -282,3 +282,18 @@ Known legacy blog and recipe URLs return **410 Gone**. Unknown URLs return **404
 - Real hosting configuration, database migrations, backup/restore verification, and deployed end-to-end checks.
 
 Do not treat a draft design, test SMTP server, or successful production build as evidence these gates have been completed.
+
+## Learn and Toolkit
+
+Both hubs read the Payload `resources` collection. The type decides the hub:
+guides, articles and videos appear on `/learn`; templates, checklists, prompts,
+calculators, how-to guides and agents appear on `/toolkit`
+(see `src/lib/site/resources.ts`). Each item has a pillar, an access label
+(Free or Free with email) and, for Toolkit items, a last-checked date. Access
+is a label only: email delivery for Toolkit items is not built yet. Only
+published items appear. `/resources` and `/resources/<slug>` redirect with a 301.
+`SITE_PREVIEW` shows three sample Toolkit items and no Learn items, so the
+preview shows both a filled hub and an empty state.
+
+The paid service is named by `SERVICE_NAV_LABEL` in
+`src/lib/site/site-navigation.ts`; nav, footer and page links all read it.

@@ -6,6 +6,7 @@ import {
   preview,
   text,
 } from "@/lib/site/content"
+import { resourcePath, toResourceSummary } from "@/lib/site/resources"
 
 export const dynamic = "force-dynamic"
 
@@ -16,7 +17,8 @@ const pageRoutes = new Set([
 ])
 const fixedRoutes = [
   "/",
-  "/resources",
+  "/learn",
+  "/toolkit",
   "/picks",
   "/picks/breakup-pile",
   "/course",
@@ -53,10 +55,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     })
   }
   for (const resource of resources) {
-    const slug = text(resource.slug)
-    if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug)) continue
+    const summary = toResourceSummary(resource)
+    const path = summary && resourcePath(summary)
+    if (!path) continue
     entries.push({
-      url: new URL(`/resources/${slug}`, origin).href,
+      url: new URL(path, origin).href,
       lastModified:
         modified(resource.updatedAt) ?? modified(resource.publishedAt),
     })

@@ -119,16 +119,20 @@ test("starter kit uses faint graph paper and a readable post-it checklist", asyn
   ])
 })
 
-test("homepage kit card matches the kit on /newsletter", async ({ page }) => {
+test("the Toolkit kit card matches the kit on the homepage and /newsletter", async ({
+  page,
+}) => {
   const kitItems = [
     "A one-hour worksheet that ends with your one-page AI plan",
     "The Sara Test, so you can judge any AI tool yourself",
     "A “Safe to start” one-pager: what never to paste into AI, which settings to turn off, how to spot a trustworthy tool",
   ]
   await page.goto("/")
-  const card = page.locator(".offerings .card.featured")
-  await expect(card.locator("h3")).toHaveText("The Free CTO Starter Kit")
-  await expect(card.locator("h3 + p")).toHaveText(
+  await expect(page.locator(".kit-section .check-list li")).toHaveText(kitItems)
+  await page.goto("/toolkit")
+  const card = page.locator(".toolkit-featured .kit-card")
+  await expect(card.locator("h2")).toHaveText("The Free CTO Starter Kit")
+  await expect(card.locator("h2 + p")).toHaveText(
     "One hour, one busywork task, one plan you can actually use."
   )
   await expect(card.locator(".check-list li")).toHaveText(kitItems)
@@ -306,9 +310,9 @@ test("bestie voice appears on the interior pages it belongs to", async ({
   )
   await page.goto("/about")
   await expect(page.locator(".about-story")).toContainText("your CTO bestie")
-  await page.goto("/resources")
+  await page.goto("/learn")
   await expect(page.locator("main")).toContainText(
-    "The library is on the workbench."
+    "The first guides are on the workbench. Start with the free CTO Starter Kit."
   )
   await page.goto("/newsletter")
   await expect(
@@ -425,7 +429,9 @@ test("public routes, retirement responses, and unknown routes work", async ({
     "/start-here",
     "/about",
     "/now",
-    "/resources",
+    "/learn",
+    "/toolkit",
+    "/toolkit/sample-vendor-quote-checklist",
     "/picks",
     "/picks/breakup-pile",
     "/course",
@@ -681,4 +687,211 @@ test("picks show badges, filters, details, and the Breakup Pile", async ({
   await expect(letter).toContainText("I’m keeping the free trial hoodie.")
 
   expect((await page.goto("/picks/not-a-real-pick"))?.status()).toBe(404)
+})
+
+test("the header lists Learn, Toolkit, Picks and Ask Sara, then Work with Sara and the kit", async ({
+  page,
+  isMobile,
+}) => {
+  await page.goto("/")
+  if (isMobile) {
+    await expect(page.locator("#site-nav")).toBeHidden()
+    await page.getByRole("button", { name: "Menu" }).click()
+  }
+  const nav = page.getByRole("navigation", { name: "Main navigation" })
+  await expect(nav.getByRole("link")).toHaveText([
+    "Learn",
+    "Toolkit",
+    "Picks",
+    "Ask Sara",
+    "Work with Sara",
+    "Free CTO Starter Kit",
+  ])
+  const kit = nav.getByRole("link", { name: "Free CTO Starter Kit" })
+  await expect(kit).toHaveClass(/button/)
+  await expect(kit).toHaveAttribute("href", "/newsletter")
+  await expect(nav.getByRole("link", { name: "Work with Sara" })).toHaveAttribute(
+    "href",
+    "/build-with-me"
+  )
+  await expect(nav).not.toContainText(/Course|Coming soon|Reviews|Playbooks/)
+  if (isMobile) {
+    // The kit button is last, full width, and the biggest tap target.
+    const kitBox = await kit.boundingBox()
+    const navBox = await nav.boundingBox()
+    const linkBox = await nav.getByRole("link", { name: "Learn" }).boundingBox()
+    expect(kitBox!.width).toBeGreaterThan(navBox!.width - 2)
+    expect(kitBox!.height).toBeGreaterThan(linkBox!.height)
+    await page.keyboard.press("Escape")
+    await expect(page.locator("#site-nav")).toBeHidden()
+  } else {
+    const service = await nav.getByRole("link", { name: "Work with Sara" }).boundingBox()
+    const askSara = await nav.getByRole("link", { name: "Ask Sara" }).boundingBox()
+    expect(service!.x).toBeGreaterThan(askSara!.x + askSara!.width + 40)
+  }
+  expect(
+    await page.evaluate(
+      () => document.documentElement.scrollWidth > window.innerWidth
+    )
+  ).toBe(false)
+})
+
+test("the footer has the new groups and keeps the sign-off", async ({ page }) => {
+  await page.goto("/")
+  const footer = page.locator(".site-footer")
+  await expect(footer.getByRole("navigation", { name: "Learn" }).getByRole("link")).toHaveText([
+    "Learn",
+    "Toolkit",
+    "Picks",
+    "Course (soon)",
+  ])
+  await expect(footer.getByRole("navigation", { name: "Get help" }).getByRole("link")).toHaveText([
+    "Ask Sara (soon)",
+    "Work with Sara",
+    "Free CTO Starter Kit",
+  ])
+  await expect(
+    footer.getByRole("navigation", { name: "The fine print" }).getByRole("link")
+  ).toHaveText(["Privacy", "Terms", "Disclaimer"])
+  await expect(footer).toContainText("no jargon. no judgment. just answers.")
+  await expect(footer.locator(".footer-signoff")).toHaveText("xo, your CTO bestie")
+})
+
+test("/resources redirects to the Toolkit with a 301", async ({ request }) => {
+  for (const [from, to] of [
+    ["/resources", "/toolkit"],
+    ["/resources/sample-meeting-notes-prompt", "/toolkit/sample-meeting-notes-prompt"],
+    ["/resources/a-retired-playbook", "/toolkit"],
+  ]) {
+    const response = await request.get(from, { maxRedirects: 0 })
+    expect(response.status(), from).toBe(301)
+    expect(new URL(response.headers().location, "http://x").pathname, from).toBe(to)
+  }
+  // A Toolkit item opened under /learn moves to its real address.
+  const wrongHub = await request.get("/learn/sample-meeting-notes-prompt", {
+    maxRedirects: 0,
+  })
+  expect(wrongHub.status()).toBe(308)
+  expect(wrongHub.headers().location).toContain("/toolkit/sample-meeting-notes-prompt")
+  expect((await request.get("/toolkit/not-a-real-item")).status()).toBe(404)
+})
+
+test("Learn shows its empty state and the course card", async ({ page }) => {
+  // SITE_PREVIEW has no database and no Learn samples, so Learn is empty.
+  await page.goto("/learn")
+  await expect(page).toHaveTitle("Learn · Sara Gibby")
+  await expect(page.locator('meta[name="description"]')).toHaveAttribute(
+    "content",
+    /^Your CTO bestie\. Guides, articles and videos/
+  )
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Learn")
+  await expect(page.locator(".page-intro .lead")).toHaveText(
+    "Guides, articles and videos that explain tech in plain English. No question too basic."
+  )
+  const empty = page.locator(".hub-empty")
+  await expect(empty).toContainText(
+    "The first guides are on the workbench. Start with the free CTO Starter Kit."
+  )
+  await expect(empty.getByRole("link", { name: /CTO Starter Kit/ })).toHaveAttribute(
+    "href",
+    "/newsletter"
+  )
+  await expect(page.getByRole("link", { name: "The course (soon)" })).toHaveAttribute(
+    "href",
+    "/course"
+  )
+})
+
+test("the Toolkit groups items into sections with their details", async ({
+  page,
+}) => {
+  await page.goto("/toolkit")
+  await expect(page).toHaveTitle("The Small Business Tech Toolkit · Sara Gibby")
+  await expect(page.locator('meta[name="description"]')).toHaveAttribute(
+    "content",
+    /^Your CTO bestie\. Templates, checklists, prompts/
+  )
+  await expect(page.locator(".page-intro .lead")).toHaveText(
+    "Templates, checklists, prompts and how-to guides you can use today. Free, practical, bestie-approved."
+  )
+  // SITE_PREVIEW shows three sample items. Empty sections stay hidden.
+  await expect(page.locator(".toolkit-section h2")).toHaveText([
+    "Templates & checklists",
+    "Prompts",
+    "How-to guides",
+  ])
+  const prompt = page.locator(".resource-card", { hasText: "Sample: Meeting notes prompt" })
+  await expect(prompt.locator(".eyebrow")).toHaveText("Prompt")
+  await expect(prompt.locator(".resource-meta li")).toHaveText([
+    "Get your time back",
+    "Free with email",
+    "Last checked Oct 2026",
+  ])
+  await prompt.getByRole("link", { name: "Sample: Meeting notes prompt" }).click()
+  await expect(page).toHaveURL("/toolkit/sample-meeting-notes-prompt")
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText(
+    "Sample: Meeting notes prompt"
+  )
+  await expect(page.getByRole("link", { name: "← Back to the Toolkit" })).toBeVisible()
+})
+
+test("Learn and Toolkit pass automated WCAG checks", async ({ page }) => {
+  for (const route of ["/learn", "/toolkit", "/toolkit/sample-vendor-quote-checklist"]) {
+    await page.goto(route)
+    const results = await new AxeBuilder({ page })
+      .withTags(["wcag2a", "wcag2aa", "wcag21aa", "wcag22aa"])
+      .analyze()
+    expect(results.violations, route).toEqual([])
+  }
+})
+
+test("Work with Sara replaces Reviews as the name of the paid service", async ({
+  page,
+}) => {
+  await page.goto("/build-with-me")
+  await expect(page.locator(".page-intro .eyebrow")).toHaveText("Work with Sara")
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText(
+    "Send it to your CTO bestie."
+  )
+  await expect(page.locator(".page-intro .lead")).toHaveText(
+    "Got a tech question that’s bigger than a quick answer? Send it over. I’ll help you make the right call for your business. 25 years of watching software break, so yours doesn’t."
+  )
+  await expect(page.locator("main")).toContainText(
+    "There is no development work to sell and no referral fees."
+  )
+  await expect(page.locator(".review-sheet h3")).toHaveText("Bring me things like:")
+  await expect(page.locator(".review-sheet .worksheet-row")).toHaveText([
+    "Your tech stack",
+    "Architecture or system design",
+    "A codebase",
+    "A vendor proposal or quote",
+    "An AI plan",
+  ])
+  await expect(page.locator("body")).not.toContainText(/\breview(s|ed)?\b/i)
+
+  await page.goto("/")
+  const howItWorks = page.locator(".offerings")
+  await expect(howItWorks.locator(".how-it-works h3")).toHaveText([
+    "Learn it",
+    "Use it",
+    "Pick it",
+    "Ask it",
+  ])
+  await expect(howItWorks.locator(".how-it-works .card > p")).toHaveText([
+    "Plain-English guides, articles and videos.",
+    "Templates, checklists and prompts in the Toolkit.",
+    "Tools I’ve tested with The Sara Test.",
+    "Bring your questions. No question too basic.",
+  ])
+  await expect(howItWorks.locator(".how-it-works-more")).toHaveText(
+    "Need more than a quick answer? Work with Sara."
+  )
+  await expect(
+    howItWorks.getByRole("link", { name: "Work with Sara." })
+  ).toHaveAttribute("href", "/build-with-me")
+  await expect(page.locator(".consulting-card .eyebrow")).toHaveText("Work with Sara")
+  await expect(page.locator(".consulting-card .text-link")).toHaveText("Work with Sara →")
+  // "Reviews" only survives as Sara's résumé (architecture reviews).
+  for (const section of [howItWorks, page.locator(".consulting-card"), page.locator("header"), page.locator("footer")])
+    await expect(section).not.toContainText(/\breview(s|ed)?\b/i)
 })

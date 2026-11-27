@@ -1,6 +1,7 @@
 import { Fragment, type ReactNode } from "react"
 import Image from "next/image"
 import { items, record, text } from "@/lib/site/content"
+import { resourcePath, toResourceSummary } from "@/lib/site/resources"
 
 function safeURL(value: unknown) {
   const url = text(value)
@@ -45,9 +46,12 @@ function renderNode(value: unknown, index: number): ReactNode {
       const doc = record(fields.doc)
       const linked = record(doc.value)
       const relation = text(doc.relationTo)
-      const internal =
-        linked.slug && ["pages", "resources"].includes(relation)
-          ? `${relation === "resources" ? "/resources" : ""}/${encodeURIComponent(text(linked.slug))}`
+      const linkedResource =
+        relation === "resources" ? toResourceSummary(linked) : undefined
+      const internal = linkedResource
+        ? resourcePath(linkedResource)
+        : linked.slug && relation === "pages"
+          ? `/${encodeURIComponent(text(linked.slug))}`
           : undefined
       const href = safeURL(internal ?? fields.url ?? node.url)
       return href ? (

@@ -204,69 +204,34 @@ img {
   white-space: nowrap;
 }
 .navigation {
+  flex: 1;
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 26px;
   font-size: 0.92rem;
 }
-.navigation > a {
+.nav-primary,
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 26px;
+}
+.navigation a {
   text-decoration: none;
   white-space: nowrap;
+}
+.navigation a[aria-current="page"]:not(.button) {
+  text-decoration: underline;
+  text-decoration-color: var(--spruce-light);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 6px;
 }
 .navigation .button {
   padding: 12px 19px;
 }
-.nav-group {
-  position: relative;
-}
-.nav-group-toggle {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  border: 0;
-  background: transparent;
-  color: inherit;
-  font: inherit;
-  padding: 0;
-  cursor: pointer;
-  white-space: nowrap;
-}
-.nav-group-toggle::after {
-  content: "";
-  width: 6px;
-  height: 6px;
-  border-right: 1.5px solid currentColor;
-  border-bottom: 1.5px solid currentColor;
-  transform: translateY(-2px) rotate(45deg);
-  transition: transform 0.15s ease;
-}
-.nav-group-toggle[aria-expanded="true"]::after {
-  transform: translateY(1px) rotate(225deg);
-}
-.nav-group-menu {
-  position: absolute;
-  top: calc(100% + 14px);
-  right: 0;
-  z-index: 20;
-  min-width: 170px;
-  display: flex;
-  flex-direction: column;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 8px;
-}
-.nav-group-menu[hidden] {
-  display: none;
-}
-.nav-group-menu a {
-  text-decoration: none;
-  white-space: nowrap;
-  padding: 9px 12px;
-  border-radius: 6px;
-}
-.nav-group-menu a:hover {
-  background: #ffffff0d;
+.nav-service {
+  font-weight: 800;
 }
 .menu-toggle {
   display: none;
@@ -1057,7 +1022,12 @@ textarea::placeholder {
   }
 }
 @media (max-width: 1100px) {
-  .navigation {
+  .header-inner {
+    gap: 20px;
+  }
+  .navigation,
+  .nav-primary,
+  .nav-actions {
     gap: 16px;
     font-size: 0.8rem;
   }
@@ -1143,32 +1113,25 @@ textarea::placeholder {
   .navigation.is-open {
     display: flex;
   }
-  .navigation > a {
+  .nav-primary,
+  .nav-actions {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+  }
+  .navigation a {
     padding: 12px 0;
     font-size: 1rem;
+  }
+  .nav-actions {
+    margin-top: 8px;
+    border-top: 1px solid var(--border);
+    padding-top: 8px;
   }
   .navigation .button {
-    margin-bottom: 10px;
-    font-size: 1rem;
-  }
-  .nav-group-toggle {
-    width: 100%;
-    justify-content: space-between;
-    padding: 12px 0;
-    font-size: 1rem;
-  }
-  .nav-group-menu {
-    position: static;
-    min-width: 0;
-    border: 0;
-    border-left: 1px solid var(--border);
-    border-radius: 0;
-    background: transparent;
-    padding: 0 0 0 16px;
-  }
-  .nav-group-menu a {
-    padding: 10px 0;
-    font-size: 1rem;
+    margin-top: 12px;
+    padding: 16px 24px;
+    font-size: 1.05rem;
   }
   .hero {
     grid-template-columns: 1fr;
@@ -1675,4 +1638,83 @@ textarea::placeholder {
   .legal-sheet .wide-break {
     display: none;
   }
+}
+/* How it works (homepage) */
+.how-it-works-more {
+  margin: 24px 0 0;
+  font-weight: 800;
+}
+.how-it-works-more a {
+  color: var(--spruce-light);
+}
+/* Learn and Toolkit hubs */
+.resource-grid .card {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+}
+.resource-card h3 a,
+.course-card h3 a {
+  text-decoration: none;
+}
+.resource-card h3 a:hover,
+.course-card h3 a:hover {
+  text-decoration: underline;
+}
+.resource-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: auto 0 0;
+  padding: 0;
+  list-style: none;
+}
+.resource-meta li {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 4px 10px;
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+.resource-meta .resource-pillar {
+  border-color: var(--spruce-light);
+  color: var(--bone);
+}
+.resource-detail .resource-meta {
+  margin: 0 0 32px;
+}
+.hub-empty {
+  margin-bottom: 32px;
+}
+.hub-empty .button {
+  margin-top: 8px;
+}
+.toolkit-featured {
+  max-width: 760px;
+  margin-bottom: 56px;
+}
+.kit-card {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+}
+.kit-card h2 {
+  font-size: 1.9rem;
+  margin-bottom: 12px;
+}
+.kit-card .check-list {
+  margin: 8px 0 24px;
+}
+.kit-card .check-list li::before {
+  color: var(--spruce);
+}
+.toolkit-section {
+  margin-bottom: 56px;
+}
+.toolkit-section h2 {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+}
+.toolkit-soon {
+  font-size: 1.6rem;
 }

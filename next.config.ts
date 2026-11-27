@@ -4,6 +4,12 @@ import type { NextConfig } from "next"
 const config: NextConfig = {
   poweredByHeader: false,
   serverExternalPackages: ["nodemailer"],
+  async redirects() {
+    // /resources became /learn and /toolkit. Item links (/resources/<slug>)
+    // are redirected by src/app/(site)/resources/[slug]/route.ts, which
+    // knows which hub each item belongs to.
+    return [{ source: "/resources", destination: "/toolkit", statusCode: 301 }]
+  },
   async headers() {
     return [
       {

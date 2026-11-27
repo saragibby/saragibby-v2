@@ -2,8 +2,7 @@ import Link from "next/link"
 import { configured, preview, safeHref } from "@/lib/site/content"
 import {
   bestieSignOff,
-  kitLabel,
-  picksNavLabel,
+  footerNavigation,
   siteSocialLinks,
 } from "@/lib/site/site-navigation"
 
@@ -25,34 +24,7 @@ export function StatusBanner() {
 }
 
 export function Footer({ picksLive = false }: { picksLive?: boolean }) {
-  const groups = [
-    {
-      title: "Get help",
-      links: [
-        [kitLabel, "/newsletter"],
-        ["Reviews", "/build-with-me"],
-        ["Ask Sara (soon)", "/community"],
-      ],
-    },
-    {
-      title: "Learn",
-      links: [
-        ["Playbooks", "/resources"],
-        [picksNavLabel(picksLive), "/picks"],
-        ["Course (soon)", "/course"],
-        ["About", "/about"],
-        ["Now", "/now"],
-      ],
-    },
-    {
-      title: "The fine print",
-      links: [
-        ["Privacy", "/privacy"],
-        ["Terms", "/terms"],
-        ["Disclaimer", "/disclaimer"],
-      ],
-    },
-  ]
+  const groups = footerNavigation(picksLive)
   return (
     <footer className="site-footer container">
       <div>
@@ -80,7 +52,7 @@ export function Footer({ picksLive = false }: { picksLive?: boolean }) {
       {groups.map((group) => (
         <nav key={group.title} aria-label={group.title}>
           <h2 className="eyebrow">{group.title}</h2>
-          {group.links.map(([label, href]) => (
+          {group.links.map(({ label, href }) => (
             <Link key={href} href={href}>
               {label}
             </Link>

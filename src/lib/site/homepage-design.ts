@@ -2,8 +2,11 @@ import {
   bestieLine,
   bestieName,
   kitHeading,
+  kitHref,
   kitName,
   kitPromise,
+  SERVICE_NAV_LABEL,
+  serviceHref,
 } from "./site-navigation"
 
 export const siteDescription = `${bestieName}. ${bestieLine} Clear answers on tech, AI, hiring, and vendors for founders and small businesses.`
@@ -21,7 +24,7 @@ export const homepageDesign = {
     note: bestieLine,
     supporting: "Clear answers for your biggest tech decisions.",
     description:
-      "Independent, honest guidance on tech, AI, hiring, and vendors. I have spent my career building software and leading engineering teams. Now I help founders and small businesses decide what to build, buy, and who to trust. No hype, no jargon, and no question too basic.",
+      "Independent, practical guidance on technology, AI, automation, and business systems. Helping small business owners make smarter tech decisions, work more efficiently, and grow with confidence. I have spent my career building software and leading engineering teams. Now I help founders and small businesses decide what to build, buy, and who to trust. No hype, no jargon, and no question too basic.",
   },
   alwaysBuilding:
     "Building practical AI tools and helping people across industries make confident tech decisions. No jargon, no guesswork.",
@@ -54,7 +57,33 @@ export const homepageDesign = {
         "You have gotten impressive results with AI and no-code. Now the next step is showing.",
     },
   ],
-  offeringsHeading: "Learn it, ask it, or have it reviewed.",
+  howItWorksHeading: "Learn it, use it, pick it, ask it.",
+  howItWorks: [
+    {
+      title: "Learn it",
+      description: "Plain-English guides, articles and videos.",
+      href: "/learn",
+      cta: "Go to Learn",
+    },
+    {
+      title: "Use it",
+      description: "Templates, checklists and prompts in the Toolkit.",
+      href: "/toolkit",
+      cta: "Open the Toolkit",
+    },
+    {
+      title: "Pick it",
+      description: "Tools I’ve tested with The Sara Test.",
+      href: "/picks",
+      cta: "See the Picks",
+    },
+    {
+      title: "Ask it",
+      description: "Bring your questions. No question too basic.",
+      href: "/community",
+      cta: "Ask Sara",
+    },
+  ],
   kitHeading,
   kitPromise,
   kitDescription: `The free ${kitName} is being prepared. ${kitPromise}`,
@@ -72,7 +101,7 @@ export const homepageDesign = {
     "Agencies",
   ],
   consultingDescription:
-    "Independent reviews of your tech stack, architecture, code, vendor proposal, or AI plan. Clear recommendations and practical next steps, with no development work to sell and no referral fees.",
+    "Bring me your tech stack, architecture, codebase, vendor proposal, or AI plan. Clear recommendations and practical next steps, with no development work to sell and no referral fees.",
   experienceHeading: "25 years across startups and enterprise.",
   experienceDescription:
     "From first commit to scale, as an engineer, engineering leader, consultant, and teacher.",
@@ -151,13 +180,25 @@ export const aiTranslations = [
   },
 ]
 
+/** The kit card on /toolkit. Same copy as the kit on the homepage. */
+export const kitCard = {
+  eyebrow: `Free · ${kitName}`,
+  title: `The Free ${kitName}`,
+  description: kitPromise,
+  ctaLabel: "Get the kit",
+  href: kitHref,
+}
+
+// The copy src/scripts/update-offerings.ts and publish-launch-content.ts
+// write to Payload's offerings collection. The slugs are database
+// identifiers, so "reviews" stays as the slug for the Work with Sara offering.
 export const homepageOfferings = [
   {
     slug: "starter-kit",
-    title: `The Free ${kitName}`,
-    description: kitPromise,
-    ctaLabel: "Get the kit",
-    ctaDestination: "/newsletter",
+    title: kitCard.title,
+    description: kitCard.description,
+    ctaLabel: kitCard.ctaLabel,
+    ctaDestination: kitCard.href,
   },
   {
     slug: "course",
@@ -177,20 +218,13 @@ export const homepageOfferings = [
   },
   {
     slug: "reviews",
-    title: "Async reviews",
+    title: SERVICE_NAV_LABEL,
     description:
-      "Share your tech stack, architecture, code, vendor proposal, or AI plan. Get clear recommendations and practical next steps.",
-    ctaLabel: "See reviews",
-    ctaDestination: "/build-with-me",
+      "Got a tech question that’s bigger than a quick answer? Send it over. I’ll help you make the right call for your business.",
+    ctaLabel: SERVICE_NAV_LABEL,
+    ctaDestination: serviceHref,
   },
 ]
-
-export const homepageOfferingEyebrows: Record<string, string> = {
-  "starter-kit": `Free · ${kitName}`,
-  course: "Course · In development",
-  community: "Ask Sara",
-  reviews: "Review · In development",
-}
 
 export const homepageQuestions = [
   {
