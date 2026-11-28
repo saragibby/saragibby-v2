@@ -36,7 +36,7 @@ describe('form availability notices', () => {
     expect(closedFormNotice(open, 'kit')).toBeNull()
   })
 
-  it('shows the Reviews notice with a mailto fallback when the flag is off', () => {
+  it('shows the Work with Sara inquiry notice with a mailto fallback when the flag is off', () => {
     const html = render({ ...open, deliveryEnabled: false }, <InquiryForm />)
     expect(html).toContain('Online inquiries are almost ready. I’m still testing the pipes. Until then, email ')
     expect(html).toContain('<a href="mailto:heythere@saragibby.com">heythere@saragibby.com</a>')

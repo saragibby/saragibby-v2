@@ -1,48 +1,33 @@
 "use client"
 
 import Link from "next/link"
-import { useEffect, useRef, useState } from "react"
+import { usePathname } from "next/navigation"
+import { useRef, useState } from "react"
 import {
-  comingSoonNavigation,
+  kitHref,
   kitLabel,
-  siteNavigation,
+  primaryNavigation,
+  SERVICE_NAV_LABEL,
+  serviceHref,
 } from "@/lib/site/site-navigation"
 
-const picksLink = { label: "Picks", href: "/picks" }
+function isCurrent(pathname: string, href: string) {
+  return pathname === href || pathname.startsWith(`${href}/`)
+}
 
 export function Navigation({ picksLive = false }: { picksLive?: boolean }) {
   const [open, setOpen] = useState(false)
-  const [soonOpen, setSoonOpen] = useState(false)
   const toggle = useRef<HTMLButtonElement>(null)
-  const soonToggle = useRef<HTMLButtonElement>(null)
-  const soonGroup = useRef<HTMLDivElement>(null)
-
-  useEffect(() => {
-    if (!soonOpen) return
-    const closeOutside = (event: PointerEvent) => {
-      if (!soonGroup.current?.contains(event.target as Node)) setSoonOpen(false)
-    }
-    document.addEventListener("pointerdown", closeOutside)
-    return () => document.removeEventListener("pointerdown", closeOutside)
-  }, [soonOpen])
-
-  const close = () => {
-    setOpen(false)
-    setSoonOpen(false)
-  }
+  const pathname = usePathname() ?? "/"
+  const close = () => setOpen(false)
 
   return (
     <header
       className="site-header"
       onKeyDown={(event) => {
-        if (event.key !== "Escape") return
-        if (soonOpen) {
-          setSoonOpen(false)
-          soonToggle.current?.focus()
-        } else if (open) {
-          setOpen(false)
-          toggle.current?.focus()
-        }
+        if (event.key !== "Escape" || !open) return
+        setOpen(false)
+        toggle.current?.focus()
       }}
     >
       <div className="container header-inner">
@@ -63,48 +48,32 @@ export function Navigation({ picksLive = false }: { picksLive?: boolean }) {
           className={open ? "navigation is-open" : "navigation"}
           aria-label="Main navigation"
         >
-          <Link className="button" href="/newsletter" onClick={close}>
-            {kitLabel}
-          </Link>
-          {(picksLive ? [...siteNavigation, picksLink] : siteNavigation).map(
-            ({ label, href }) => (
-              <Link key={href} href={href} onClick={close}>
+          <div className="nav-primary">
+            {primaryNavigation(picksLive).map(({ label, href }) => (
+              <Link
+                key={href}
+                href={href}
+                onClick={close}
+                aria-current={isCurrent(pathname, href) ? "page" : undefined}
+              >
                 {label}
               </Link>
-            )
-          )}
-          <div
-            ref={soonGroup}
-            className="nav-group"
-            onBlur={(event) => {
-              if (!event.currentTarget.contains(event.relatedTarget as Node))
-                setSoonOpen(false)
-            }}
-          >
-            <button
-              ref={soonToggle}
-              type="button"
-              className="nav-group-toggle"
-              aria-expanded={soonOpen}
-              aria-controls="coming-soon-nav"
-              onClick={() => setSoonOpen(!soonOpen)}
+            ))}
+          </div>
+          <div className="nav-actions">
+            <Link
+              className="nav-service"
+              href={serviceHref}
+              onClick={close}
+              aria-current={
+                isCurrent(pathname, serviceHref) ? "page" : undefined
+              }
             >
-              Coming soon
-            </button>
-            <div
-              id="coming-soon-nav"
-              className="nav-group-menu"
-              hidden={!soonOpen}
-            >
-              {(picksLive
-                ? comingSoonNavigation
-                : [...comingSoonNavigation, picksLink]
-              ).map(({ label, href }) => (
-                <Link key={href} href={href} onClick={close}>
-                  {label}
-                </Link>
-              ))}
-            </div>
+              {SERVICE_NAV_LABEL}
+            </Link>
+            <Link className="button nav-kit" href={kitHref} onClick={close}>
+              {kitLabel}
+            </Link>
           </div>
         </nav>
       </div>

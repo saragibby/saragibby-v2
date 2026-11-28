@@ -195,6 +195,7 @@ export interface Media {
   alt: string;
   accessLevel: 'public';
   attribution?: string | null;
+  _objectKey?: string | null;
   updatedAt: string;
   createdAt: string;
   url?: string | null;
@@ -217,6 +218,8 @@ export interface StarterKitAsset {
   id: number;
   kitVersion: string;
   description?: string | null;
+  prefix?: string | null;
+  _objectKey?: string | null;
   updatedAt: string;
   createdAt: string;
   url?: string | null;
@@ -267,15 +270,32 @@ export interface Page {
   _status?: ('draft' | 'published') | null;
 }
 /**
+ * Learn (guides, articles, videos) and Toolkit (templates, checklists, prompts, how-tos) items. Only published items appear on the site.
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "resources".
  */
 export interface Resource {
   id: number;
   title: string;
+  /**
+   * The page address: /learn/<slug> or /toolkit/<slug>, depending on the type. Lowercase words and dashes.
+   */
   slug: string;
-  resourceType: 'article' | 'guide' | 'tutorial';
-  topic: string;
+  resourceType: 'guide' | 'article' | 'video' | 'template' | 'checklist' | 'prompt' | 'calculator' | 'how-to' | 'agent';
+  pillar: 'time-back' | 'grow' | 'dont-get-burned';
+  /**
+   * A label only for now. Email delivery for Toolkit items is not built, so every published item is readable on its page.
+   */
+  access: 'free' | 'email';
+  /**
+   * Shown as “Last checked Nov 2026”. Required for Toolkit items.
+   */
+  lastChecked?: string | null;
+  /**
+   * Optional, for your own sorting. The site filters by pillar.
+   */
+  topic?: string | null;
   excerpt: string;
   body: {
     root: {
@@ -771,6 +791,7 @@ export interface MediaSelect<T extends boolean = true> {
   alt?: T;
   accessLevel?: T;
   attribution?: T;
+  _objectKey?: T;
   updatedAt?: T;
   createdAt?: T;
   url?: T;
@@ -790,6 +811,8 @@ export interface MediaSelect<T extends boolean = true> {
 export interface StarterKitAssetsSelect<T extends boolean = true> {
   kitVersion?: T;
   description?: T;
+  prefix?: T;
+  _objectKey?: T;
   updatedAt?: T;
   createdAt?: T;
   url?: T;
@@ -829,6 +852,9 @@ export interface ResourcesSelect<T extends boolean = true> {
   title?: T;
   slug?: T;
   resourceType?: T;
+  pillar?: T;
+  access?: T;
+  lastChecked?: T;
   topic?: T;
   excerpt?: T;
   body?: T;

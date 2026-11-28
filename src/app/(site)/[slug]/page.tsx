@@ -18,6 +18,7 @@ import {
   kitPromise,
   linkedInUrl,
   newsletterName,
+  SERVICE_NAV_LABEL,
 } from "@/lib/site/site-navigation"
 import { getDocument, getPage, preview, record, text } from "@/lib/site/content"
 
@@ -43,12 +44,6 @@ const routes: Record<
     description:
       "A look at current work, experiments, and the things getting my attention.",
   },
-  resources: {
-    title: "Playbooks and practical guides.",
-    label: "Playbooks",
-    description:
-      "Clear guides to tech decisions, hiring, vendors, and using AI in real businesses.",
-  },
   course: {
     title: "Learn to make better tech decisions.",
     label: "Course · In development",
@@ -63,8 +58,8 @@ const routes: Record<
   },
   "build-with-me": {
     title: "Send it to your CTO bestie.",
-    label: "Independent reviews",
-    description: `${bestieLine} Get an independent review of your tech stack, architecture, code, vendor proposal, or AI plan.`,
+    label: SERVICE_NAV_LABEL,
+    description: `Got a tech question that’s bigger than a quick answer? Send it over. I’ll help you make the right call for your business. ${bestieLine}`,
   },
   newsletter: {
     title: `The ${kitLabel}.`,
@@ -102,7 +97,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function PublicPage({ params }: Props) {
   const { slug } = await params
   const route = routes[slug]
-  if (!route || slug === "resources") notFound()
+  if (!route) notFound()
   const legal = ["privacy", "terms", "disclaimer"].includes(slug)
   const [page, offering] = await Promise.all([
     legal ? getPage(slug) : Promise.resolve(undefined),
@@ -423,10 +418,9 @@ function DraftContent({ slug }: { slug: string }) {
         <div className="prose">
           <h2>Independent, on purpose.</h2>
           <p>
-            AI strategy, architecture design and reviews, code reviews, vendor
-            proposal reviews, and engineering leadership advice. Start with an
-            honest conversation about the problem, not a tool looking for a use
-            case.
+            AI strategy, architecture and system design, codebases, vendor
+            proposals, and engineering leadership advice. Start with an honest
+            conversation about the problem, not a tool looking for a use case.
           </p>
           <p>There is no development work to sell and no referral fees.</p>
           <p className="contact-line">
@@ -437,7 +431,7 @@ function DraftContent({ slug }: { slug: string }) {
         </div>
         <div className="worksheet review-sheet">
           <p className="eyebrow">What you can send</p>
-          <h3>Have this reviewed</h3>
+          <h3>Bring me things like:</h3>
           {[
             "Your tech stack",
             "Architecture or system design",
@@ -471,9 +465,9 @@ function DraftContent({ slug }: { slug: string }) {
             ))}
           </div>
           <p className="small muted">
-            Shorter reads are on the way too. The{" "}
-            <Link href="/resources">playbooks</Link> will be standalone guides
-            you can use without taking the course.
+            Shorter reads are on the way too. The guides in{" "}
+            <Link href="/learn">Learn</Link> stand on their own, no course
+            required.
           </p>
         </div>
         <div className="worksheet course-syllabus">

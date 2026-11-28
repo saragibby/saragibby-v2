@@ -2,6 +2,7 @@ import "server-only"
 import { cache } from "react"
 import type { PickData } from "./picks"
 import { samplePicks } from "./sample-picks"
+import { sampleResources } from "./sample-resources"
 
 export type RecordValue = Record<string, unknown>
 export function record(value: unknown): RecordValue {
@@ -57,6 +58,19 @@ export async function getDocuments(
   })
   return items(result.docs)
 }
+
+// SITE_PREVIEW has no database, so the resource hubs show the sample
+// Toolkit items instead (see sample-resources.ts).
+export async function getResources() {
+  if (preview) return items(sampleResources)
+  return getDocuments("resources")
+}
+
+export const getResource = cache(async function getResource(slug: string) {
+  if (preview)
+    return items(sampleResources).find((resource) => resource.slug === slug)
+  return getDocument("resources", slug)
+})
 
 export async function getPage(slug: string) {
   return getDocument("pages", slug)
@@ -155,6 +169,3 @@ export function safeHref(value: unknown): string | undefined {
   return /^(https?:\/\/|mailto:|\/(?!\/)|#)/i.test(url) ? url : undefined
 }
 
-export function resourceType(resource: RecordValue) {
-  return text(resource.resourceType, "Resource")
-}

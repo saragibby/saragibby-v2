@@ -5,25 +5,22 @@ import path from "node:path"
 import { SignupForm } from "@/components/site/forms"
 import { TranslatorSpotlight } from "@/components/site/translator-spotlight"
 import { biography } from "@/lib/site/biography"
-import {
-  getDocuments,
-  preview,
-  safeHref,
-  text,
-} from "@/lib/site/content"
+import { KitItem } from "@/components/site/resource-hubs"
+import { preview, text } from "@/lib/site/content"
 import {
   homepageDesign,
   homepageAudienceFocuses,
   homepageFaqHeading,
-  homepageOfferingEyebrows,
   homepageQuestions,
-  homepageOfferings,
   techTranslations,
 } from "@/lib/site/homepage-design"
-import { kitName } from "@/lib/site/site-navigation"
+import {
+  kitName,
+  SERVICE_NAV_LABEL,
+  serviceHref,
+} from "@/lib/site/site-navigation"
 
 export default async function Home() {
-  const offerings = await getDocuments("offerings")
   let hasPortrait = false
   try {
     await access(path.join(process.cwd(), "public/images/sara-portrait.jpg"))
@@ -37,17 +34,6 @@ export default async function Home() {
   const industries = homepageDesign.industries.map((label) => ({ label }))
   const sectors = homepageDesign.audiences.map((label) => ({ label }))
   const ventures = homepageDesign.ventures
-  const featuredOfferings = homepageOfferings.flatMap((defaultOffer) => {
-    // The kit card is homepage copy, so it always comes from the code defaults.
-    if (defaultOffer.slug === "starter-kit") return [defaultOffer]
-    const published = offerings.find(
-      (offer) => text(offer.slug) === defaultOffer.slug
-    )
-    if (published) return [published]
-    return preview
-      ? [{ ...defaultOffer, availability: "Preview" }]
-      : []
-  })
   return (
     <>
       <section className="container hero">
@@ -157,55 +143,26 @@ export default async function Home() {
           <div>
             <p className="eyebrow">How it works</p>
             <h2 className="section-title">
-              {homepageDesign.offeringsHeading}
+              {homepageDesign.howItWorksHeading}
             </h2>
           </div>
           <p className="handwriting">no question is too basic</p>
         </div>
-        {featuredOfferings.length ? (
-          <div className="grid four">
-            {featuredOfferings.map((offer) => (
-              <article
-                className={
-                  offer.slug === "starter-kit" ? "card featured" : "card"
-                }
-                key={text(offer.slug)}
-              >
-                <p className="eyebrow">
-                  {text(
-                    homepageOfferingEyebrows[text(offer.slug)],
-                    text(offer.availability, "Preview")
-                  )}
-                </p>
-                <h3>{text(offer.title)}</h3>
-                <p>{text(offer.description)}</p>
-                {offer.slug === "starter-kit" && (
-                  <ul className="check-list">
-                    {kitContents.map((item) => (
-                      <li key={item.label}>
-                        <KitItem label={item.label} />
-                      </li>
-                    ))}
-                  </ul>
-                )}
-                <Link
-                  className="text-link"
-                  href={
-                    safeHref(offer.ctaDestination) ??
-                    `/${["course", "community"].includes(text(offer.slug)) ? text(offer.slug) : "start-here"}`
-                  }
-                >
-                  {text(offer.ctaLabel, "Learn more")} →
-                </Link>
-              </article>
-            ))}
-          </div>
-        ) : (
-          <div className="empty-state">
-            Offering details are not published yet.{" "}
-            <Link href="/start-here">Start here</Link>.
-          </div>
-        )}
+        <div className="grid four how-it-works">
+          {homepageDesign.howItWorks.map((step) => (
+            <article className="card" key={step.href}>
+              <h3>{step.title}</h3>
+              <p>{step.description}</p>
+              <Link className="text-link" href={step.href}>
+                {step.cta} <span aria-hidden="true">→</span>
+              </Link>
+            </article>
+          ))}
+        </div>
+        <p className="how-it-works-more">
+          Need more than a quick answer?{" "}
+          <Link href={serviceHref}>{SERVICE_NAV_LABEL}.</Link>
+        </p>
         <div className="consulting-strip">
           <p>
             <strong>Independent, on purpose.</strong> I don’t run a dev shop or
@@ -271,11 +228,11 @@ export default async function Home() {
             ))}
           </div>
           <article className="card consulting-card">
-            <p className="eyebrow">Consulting</p>
+            <p className="eyebrow">{SERVICE_NAV_LABEL}</p>
             <h3>Good advice should be on your side.</h3>
             <p className="muted">{homepageDesign.consultingDescription}</p>
-            <Link className="text-link" href="/build-with-me">
-              Work with me <span aria-hidden="true">→</span>
+            <Link className="text-link" href={serviceHref}>
+              {SERVICE_NAV_LABEL} <span aria-hidden="true">→</span>
             </Link>
           </article>
           <p className="handwriting">
@@ -355,12 +312,4 @@ export default async function Home() {
       </section>
     </>
   )
-}
-
-function KitItem({ label }: { label: string }) {
-  return label
-    .split(/(A one-hour worksheet|The Sara Test|A “Safe to start” one-pager)/)
-    .map((part, index) =>
-      index % 2 === 1 ? <strong key={index}>{part}</strong> : part
-    )
 }
