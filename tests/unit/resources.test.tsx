@@ -121,6 +121,15 @@ describe('Learn page', () => {
   })
 })
 
+describe('resource details', () => {
+  it('leaves out the details list when a Learn item has no pillar or date', () => {
+    const html = renderToStaticMarkup(
+      <LearnHub resources={[item({ pillar: null, lastChecked: null })]} pillar={undefined} />,
+    )
+    expect(html).not.toContain('aria-label="Details"')
+  })
+})
+
 describe('Toolkit page', () => {
   it('shows only the kit and a coming-soon note when everything is empty', () => {
     const html = renderToStaticMarkup(<ToolkitHub resources={[]} />)

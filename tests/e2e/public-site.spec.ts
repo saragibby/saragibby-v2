@@ -761,7 +761,6 @@ test("/resources redirects to the Toolkit with a 301", async ({ request }) => {
   for (const [from, to] of [
     ["/resources", "/toolkit"],
     ["/resources/sample-meeting-notes-prompt", "/toolkit/sample-meeting-notes-prompt"],
-    ["/resources/a-retired-playbook", "/toolkit"],
   ]) {
     const response = await request.get(from, { maxRedirects: 0 })
     expect(response.status(), from).toBe(301)
@@ -774,6 +773,10 @@ test("/resources redirects to the Toolkit with a 301", async ({ request }) => {
   expect(wrongHub.status()).toBe(308)
   expect(wrongHub.headers().location).toContain("/toolkit/sample-meeting-notes-prompt")
   expect((await request.get("/toolkit/not-a-real-item")).status()).toBe(404)
+  // Unknown old links are a 404, never a cached permanent redirect.
+  expect(
+    (await request.get("/resources/a-retired-playbook", { maxRedirects: 0 })).status()
+  ).toBe(404)
 })
 
 test("Learn shows its empty state and the course card", async ({ page }) => {

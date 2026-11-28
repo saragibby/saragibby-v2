@@ -2,7 +2,6 @@ import "server-only"
 import { cache } from "react"
 import type { PickData } from "./picks"
 import { samplePicks } from "./sample-picks"
-import { resourceTypeLabel } from "./resources"
 import { sampleResources } from "./sample-resources"
 
 export type RecordValue = Record<string, unknown>
@@ -170,6 +169,3 @@ export function safeHref(value: unknown): string | undefined {
   return /^(https?:\/\/|mailto:|\/(?!\/)|#)/i.test(url) ? url : undefined
 }
 
-export function resourceType(resource: RecordValue) {
-  return resourceTypeLabel(text(resource.resourceType)) || "Resource"
-}

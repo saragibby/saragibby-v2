@@ -2,8 +2,9 @@ import { MigrateDownArgs, MigrateUpArgs, sql } from '@payloadcms/db-postgres'
 
 // Resources now feed /learn and /toolkit. The type list grows (tutorial
 // becomes how-to), and items gain a pillar, an access label, and a
-// last-checked date. Every new column is nullable or defaulted, so this is
-// safe to apply before the code that reads it ships.
+// last-checked date. The new columns are nullable or defaulted, but
+// 'tutorial' is removed: the old admin can't save a former tutorial, or a
+// new one, once this runs. Apply it and deploy the code back to back.
 export async function up({ db }: MigrateUpArgs): Promise<void> {
   await db.execute(sql`
     ALTER TYPE "public"."enum_resources_resource_type" RENAME TO "enum_resources_resource_type_old";
@@ -52,6 +53,7 @@ export async function down({ db }: MigrateDownArgs): Promise<void> {
     CREATE TYPE "public"."enum__resources_v_version_resource_type" AS ENUM('article', 'guide', 'tutorial');
     ALTER TABLE "_resources_v" ALTER COLUMN "version_resource_type" TYPE "public"."enum__resources_v_version_resource_type"
       USING (CASE
+        WHEN "version_resource_type" IS NULL THEN NULL
         WHEN "version_resource_type"::text IN ('article', 'guide') THEN "version_resource_type"::text
         WHEN "version_resource_type"::text = 'video' THEN 'article'
         ELSE 'tutorial' END)::"public"."enum__resources_v_version_resource_type";
@@ -61,6 +63,7 @@ export async function down({ db }: MigrateDownArgs): Promise<void> {
     CREATE TYPE "public"."enum_resources_resource_type" AS ENUM('article', 'guide', 'tutorial');
     ALTER TABLE "resources" ALTER COLUMN "resource_type" TYPE "public"."enum_resources_resource_type"
       USING (CASE
+        WHEN "resource_type" IS NULL THEN NULL
         WHEN "resource_type"::text IN ('article', 'guide') THEN "resource_type"::text
         WHEN "resource_type"::text = 'video' THEN 'article'
         ELSE 'tutorial' END)::"public"."enum_resources_resource_type";

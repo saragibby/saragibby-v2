@@ -51,12 +51,32 @@ function KitButton() {
   )
 }
 
+/** Pillar, access (Toolkit only) and last checked. Nothing when all empty. */
+export function ResourceMeta({ resource }: { resource: ResourceSummary }) {
+  const pillar = resourcePillarLabel(resource.pillar)
+  const toolkit = resourceHub(resource.resourceType) === "toolkit"
+  const checked = resourceLastCheckedLabel(resource.lastChecked)
+  if (!pillar && !toolkit && !checked) return null
+  return (
+    <ul className="resource-meta" aria-label="Details">
+      {pillar && <li className="resource-pillar">{pillar}</li>}
+      {toolkit && (
+        <li className="resource-access">
+          {resourceAccessLabel(resource.access)}
+        </li>
+      )}
+      {checked && resource.lastChecked && (
+        <li className="resource-checked">
+          <time dateTime={resource.lastChecked.slice(0, 10)}>{checked}</time>
+        </li>
+      )}
+    </ul>
+  )
+}
+
 export function ResourceCard({ resource }: { resource: ResourceSummary }) {
   const href = resourcePath(resource)
   if (!href) return null
-  const toolkit = resourceHub(resource.resourceType) === "toolkit"
-  const pillar = resourcePillarLabel(resource.pillar)
-  const checked = resourceLastCheckedLabel(resource.lastChecked)
   return (
     <article className="card resource-card">
       <p className="eyebrow">{resourceTypeLabel(resource.resourceType)}</p>
@@ -64,19 +84,7 @@ export function ResourceCard({ resource }: { resource: ResourceSummary }) {
         <Link href={href}>{resource.title}</Link>
       </h3>
       <p className="muted">{resource.excerpt}</p>
-      <ul className="resource-meta" aria-label="Details">
-        {pillar && <li className="resource-pillar">{pillar}</li>}
-        {toolkit && (
-          <li className="resource-access">
-            {resourceAccessLabel(resource.access)}
-          </li>
-        )}
-        {checked && resource.lastChecked && (
-          <li className="resource-checked">
-            <time dateTime={resource.lastChecked.slice(0, 10)}>{checked}</time>
-          </li>
-        )}
-      </ul>
+      <ResourceMeta resource={resource} />
     </article>
   )
 }
